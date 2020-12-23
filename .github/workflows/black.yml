@@ -1,6 +1,6 @@
-"""
-Run Black Code Formatter
-"""
+#####
+# Run Black Code Formatter
+#####
 
 name: Black
 on: [push, pull_request, workflow_dispatch]
