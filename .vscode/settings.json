@@ -1,0 +1,10 @@
+{
+    "python.pythonPath": "c:\\Users\\mtral\\Documents\\GitHub\\SIDSaaS\\venv\\Scripts\\python.exe",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint-flask"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true
+}
