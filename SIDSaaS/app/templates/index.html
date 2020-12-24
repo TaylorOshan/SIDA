@@ -1,14 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layouts/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block content %}
 
-<body>
-    INDEX
-</body>
 
-</html>
+<section class='container px-6 max-w-7xl z-50 md:mt-40 md:ml-32'>
+
+    <div
+        class='flex flex-col w-full md:w-2/5 justify-center items-center md:items-start text-center md:text-left text-gray-100 z-50'>
+
+        <h1 class="text-5xl md:text-6xl font-extrabold z-50">
+
+            <span class="block"><span style="color: #a239ca;text-shadow: 2px 2px 0px #FF0000;">S</span>patial</span>
+            <span class="block"><span style="color: #a239ca;text-shadow: 2px 2px 0px #FF0000;">I</span>nteraction</span>
+            <span class="block"><span style="color: #a239ca;text-shadow: 2px 2px 0px #FF0000;">D</span>ecision</span>
+            <span class="block"><span style="color: #a239ca;text-shadow: 2px 2px 0px #FF0000;">M</span>aker</span>
+
+        </h1>
+
+        <!--
+            <p class="leading-normal text-2xl mb-8 mt-4">
+                Subtitle Placeholder
+            </p>
+        -->
+
+        <a class="mx-4 lg:mx-1 hover:underline text-white font-bold
+                                rounded-full mb-2 mt-10 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
+                                transform transition hover:scale-105 duration-300 ease-in-out z-50" href="/signup"
+            style="background-color: #4717F6;">
+            Run Model
+        </a>
+        <a class="mx-4 lg:mx-1 hover:underline text-white font-bold
+                                rounded-full mb-2 mt-5 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
+                                transform transition hover:scale-105 duration-300 ease-in-out z-50" href="/signup"
+            style="background-color: #4717F6;">
+            Learn More
+        </a>
+    </div>
+
+    <div class="h-full w-full flex flex-col items-center">
+
+        <div id="network" class="p-16 absolute bottom-14 md:top-48 md:right-40 z-0 overflow-hidden"
+            style="height:500px; width:500px;clip-path: circle(50% at 50% 50%);">
+        </div>
+
+    </div>
+
+</section>
+<!--
+<section class='container px-6 max-w-7xl z-50 md:mt-40 md:ml-32'>
+
+
+
+
+</section>
+-->
+
+<div class=" w-screen absolute inset-x-0 bottom-0 h-32 md:mt-16">
+
+    <div class="arrow p-6 mb-5 flex flex-col items-center">
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+</div>
+
+
+<section class='container px-6 max-w-7xl z-50 md:mt-40 md:ml-32 h-screen'>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<script src="{{ url_for('static', filename='js/index.js' ) }}"></script>
+{% endblock %}
