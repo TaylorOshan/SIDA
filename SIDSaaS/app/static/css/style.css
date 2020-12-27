@@ -8,7 +8,12 @@ strong {
     text-shadow: 2px 3px 0px #FF0000;
 }
 
-
+hr {
+    height:1px;
+    border-width:0;
+    color:rgba(128, 128, 128, 0.185);
+    background-color:rgba(128, 128, 128, 0.226)
+}
 
 
 /*
