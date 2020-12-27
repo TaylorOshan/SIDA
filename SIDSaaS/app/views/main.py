@@ -13,4 +13,3 @@ def index():
 @main.route("/models")
 def models():
     return render_template("models.html", title="Models")
-
