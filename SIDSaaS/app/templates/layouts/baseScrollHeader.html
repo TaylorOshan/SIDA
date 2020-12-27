@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" class="font-sans overflow-x-hidden overflow-y-scroll" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | SIDSaaS </title>
+
+    <link href="{{ url_for('static', filename='css/tailwind.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+</head>
+
+<body style="background-color: #0e0b16;">
+
+    {% include 'components/scrollHeader.html' %}
+
+    <main class="w-screen max-w-7xl mx-auto">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    {% include 'components/footer.html' %}
+
+    {% include 'components/scripts.html'%}
+
+    <script src="{{ url_for('static', filename='js/scrollHeader.js' ) }}"></script>
+
+</body>
+
+</html>
