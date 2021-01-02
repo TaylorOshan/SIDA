@@ -41,8 +41,8 @@ export default {
     const error = ref(null);
 
     function fetchAPIData() {
-      const AIR_PORTS =
-        "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson";
+      const AIR_PORTS = "http://127.0.0.1:8000/layer";
+      //"https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson";
 
       loading.value = true;
       console.log(loading.value);

@@ -71,16 +71,18 @@ export default {
     function UpdateFlowMap() {
       const newLayer = new FlowMapLayer({
         id: "my-flowmap-layer",
-        locations: props.layerData,
-        flows: props.layerData.features.filter(
-          (f) => f.properties.scalerank < 3
-        ),
+        locations: props.layerData.locations,
+        flows: props.layerData.flows,
         pickable: true,
-        getFlowMagnitude: (f) => f.properties.scalerank,
-        getFlowOriginId: (f) => "LHR",
-        getFlowDestId: (f) => f.properties.abbrev,
-        getLocationId: (f) => f.properties.abbrev,
-        getLocationCentroid: (f) => f.geometry.coordinates,
+        mixBlendMode: "multiply",
+        showLocationAreas: false,
+        getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
+        getFlowOriginId: (f) => f.origin, //"LHR",
+        getFlowDestId: (f) => f.dest, //f.properties.abbrev,
+        getLocationId: (loc) => loc.id, //f.properties.abbrev,
+        getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
+        showLocationAreas: false,
+        maxFlowThickness: 2,
       });
       if (deckGL) {
         deckGL.setProps({ layers: newLayer });
@@ -91,10 +93,11 @@ export default {
     }
 
     watchEffect(() => {
-      console.log("Received on Child");
-      console.log(props.layerData);
-      if (props.layerData) {
+      //console.log("Received on Child");
+
+      if (props.layerData != null) {
         console.log("Received on Child");
+        console.log(props.layerData);
         UpdateFlowMap();
       }
     });
