@@ -1,26 +1,33 @@
 <template>
   <div>
     <div id="container" class="w-full h-full">
-      <div id="map" class="w-full h-full"></div>
-      <canvas id="deck-canvas"></canvas>
+      <div id="map" class="absolute top-0 left-0 w-full h-full"></div>
+      <canvas
+        id="deck-canvas"
+        class="absolute top-0 left-0 w-full h-full"
+      ></canvas>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted, ref, watchEffect, watch } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { Deck, Layer } from "@deck.gl/core";
 import FlowMapLayer from "@flowmap.gl/core";
 import mapboxgl from "mapbox-gl";
+import StaticMap from "./StaticMap.vue";
 
 export default {
-  name: "FlowMap2",
+  name: "FlowMap",
   props: {
     layerData: Object,
   },
+  components: {
+    StaticMap,
+  },
   setup(props) {
-    var deckGL;
-    var map;
+    var deckGL = null;
+    var map = null;
 
     function CreateFlowMap() {
       const INITIAL_VIEW_STATE = {
@@ -68,15 +75,19 @@ export default {
         flows: props.layerData.features.filter(
           (f) => f.properties.scalerank < 3
         ),
+        pickable: true,
         getFlowMagnitude: (f) => f.properties.scalerank,
         getFlowOriginId: (f) => "LHR",
         getFlowDestId: (f) => f.properties.abbrev,
         getLocationId: (f) => f.properties.abbrev,
         getLocationCentroid: (f) => f.geometry.coordinates,
       });
-
-      deckGL.setProps({ layers: newLayer });
-      console.log("Added new layer");
+      if (deckGL) {
+        deckGL.setProps({ layers: newLayer });
+        console.log("Added new layer");
+      } else {
+        console.log("Aborting");
+      }
     }
 
     watchEffect(() => {

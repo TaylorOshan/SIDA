@@ -2,7 +2,7 @@
   <div class="relative">
     <Branding />
     <Layout>
-      <FlowMap2 :layerData="data" class="card full">Map</FlowMap2>
+      <FlowMap :layerData="data" class="card full">Map</FlowMap>
 
       <div class="card half">This is a card</div>
 
@@ -24,7 +24,7 @@
 <script>
 import { onMounted, ref } from "vue";
 import Branding from "../components/Branding.vue";
-import FlowMap2 from "../components/FlowMap2.vue";
+import FlowMap from "../components/FlowModel/FlowMap.vue";
 import Layout from "../components/FlowModel/Layout.vue";
 
 export default {
@@ -32,7 +32,7 @@ export default {
   props: {},
   components: {
     Branding,
-    FlowMap2,
+    FlowMap,
     Layout,
   },
   setup() {
