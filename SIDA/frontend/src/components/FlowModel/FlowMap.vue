@@ -15,16 +15,14 @@ import { onMounted, ref, watchEffect } from "vue";
 import { Deck, Layer } from "@deck.gl/core";
 import FlowMapLayer from "@flowmap.gl/core";
 import mapboxgl from "mapbox-gl";
-import StaticMap from "./StaticMap.vue";
+import store from "../../store";
 
 export default {
   name: "FlowMap",
   props: {
     layerData: Object,
   },
-  components: {
-    StaticMap,
-  },
+  components: {},
   setup(props) {
     var deckGL = null;
     var map = null;
@@ -71,8 +69,8 @@ export default {
     function UpdateFlowMap() {
       const newLayer = new FlowMapLayer({
         id: "my-flowmap-layer",
-        locations: props.layerData.locations,
-        flows: props.layerData.flows,
+        locations: store.state.locations,
+        flows: store.state.locations,
         pickable: true,
         mixBlendMode: "multiply",
         showLocationAreas: false,
@@ -94,12 +92,7 @@ export default {
 
     watchEffect(() => {
       //console.log("Received on Child");
-
-      if (props.layerData != null) {
-        console.log("Received on Child");
-        console.log(props.layerData);
-        UpdateFlowMap();
-      }
+      UpdateFlowMap();
     });
     onMounted(() => {
       CreateFlowMap();
