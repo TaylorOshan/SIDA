@@ -28,53 +28,14 @@ export default {
       //layers: [],
     };
   },
-  computed: {
-    //...mapGetters(["getFlows", "getLocations", "getLayers"]),
-    // layers: function () {
-    //   return this.getLayers();
-    // },
-  },
+  computed: {},
   methods: {
-    //...mapGetters(["getLatestFlowLayer", "getLayers"]),
-    //...mapActions(["setLatestFlowLayer"]),
     async loadLayers() {
       console.log("load buton...");
       this.setLatestFlowLayer();
-      //let newLayer = this.getLatestFlowLayer();
-      //newLayer.updateState();
-      //this.layers = newLayer;
-      // TODO. fix for typing
-      //this.layers.splice(0, this.layers.length, this.getLatestFlowLayer());
     },
   },
-  watch: {
-    // layers: {
-    //   deep: true,
-    //   handler() {
-    //     console.log("layers chnaged flowmap");
-    //   },
-    // },
-    // getLayers(value) {
-    //   console.log("store values ddd");
-    //   this.loadLayers();
-    // },
-    // getFlows(value) {
-    //   console.log("Flows just changed");
-    //   this.loadLayers();
-    // },
-    // getLocations(value) {
-    //   console.log("Locations just changed");
-    //   this.loadLayers();
-    // },
-    // layers(value) {
-    //   console.log("Layers just changed");
-    //   console.log(this.layers);
-    // },
-  },
-  async mounted() {
-    console.log("mounted");
-    //this.setLatestFlowLayer();
-  },
+  watch: {},
 };
 </script>
 

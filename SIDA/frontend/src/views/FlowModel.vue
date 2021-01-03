@@ -47,7 +47,7 @@ export default {
     Layout,
   },
   computed: {
-    ...mapGetters(["getFlows", "getLocations"]),
+    ...mapGetters(["getFlows", "getLocations", "getDataLoading"]),
   },
   methods: {
     ...mapActions(["setLatestFlowLayer"]),
@@ -61,33 +61,18 @@ export default {
   watch: {
     getFlows: {
       handler(value) {
-        console.log("flows changed model");
+        console.log("Flows Changed");
         this.setLatestFlowLayer();
       },
       deep: true,
     },
     getLocations: {
       handler(value) {
-        console.log("loc changed model");
+        console.log("Locs Changed");
         this.setLatestFlowLayer();
       },
       deep: true,
     },
-  },
-  setup() {
-    const layerLoading = computed(() => store.getters.getDataLoading);
-    const locations = computed(() => store.getters.getLocations);
-    const flows = computed(() => store.getters.getFlows);
-
-    onMounted(() => {
-      store.dispatch("load");
-    });
-
-    return {
-      layerLoading,
-      locations,
-      flows,
-    };
   },
 };
 </script>

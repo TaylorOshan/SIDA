@@ -12,36 +12,35 @@ export default createStore({
     mutations: {
         setDataLoading: (state, bool) => state.dataLoading = bool,
         setLocations: (state, items) => {
-            console.log("set store locations");
             //state.locations.splice(0, state.locations.length, ...items)
             state.locations = items.slice();
+            console.log("Locations Set");
         },
         setFlows: (state, items) => {
             state.flows = items.slice();
             //state.flows.splice(0, state.flows.length, ...items)
-            console.log("set store flows");
+            console.log("Flows Set");
         },
         setLayer: (state, newLayer) => {
-            console.log("set store layers");
+            console.log("Layer Set");
             state.layers = newLayer;
         },
-
         addLayer: (state, newLayer) => {
-            console.log("adding store layers");
+            console.log("Adding New Layer");
             state.layers.push(newLayer);
             //state.layers.splice(0, state.layers.length, layer)
         },
 
         removeLocation: (state, item) => {
-            console.log("removed", state.locations[item].name);
+            console.log("Removing", state.locations[item].name);
             if (item > -1) {
                 state.locations.splice(item, 1);
             }
-            console.log("leaving", state.locations);
+            console.log("Remaining", state.locations);
 
         },
         removeFlow: (state, item) => {
-            console.log("remove flow from", state.flows[item].origin, state.flows[item].dest);
+            console.log("Removing Flow :", state.flows[item].origin, state.flows[item].dest);
             if (item > -1) {
                 state.flows.splice(item, 1);
             }
@@ -49,52 +48,19 @@ export default createStore({
 
     },
     getters: {
+
         getDataLoading: state => state.dataLoading,
-        getFlows: state => {
-            console.log("get flow called");
-            return state.flows;
-        },
-        getLocations: state => {
-            return state.locations;
-        },
-        getLayers: state => {
-            console.log("getting store layers");
-            console.log(state.layers);
-            return state.layers
-        },
-
-        getLatestFlowLayer: async state => {
-            console.log("get current flow layer called");
-            console.log(state.dataLoading);
-            if (!state.dataLoading) {
-                console.log("passed truth loading");
-                return new FlowMapLayer({
-                    id: new Date().getTime(),
-                    locations: state.locations,
-                    flows: state.flows,
-                    pickable: true,
-                    mixBlendMode: "multiply",
-                    showLocationAreas: false,
-                    getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
-                    getFlowOriginId: (f) => f.origin, //"LHR",
-                    getFlowDestId: (f) => f.dest, //f.properties.abbrev,
-                    getLocationId: (loc) => loc.id, //f.properties.abbrev,
-                    getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
-                    showLocationAreas: false,
-                    maxFlowThickness: 2,
-                });
-            }
-
-        }
+        getFlows: state => state.flows,
+        getLocations: state => state.locations,
+        getLayers: state => state.layers,
 
     },
     actions: {
 
         load: async ({ commit }) => {
-            const AIR_PORTS = "http://127.0.0.1:8000/layer";
-            //"https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson";
+            const URL = "http://127.0.0.1:8000/layer";
 
-            fetch(AIR_PORTS, {
+            fetch(URL, {
                 method: "get",
                 headers: {
                     "content-type": "application/json",

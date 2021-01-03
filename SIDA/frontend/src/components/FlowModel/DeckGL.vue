@@ -36,32 +36,13 @@ export default {
   watch: {
     getLayers: {
       handler(value) {
-        console.log("layers changed in DeckGL");
+        console.log("Layers Changed...Modifying DeckGL");
         this.deck.setProps({
           layers: value,
         });
       },
       deep: true,
     },
-    // getLocations: {
-    //   deep: true,
-    //   handler() {
-    //     const layer = this.getLatestFlowLayer();
-    //     this.deck.setProps({
-    //       layers: layer,
-    //     });
-    //   },
-    // },
-    // getFlows: {
-    //   handler() {
-    //     console.log("watch triggered deckGL getFlows");
-    //     const layer = this.getLatestFlowLayer();
-    //     this.deck.setProps({
-    //       layers: layer,
-    //     });
-    //   },
-    //   deep: true,
-    // },
   },
   mounted() {
     this.map = new mapboxgl.Map({
@@ -121,6 +102,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
-/* MAPBOX */
 </style>
