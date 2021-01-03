@@ -1,17 +1,25 @@
+import FlowMapLayer from "@flowmap.gl/core";
 import { createStore } from 'vuex';
 
 export default createStore({
     state: {
         locations: [],
         flows: [],
+        dataLoading: true,
+        layers: []
 
     },
     mutations: {
+        setDataLoading: (state, bool) => state.dataLoading = bool,
         setLocations: (state, items) => state.locations.splice(0, state.locations.length, ...items),
         setFlows: (state, items) => {
             state.flows.splice(0, state.flows.length, ...items)
             console.log("flows being set");
             console.log(state.flows);
+        },
+        setLayer: (state, layer) => {
+            console.log("set store layers");
+            state.layers.splice(0, state.layers.length, layer)
         },
 
         removeLocation: (state, item) => {
@@ -33,7 +41,8 @@ export default createStore({
             }
             console.log(state.flows);
 
-        }
+        },
+
     },
     getters: {
         getFlows: state => {
@@ -42,6 +51,34 @@ export default createStore({
         },
         getLocations: state => {
             return state.locations;
+        },
+        getLayers: state => {
+            console.log("getting store layers");
+            return state.layers
+        },
+
+        getCurrentFlowLayer: state => {
+            console.log("get current flow layer called");
+            console.log(state.dataLoading);
+            if (!state.dataLoading) {
+                console.log("passed truth loading");
+                return new FlowMapLayer({
+                    id: new Date().getTime(),
+                    locations: state.locations,
+                    flows: state.flows,
+                    pickable: true,
+                    mixBlendMode: "multiply",
+                    showLocationAreas: false,
+                    getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
+                    getFlowOriginId: (f) => f.origin, //"LHR",
+                    getFlowDestId: (f) => f.dest, //f.properties.abbrev,
+                    getLocationId: (loc) => loc.id, //f.properties.abbrev,
+                    getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
+                    showLocationAreas: false,
+                    maxFlowThickness: 2,
+                });
+            }
+
         }
 
     },
@@ -74,6 +111,7 @@ export default createStore({
                     console.log(data);
                     commit("setLocations", data.locations);
                     commit("setFlows", data.flows);
+                    commit("setDataLoading", false);
 
                 })
 
