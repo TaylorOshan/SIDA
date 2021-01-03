@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="overflow-scroll">
+    <button class="block" @click="addFlowLayer">click</button>
     <div id="container" class="w-full h-full">
       <div id="map" class="absolute top-0 left-0 w-full h-full"></div>
       <canvas
@@ -7,21 +8,25 @@
         class="absolute top-0 left-0 w-full h-full"
       ></canvas>
     </div>
+    <div class="row" v-for="(f, index) in getFlows" :key="index">
+      <div class="col">
+        {{ f }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { Deck, Layer } from "@deck.gl/core";
 import FlowMapLayer from "@flowmap.gl/core";
 import mapboxgl from "mapbox-gl";
 import store from "../store";
+import { mapState } from "vuex";
 
 export default {
   name: "FlowMap",
-  props: {
-    layerData: Object,
-  },
+  props: {},
   data() {
     return {
       viewState: {
@@ -37,7 +42,7 @@ export default {
   created() {
     this.map = null;
     this.deckGL = null;
-    this.layer = null;
+    console.log("created");
   },
   mounted() {
     this.map = new mapboxgl.Map({
@@ -70,46 +75,89 @@ export default {
     });
   },
   computed: {
-    getLayers() {
-      this.layer = new FlowMapLayer({
+    getLocations() {
+      return store.state.locations;
+    },
+    getFlows() {
+      return store.getters.getFlows;
+    },
+    // Or return basket.getters.fruitsCount
+    // (depends on your design decisions).
+
+    // getLayers() {
+    //   const layer = new FlowMapLayer({
+    //     id: "my-flowmap-layer",
+    //     locations: this.$store.getters.getLocations, //this.locations, //
+    //     flows: this.$store.getters.getFlows, //this.flows, //
+    //     pickable: true,
+    //     showLocationAreas: true,
+    //     getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
+    //     getFlowOriginId: (f) => f.origin, //"LHR",
+    //     getFlowDestId: (f) => f.dest, //f.properties.abbrev,
+    //     getLocationId: (loc) => loc.id, //f.properties.abbrev,
+    //     getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
+    //   });
+    //   console.log("computing");
+    //   return layer;
+    // },
+  },
+  methods: {
+    renderLayers(layers) {
+      this.deckGL.setProps({ layers });
+    },
+    addFlowLayer() {
+      const layer = new FlowMapLayer({
         id: "my-flowmap-layer",
-        locations: this.$store.getters.getLocations,
-        flows: this.$store.getters.getFlows,
+        locations: this.$store.getters.getLocations, //this.locations, //
+        flows: this.$store.getters.getFlows, //this.flows, //
         pickable: true,
-        mixBlendMode: "multiply",
-        showLocationAreas: false,
+        showLocationAreas: true,
         getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
         getFlowOriginId: (f) => f.origin, //"LHR",
         getFlowDestId: (f) => f.dest, //f.properties.abbrev,
         getLocationId: (loc) => loc.id, //f.properties.abbrev,
         getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
-        showLocationAreas: false,
-        maxFlowThickness: 2,
       });
-    },
-    getFlows() {
-      return this.$store.getters.getFlows;
-    },
-    getLocations() {
-      return this.$store.getters.getLocations;
-    },
-  },
-  methods: {
-    renderLayers(layers) {
-      this.deckGL.setProps({ layers: layers });
+      console.log("Adding new Layer");
+      this.deckGL.setProps({ layers: layer });
     },
   },
   watch: {
-    getLayers(layer) {
-      setup.renderLayers(layers);
+    getFlows: {
+      handler: function () {
+        console.log("Flows Update");
+        return {
+          deep: true,
+        };
+      },
     },
+    getLocations(newcount, oldcount) {
+      console.log("NEW LOCATIONS");
+    },
+    getFlows(newcount, oldcount) {
+      console.log("NEW FLOWS");
+    },
+    count(newCount, oldCount) {
+      // Our fancy notification (2).
+      console.log(`We have ${newCount} fruits now, yay!`);
+    },
+    // "$store.state.locations": function () {
+    //   console.log("store changed");
+    //   locations = $store.getters.getLocations;
+    //   console.log($store.getters.getLocations);
+    // },
+    // "$store.getters.getFlows": function () {
+    //   console.log("store changed");
+    //   flows = $store.getters.getFlows;
+    //   console.log($store.getters.getFlows);
+    // },
   },
 };
 </script>
 
 <style scoped>
 #container {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;

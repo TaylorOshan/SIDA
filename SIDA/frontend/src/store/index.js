@@ -8,18 +8,36 @@ export default createStore({
     },
     mutations: {
         setLocations: (state, items) => state.locations.splice(0, state.locations.length, ...items),
-        setFlows: (state, items) => state.flows.splice(0, state.flows.length, ...items),
+        setFlows: (state, items) => {
+            state.flows.splice(0, state.flows.length, ...items)
+            console.log("flows being set");
+            console.log(state.flows);
+        },
 
         removeLocation: (state, item) => {
-            let index = state.locations.indexOf(item);
-            if (index > -1) {
-                state.locations.splice(index, 1);
+            console.log("remove called");
+            //let index = state.locations.indexOf(item);
+            console.log(state.locations.item);
+            if (item > -1) {
+                state.locations.splice(item, 1);
             }
+            console.log(state.locations);
+
+        },
+        removeFlow: (state, item) => {
+            console.log("remove flow called");
+            //let index = state.locations.indexOf(item);
+            console.log(state.flows.item);
+            if (item > -1) {
+                state.flows.splice(item, 1);
+            }
+            console.log(state.flows);
 
         }
     },
     getters: {
         getFlows: state => {
+            console.log("get flow called");
             return state.flows;
         },
         getLocations: state => {

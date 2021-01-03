@@ -9,6 +9,7 @@
           <div class="col">
             {{ f }}
           </div>
+          <button @click="removeFlow(index)">Click</button>
         </div>
       </div>
 
@@ -17,6 +18,7 @@
           <div class="col">
             {{ loc.name }}
           </div>
+          <button @click="removeLocation(index)">Click</button>
         </div>
       </div>
     </Layout>
@@ -48,6 +50,16 @@ export default {
     FlowMap,
     Layout,
   },
+  methods: {
+    removeLocation(i) {
+      console.log(i);
+      store.commit("removeLocation", i);
+    },
+    removeFlow(i) {
+      console.log(i);
+      store.commit("removeFlow", i);
+    },
+  },
   setup() {
     const data = ref(null);
     const loading = ref(true);
@@ -57,6 +69,7 @@ export default {
     const flows = computed(() => store.getters.getFlows);
 
     onMounted(() => {
+      console.log("Trigger");
       store.dispatch("load");
     });
 
