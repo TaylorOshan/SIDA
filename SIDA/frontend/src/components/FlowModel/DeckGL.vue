@@ -8,11 +8,11 @@
 <script>
 import { Deck } from "@deck.gl/core";
 import mapboxgl from "mapbox-gl";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "DeckGL",
   props: {
     accessToken: String,
-    layers: Array,
   },
   data() {
     return {
@@ -29,12 +29,39 @@ export default {
     this.map = null;
     this.deck = null;
   },
+  methods: {},
+  computed: {
+    ...mapGetters(["getLayers"]),
+  },
   watch: {
-    layers(value) {
-      this.deck.setProps({
-        layers: value,
-      });
+    getLayers: {
+      handler(value) {
+        console.log("layers changed in DeckGL");
+        this.deck.setProps({
+          layers: value,
+        });
+      },
+      deep: true,
     },
+    // getLocations: {
+    //   deep: true,
+    //   handler() {
+    //     const layer = this.getLatestFlowLayer();
+    //     this.deck.setProps({
+    //       layers: layer,
+    //     });
+    //   },
+    // },
+    // getFlows: {
+    //   handler() {
+    //     console.log("watch triggered deckGL getFlows");
+    //     const layer = this.getLatestFlowLayer();
+    //     this.deck.setProps({
+    //       layers: layer,
+    //     });
+    //   },
+    //   deep: true,
+    // },
   },
   mounted() {
     this.map = new mapboxgl.Map({
@@ -66,15 +93,6 @@ export default {
         this.$emit("viewClicked", { event, info });
       },
     });
-    // setTimeout(() => {
-    //   this.deck.setProps({
-    //     viewState: {
-    //       ...this.viewState,
-    //       zoom: 3
-    //     },
-    //     layers: this.layers
-    //   });
-    // }, 1000);
   },
 };
 </script>

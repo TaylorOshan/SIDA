@@ -35,7 +35,7 @@ import { onMounted, ref, computed } from "vue";
 import Branding from "../components/Branding.vue";
 import FlowMap from "../components/FlowModel/FlowMap.vue";
 import Layout from "../components/FlowModel/Layout.vue";
-
+import { mapGetters, mapActions } from "vuex";
 import store from "../store";
 
 export default {
@@ -46,14 +46,32 @@ export default {
     FlowMap,
     Layout,
   },
+  computed: {
+    ...mapGetters(["getFlows", "getLocations"]),
+  },
   methods: {
+    ...mapActions(["setLatestFlowLayer"]),
     removeLocation(i) {
-      console.log(i);
       store.commit("removeLocation", i);
     },
     removeFlow(i) {
-      console.log(i);
       store.commit("removeFlow", i);
+    },
+  },
+  watch: {
+    getFlows: {
+      handler(value) {
+        console.log("flows changed model");
+        this.setLatestFlowLayer();
+      },
+      deep: true,
+    },
+    getLocations: {
+      handler(value) {
+        console.log("loc changed model");
+        this.setLatestFlowLayer();
+      },
+      deep: true,
     },
   },
   setup() {
@@ -62,7 +80,6 @@ export default {
     const flows = computed(() => store.getters.getFlows);
 
     onMounted(() => {
-      console.log("Trigger");
       store.dispatch("load");
     });
 

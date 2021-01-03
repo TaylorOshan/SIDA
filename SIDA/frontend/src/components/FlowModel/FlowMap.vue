@@ -4,7 +4,6 @@
       :accessToken="'pk.eyJ1IjoibXRyYWxrYSIsImEiOiJja2VjNm5hdWEwNjQ4MnZ0cHlycXlndnN5In0.mfQAFUPzfGZeMht0EToJBA'"
       :latitude="0"
       :longitude="0"
-      :layers="layers"
     />
     <button class="block" @click="loadLayers">click</button>
   </div>
@@ -26,44 +25,55 @@ export default {
   },
   data() {
     return {
-      layers: [],
+      //layers: [],
     };
   },
   computed: {
-    ...mapGetters(["getFlows", "getLocations", "getLayers"]),
+    //...mapGetters(["getFlows", "getLocations", "getLayers"]),
+    // layers: function () {
+    //   return this.getLayers();
+    // },
   },
   methods: {
-    ...mapGetters(["getLatestFlowLayer"]),
-    loadLayers() {
-      console.log("loadLayers...");
-      let newLayer = this.getLatestFlowLayer();
+    //...mapGetters(["getLatestFlowLayer", "getLayers"]),
+    //...mapActions(["setLatestFlowLayer"]),
+    async loadLayers() {
+      console.log("load buton...");
+      this.setLatestFlowLayer();
+      //let newLayer = this.getLatestFlowLayer();
       //newLayer.updateState();
-      this.layers = newLayer;
+      //this.layers = newLayer;
       // TODO. fix for typing
       //this.layers.splice(0, this.layers.length, this.getLatestFlowLayer());
     },
   },
   watch: {
-    getLayers(value) {
-      console.log("store values ddd");
-      this.loadLayers();
-    },
-    getFlows(value) {
-      console.log("Flows just changed");
-      this.loadLayers();
-    },
-    getLocations(value) {
-      console.log("Locations just changed");
-      this.loadLayers();
-    },
-    layers(value) {
-      console.log("Layers just changed");
-      console.log(this.layers);
-    },
+    // layers: {
+    //   deep: true,
+    //   handler() {
+    //     console.log("layers chnaged flowmap");
+    //   },
+    // },
+    // getLayers(value) {
+    //   console.log("store values ddd");
+    //   this.loadLayers();
+    // },
+    // getFlows(value) {
+    //   console.log("Flows just changed");
+    //   this.loadLayers();
+    // },
+    // getLocations(value) {
+    //   console.log("Locations just changed");
+    //   this.loadLayers();
+    // },
+    // layers(value) {
+    //   console.log("Layers just changed");
+    //   console.log(this.layers);
+    // },
   },
   async mounted() {
     console.log("mounted");
-    this.loadLayers();
+    //this.setLatestFlowLayer();
   },
 };
 </script>
