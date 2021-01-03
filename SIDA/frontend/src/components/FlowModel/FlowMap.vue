@@ -1,11 +1,6 @@
 <template>
   <div id="container" class="w-full h-full overflow-hidden">
-    <DeckGL
-      :accessToken="'pk.eyJ1IjoibXRyYWxrYSIsImEiOiJja2VjNm5hdWEwNjQ4MnZ0cHlycXlndnN5In0.mfQAFUPzfGZeMht0EToJBA'"
-      :latitude="0"
-      :longitude="0"
-    />
-    <button class="block" @click="loadLayers">click</button>
+    <DeckGL />
   </div>
 </template>
 
@@ -19,23 +14,9 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "FlowMap",
-  props: {},
   components: {
     DeckGL,
   },
-  data() {
-    return {
-      //layers: [],
-    };
-  },
-  computed: {},
-  methods: {
-    async loadLayers() {
-      console.log("load buton...");
-      this.setLatestFlowLayer();
-    },
-  },
-  watch: {},
 };
 </script>
 

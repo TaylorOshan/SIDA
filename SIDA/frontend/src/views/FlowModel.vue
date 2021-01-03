@@ -13,7 +13,7 @@
       </div>
 
       <div class="card half">
-        <div class="row" v-for="(loc, index) in locations" :key="index">
+        <div class="row" v-for="(loc, index) in getLocations" :key="index">
           <div class="col">
             {{ loc.name }}
           </div>
@@ -22,9 +22,9 @@
       </div>
     </Layout>
 
-    <p class="text-white" v-if="layerLoading">Still loading..</p>
+    <p class="text-white" v-if="getDataLoading">Still loading..</p>
 
-    <ul class="text-white" v-if="!layerLoading">
+    <ul class="text-white" v-if="!getDataLoading">
       done
     </ul>
   </div>
@@ -39,18 +39,24 @@ import { mapGetters, mapActions } from "vuex";
 import store from "../store";
 
 export default {
-  name: "FlowModel2",
+  name: "FlowModel",
   props: {},
   components: {
     Branding,
     FlowMap,
     Layout,
   },
+  data() {
+    return {
+      locations: [],
+      flows: [],
+    };
+  },
   computed: {
     ...mapGetters(["getFlows", "getLocations", "getDataLoading"]),
   },
   methods: {
-    ...mapActions(["setLatestFlowLayer"]),
+    ...mapActions(["setLatestFlowLayer", "load"]),
     removeLocation(i) {
       store.commit("removeLocation", i);
     },
@@ -63,6 +69,7 @@ export default {
       handler(value) {
         console.log("Flows Changed");
         this.setLatestFlowLayer();
+        this.flows = value;
       },
       deep: true,
     },
@@ -70,9 +77,16 @@ export default {
       handler(value) {
         console.log("Locs Changed");
         this.setLatestFlowLayer();
+        this.locations = value;
       },
       deep: true,
     },
+  },
+  // created() {
+  //   this.load();
+  // },
+  async mounted() {
+    this.load();
   },
 };
 </script>

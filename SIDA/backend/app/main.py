@@ -5,13 +5,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-#from .worker.celery_app import celery_app
+# from .worker.celery_app import celery_app
 
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
+    "http://localhost:3000", #  change in docker env
 ]
 
 app.add_middleware(

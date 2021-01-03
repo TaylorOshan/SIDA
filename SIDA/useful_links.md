@@ -17,6 +17,8 @@
     -[API](https://vuex.vuejs.org/)
 - VUE 3
     -[API](https://v3.vuejs.org/api/)
+- VUE ROUTER
+    -[API](https://router.vuejs.org/api/)
 - Mapbox
     -[API](https://docs.mapbox.com/mapbox-gl-js/api/)
     -[Styles](https://docs.mapbox.com/api/maps/styles/)

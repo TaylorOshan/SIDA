@@ -11,15 +11,12 @@ import mapboxgl from "mapbox-gl";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "DeckGL",
-  props: {
-    accessToken: String,
-  },
   data() {
     return {
       viewState: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 2,
+        latitude: 28,
+        longitude: -36.5625,
+        zoom: 1,
         pitch: 0,
         bearing: 0,
       },
@@ -37,16 +34,23 @@ export default {
     getLayers: {
       handler(value) {
         console.log("Layers Changed...Modifying DeckGL");
-        this.deck.setProps({
-          layers: value,
-        });
+        if (this.deck) {
+          this.deck.setProps({
+            layers: value,
+          });
+        } else {
+          console.log("No DeckGL Instance");
+        }
       },
-      deep: true,
+      deep: false,
+      // NS NDFNED error when true
+      // may need change when tracking multiple layers
     },
   },
   mounted() {
     this.map = new mapboxgl.Map({
-      accessToken: this.accessToken,
+      accessToken:
+        "pk.eyJ1IjoibXRyYWxrYSIsImEiOiJja2VjNm5hdWEwNjQ4MnZ0cHlycXlndnN5In0.mfQAFUPzfGZeMht0EToJBA", //this.accessToken,
       container: this.$refs.map,
       interactive: false,
       style: this.mapStyle || "mapbox://styles/mapbox/dark-v9",

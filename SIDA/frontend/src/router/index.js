@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import FlowDash from "../views/FlowDash.vue";
 import FlowModel from "../views/FlowModel.vue";
 import Home from "../views/Home.vue";
 import NotFound from "../views/NotFound.vue";
@@ -8,22 +7,20 @@ const routes = [
         path: "/",
         name: "Home",
         component: Home,
-    },
-    {
-        path: "/flow",
-        name: "Flow Dash",
-        component: FlowDash,
+        meta: { title: 'Home' }
     },
     {
         path: "/flow/:name",
         name: "Flow Model",
         component: FlowModel,
-        props: true
+        props: true,
+        meta: { title: 'Flow' }
 
     },
     {
         path: "/:catchAll(.*)",
         component: NotFound,
+        meta: { title: '404' }
     },
 ];
 
@@ -46,5 +43,13 @@ const router = createRouter({
     }
 
 });
+
+// const DEFAULT_TITLE = "SIDA";
+
+// router.afterEach((to, from) => {
+//     Vue.nextTick(() => {
+//         document.title = (DEFAULT_TITLE + to.meta.title) || DEFAULT_TITLE;
+//     });
+// });
 
 export default router;
