@@ -83,7 +83,9 @@ export default {
 .deck-container {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .deck-container #map {
   position: absolute;

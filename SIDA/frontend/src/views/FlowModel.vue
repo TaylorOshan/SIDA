@@ -1,95 +1,74 @@
 <template>
   <div class="relative">
-    <Branding />
     <Layout>
-      <FlowMap :layerData="data" class="card full">Map</FlowMap>
+      <FlowMap class="card full">FlowMap</FlowMap>
 
-      <div class="card half">This is a card</div>
+      <div class="card half">
+        <div class="row" v-for="(f, index) in flows" :key="index">
+          <div class="col">
+            {{ f }}
+          </div>
+          <button @click="removeFlow(index)">Click</button>
+        </div>
+      </div>
 
-      <div class="card half">This is a card</div>
+      <div class="card half">
+        <div class="row" v-for="(loc, index) in locations" :key="index">
+          <div class="col">
+            {{ loc.name }}
+          </div>
+          <button @click="removeLocation(index)">Click</button>
+        </div>
+      </div>
     </Layout>
 
-    <p class="text-white" v-if="loading">Still loading..</p>
-    <p class="text-white" v-if="error">
-      error
-      <!--<h1 class="text-red-900 text-8xl">{{ name }}</h1>-->
-    </p>
+    <p class="text-white" v-if="layerLoading">Still loading..</p>
 
-    <ul class="text-white" v-if="!loading && data">
+    <ul class="text-white" v-if="!layerLoading">
       done
     </ul>
   </div>
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Branding from "../components/Branding.vue";
 import FlowMap from "../components/FlowModel/FlowMap.vue";
 import Layout from "../components/FlowModel/Layout.vue";
+import store from "../store";
 
 export default {
-  name: "FlowModel",
+  name: "FlowModel2",
   props: {},
   components: {
     Branding,
     FlowMap,
     Layout,
   },
+  methods: {
+    removeLocation(i) {
+      console.log(i);
+      store.commit("removeLocation", i);
+    },
+    removeFlow(i) {
+      console.log(i);
+      store.commit("removeFlow", i);
+    },
+  },
   setup() {
-    const data = ref(null);
-    const loading = ref(true);
-    const error = ref(null);
+    const layerLoading = computed(() => store.getters.getDataLoading);
+    const locations = computed(() => store.getters.getLocations);
+    const flows = computed(() => store.getters.getFlows);
 
-    function fetchAPIData() {
-      const AIR_PORTS = "http://127.0.0.1:8000/layer";
-      //"https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson";
-
-      loading.value = true;
-      console.log(loading.value);
-
-      return fetch(AIR_PORTS, {
-        method: "get",
-        headers: {
-          "content-type": "application/json",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          if (!res.ok) {
-            console.log("API response not OK... throwing error");
-            const error = new Error(res.statusText);
-            error.json = res.json();
-            throw error;
-          }
-          return res.json();
-        })
-        .then((featureCollection) => {
-          console.log("Received API Features");
-          console.log(featureCollection);
-          data.value = featureCollection;
-        })
-        .catch((err) => {
-          console.log("Catching unknown error");
-          error.value = err;
-          if (err.json) {
-            return err.json.then((json) => {
-              error.value.message = json.message;
-            });
-          }
-        })
-        .then(() => {
-          loading.value = false;
-          console.log(`Done Loading Parent`);
-        });
-    }
     onMounted(() => {
-      fetchAPIData();
+      console.log("Trigger");
+      store.dispatch("load");
     });
 
     return {
-      data,
-      loading,
-      error,
+      layerLoading,
+      locations,
+      flows,
     };
   },
 };

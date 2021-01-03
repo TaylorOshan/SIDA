@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import FlowDash from "../views/FlowDash.vue";
-import FlowModel2 from "../views/FlowModel2.vue";
+import FlowModel from "../views/FlowModel.vue";
 import Home from "../views/Home.vue";
 import NotFound from "../views/NotFound.vue";
 const routes = [
@@ -17,7 +17,7 @@ const routes = [
     {
         path: "/flow/:name",
         name: "Flow Model",
-        component: FlowModel2,
+        component: FlowModel,
         props: true
 
     },

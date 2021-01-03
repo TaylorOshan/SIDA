@@ -45,6 +45,7 @@ export default createStore({
 
     },
     getters: {
+        getDataLoading: state => state.dataLoading,
         getFlows: state => {
             console.log("get flow called");
             return state.flows;
@@ -57,7 +58,7 @@ export default createStore({
             return state.layers
         },
 
-        getCurrentFlowLayer: state => {
+        getLatestFlowLayer: state => {
             console.log("get current flow layer called");
             console.log(state.dataLoading);
             if (!state.dataLoading) {
