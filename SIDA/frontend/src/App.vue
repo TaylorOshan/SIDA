@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper" class="w-screen h-screen overflow-x-hidden font-sans">
-    <!--<Header />-->
+    <Header />
     <router-view class="w-screen h-full min-h-full" />
     <!--<Footer />-->
   </div>

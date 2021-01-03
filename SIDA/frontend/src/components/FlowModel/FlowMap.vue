@@ -45,12 +45,15 @@ export default {
   },
   watch: {
     getLayers(value) {
-      console.log("store values changed");
+      console.log("store values ddd");
+      this.loadLayers();
     },
     getFlows(value) {
+      console.log("Flows just changed");
       this.loadLayers();
     },
     getLocations(value) {
+      console.log("Locations just changed");
       this.loadLayers();
     },
     layers(value) {
@@ -59,6 +62,7 @@ export default {
     },
   },
   async mounted() {
+    console.log("mounted");
     this.loadLayers();
   },
 };
@@ -72,7 +76,7 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  height: 40vh;
+  height: 50vh;
 }
 #map {
   position: absolute;

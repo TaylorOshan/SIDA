@@ -1,5 +1,5 @@
 <template>
-  <header class="static w-screen mb-14" style="">
+  <header class="static w-screen" style="">
     <div class="md:flex md:flex-row md:items-center md:justify-between">
       <div class="flex flex-row items-center justify-between md:inline-block">
         <NavBranding />

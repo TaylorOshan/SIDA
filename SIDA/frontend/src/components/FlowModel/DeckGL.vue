@@ -41,7 +41,7 @@ export default {
       accessToken: this.accessToken,
       container: this.$refs.map,
       interactive: false,
-      style: this.mapStyle || "mapbox://styles/mapbox/light-v9",
+      style: this.mapStyle || "mapbox://styles/mapbox/dark-v9",
       center: [this.viewState.longitude, this.viewState.latitude],
       zoom: this.viewState.zoom,
       pitch: this.viewState.pitch,
@@ -103,4 +103,6 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+/* MAPBOX */
 </style>
