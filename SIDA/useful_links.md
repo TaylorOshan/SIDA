@@ -24,7 +24,3 @@
     -[Styles](https://docs.mapbox.com/api/maps/styles/)
 - FastAPI
     -[API](https://fastapi.tiangolo.com/)
-
-
-- Insp Proj
-    -[live_vis](https://github.com/localeai/covid19-live-visualization)
