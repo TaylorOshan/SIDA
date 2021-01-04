@@ -12,7 +12,7 @@ services:
     ports:
       - 3000:3000
     volumes: 
-      - ./frontend:/SIDA/frontend
+      - ./frontend:/SIDA/app
     command: npm run dev
   api:
     build:
@@ -22,4 +22,27 @@ services:
     ports: 
       - 8000:8000
     volumes: 
-      - ./backend:/SIDA/backend
+      - ./backend:/SIDA
+    depends_on: 
+      - redis
+  redis:
+    image: redis:6.0.9
+    ports:
+      - "6379:6379"
+  worker:
+    build:
+      context: ./backend
+      dockerfile: celery.dockerfile
+    volumes: 
+      - ./backend:/SIDA
+    depends_on: 
+       - redis
+  flower:  
+    image: mher/flower
+    environment: 
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888 
+    ports:  
+      - 8888:8888  
+    depends_on: 
+      - redis
