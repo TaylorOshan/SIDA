@@ -12,7 +12,7 @@ services:
     ports:
       - 3000:3000
     volumes: 
-      - ./frontend:/SIDA/app
+      - ./frontend:/SIDA
     command: npm run dev
   api:
     build:

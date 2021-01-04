@@ -8,19 +8,14 @@ from ..worker import celery_app
 router = APIRouter()
 
 
-@router.get("/{word}")
-async def root(word: str):
+@router.get("/celery/{word}")
+async def word(word: str):
 
     task_name = "app.flows.flow_models.test_celery"
 
     celery_app.send_task(task_name, args=[word])
 
     return {"message": "Word received"}
-
-
-@router.get("/")
-def read_root():
-    return {"Hello": "World"}
 
 
 @router.get("/layer")

@@ -10,16 +10,25 @@ export default createStore({
 
     },
     mutations: {
-        setDataLoading: (state, bool) => state.dataLoading = bool,
+        setDataLoading: (state, bool) => {
+            if (state.flows || state.locations) {
+                state.dataLoading = bool;
+            }
+            else {
+                console.log("!Loading is Prohibited");
+            }
+        },
         setLocations: (state, items) => {
-            //state.locations.splice(0, state.locations.length, ...items)
             state.locations = items.slice();
             console.log("Locations Set");
+            //state.locations.splice(0, state.locations.length, ...items)
         },
         setFlows: (state, items) => {
             state.flows = items.slice();
-            //state.flows.splice(0, state.flows.length, ...items)
             console.log("Flows Set");
+
+            //state.flows.splice(0, state.flows.length, ...items)
+
         },
         setLayer: (state, newLayer) => {
             console.log("Layer Set");
@@ -77,7 +86,7 @@ export default createStore({
                     return res.json();
                 })
                 .then((data) => {
-
+                    console.log("Pushing Fetch");
                     //console.log(data);
                     commit("setLocations", data.locations);
                     commit("setFlows", data.flows);
