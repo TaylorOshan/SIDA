@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000", #  change in docker env
+    "http://localhost:3000",  #  change in docker env
 ]
 
 app.add_middleware(
