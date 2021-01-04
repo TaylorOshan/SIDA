@@ -7,9 +7,9 @@ LABEL version="0.0.0"
 
 WORKDIR /SIDA/frontend
 
-#COPY package*.json ./
+COPY package*.json ./
 
-#RUN npm install
+RUN npm install
 
 COPY . .
 
