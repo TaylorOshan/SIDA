@@ -1,4 +1,3 @@
-
 from celery import Celery
 
 
@@ -8,7 +7,7 @@ celery_app = Celery(
     broker="redis://redis:6379/0",
     ignore_result=False,
     task_ignore_result=False,
-    include=['app.flows.flow_models']  # tasks
+    include=["app.flows.flow_models"],  # tasks
 )
 
 #  celery_app.conf.task_routes = {"TASK": "QUE"}
