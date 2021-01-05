@@ -1,8 +1,14 @@
 <template>
   <div class="overflow-hidden rounded-lg bg-yellow-50" id="root">
     <ul class="tableSelectors">
-      <li class="active">Flows</li>
-      <li>Locations</li>
+      <li
+        v-for="list in lists"
+        :key="list"
+        @click="setActiveList(list)"
+        :class="{ active: currentList == list }"
+      >
+        {{ list }}
+      </li>
     </ul>
     <div class="tableWrapper">
       <table id="" class="">
@@ -13,11 +19,12 @@
           <th class="px-3 py-2 text-xl"></th>
           <tr></tr>
         </thead>
-
         <tbody class="overflow-y-scroll">
-          <tr class="" v-for="(row, index) in getFlows" :key="index">
+          <tr class="" v-for="(row, index) in items" :key="index">
             <td v-for="col in columns" :key="col">{{ row[col] }}</td>
-            <td class="removeItem" @click="removeFlow(index)">X</td>
+            <td class="removeItem" @click="removeItem(currentList, index)">
+              X
+            </td>
           </tr>
         </tbody>
       </table>
@@ -34,25 +41,35 @@ export default {
   components: {},
   data() {
     return {
-      values: "getFlows",
+      lists: ["flows", "locations"],
+      currentList: "flows",
     };
   },
   computed: {
     ...mapGetters(["getFlows", "getLocations"]),
     columns: function columns() {
-      if (typeof this.getFlows != "undefined") {
-        if (this.getFlows.length == 0) {
-          console.log("Sero");
+      if (typeof this.items != "undefined") {
+        if (this.items == 0) {
           return [];
         }
-        console.log(Object.keys(this.getFlows[0]));
-        return Object.keys(this.getFlows[0]);
+        return Object.keys(this.items[0]);
+      }
+    },
+    items() {
+      if (this.currentList == "flows") {
+        return this.getFlows;
+      } else if (this.currentList == "locations") {
+        return this.getLocations;
       }
     },
   },
   methods: {
-    removeFlow(i) {
-      store.commit("removeFlow", i);
+    removeItem(list, index) {
+      console.log("remove from", list, index);
+      //store.commit("removeFlow", i);
+    },
+    setActiveList(list) {
+      this.currentList = list;
     },
   },
 };
@@ -93,6 +110,7 @@ li {
   @apply py-2;
   @apply px-8;
   @apply cursor-pointer;
+  text-transform: capitalize;
 }
 
 li:hover {

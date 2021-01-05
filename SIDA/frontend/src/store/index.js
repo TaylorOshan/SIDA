@@ -6,7 +6,11 @@ export default createStore({
         locations: [],
         flows: [],
         dataLoading: true,
-        layers: []
+        layers: [],
+        locationAdditions: [],
+        locationRemovals: [],
+        flowRemovals: [],
+        flowAdditions: []
 
     },
     mutations: {
@@ -40,20 +44,33 @@ export default createStore({
             //state.layers.splice(0, state.layers.length, layer)
         },
 
-        removeLocation: (state, item) => {
-            console.log("Removing", state.locations[item].name);
-            if (item > -1) {
-                state.locations.splice(item, 1);
-            }
-            console.log("Remaining", state.locations);
+        // removeLocation: (state, item) => {
+        //     console.log("Removing", state.locations[item].name);
+        //     if (item > -1) {
+        //         state.locations.splice(item, 1);
+        //     }
+        //     console.log("Remaining", state.locations);
+
+        // },
+        // removeFlow: (state, item) => {
+        //     console.log("Removing Flow :", state.flows[item].origin, state.flows[item].dest);
+        //     if (item > -1) {
+        //         state.flows.splice(item, 1);
+        //     }
+        // },
+        setNewLocation: () => {
 
         },
-        removeFlow: (state, item) => {
-            console.log("Removing Flow :", state.flows[item].origin, state.flows[item].dest);
-            if (item > -1) {
-                state.flows.splice(item, 1);
-            }
+        setEditLocation: () => {
+
         },
+        setNewFlow: () => {
+            
+        }
+        locationAdditions: [],
+        locationRemovals: [],
+        flowRemovals: [],
+        flowAdditions: []
 
     },
     getters: {
