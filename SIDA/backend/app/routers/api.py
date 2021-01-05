@@ -32,6 +32,12 @@ def get_layer():
         {"origin": 2, "dest": 3, "count": 40},
         {"origin": 1, "dest": 3, "count": 22},
         {"origin": 3, "dest": 2, "count": 42},
+        {"origin": 1, "dest": 2, "count": 42},
+        {"origin": 2, "dest": 1, "count": 51},
+        {"origin": 3, "dest": 1, "count": 50},
+        {"origin": 2, "dest": 3, "count": 40},
+        {"origin": 1, "dest": 3, "count": 22},
+        {"origin": 3, "dest": 2, "count": 42},
     ]
 
     return {"locations": locations, "flows": flows}

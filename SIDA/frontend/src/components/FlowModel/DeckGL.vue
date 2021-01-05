@@ -75,6 +75,7 @@ export default {
         this.$emit("viewStateChange");
       },
       onClick: (event, info) => {
+        console.log("clicked map", { event, info });
         this.$emit("viewClicked", { event, info });
       },
     });
@@ -86,7 +87,7 @@ export default {
 .deck-container {
   width: 100%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
 }

@@ -9,11 +9,11 @@ services:
       context: ./frontend
       dockerfile: front.dockerfile
     restart: unless-stopped
-    ports:
-      - 3000:3000
+    #ports:
+    #  - 3000:3000
     volumes: 
       - ./frontend:/SIDA
-    command: npm run dev
+    #command: npm run dev
   api:
     build:
       context: ./backend

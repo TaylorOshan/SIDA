@@ -3,7 +3,7 @@
     <Layout>
       <FlowMap class="card full">FlowMap</FlowMap>
 
-      <div class="card half">
+      <div class="card half bg-yellow-50">
         <div class="row" v-for="(f, index) in flows" :key="index">
           <div class="col">
             {{ f }}
@@ -12,14 +12,7 @@
         </div>
       </div>
 
-      <div class="card half">
-        <div class="row" v-for="(loc, index) in getLocations" :key="index">
-          <div class="col">
-            {{ loc.name }}
-          </div>
-          <button @click="removeLocation(index)">Click</button>
-        </div>
-      </div>
+      <Table class="card half"></Table>
     </Layout>
 
     <p class="text-white" v-if="getDataLoading">Still loading..</p>
@@ -35,6 +28,7 @@ import { onMounted, ref, computed } from "vue";
 import Branding from "../components/Branding.vue";
 import FlowMap from "../components/FlowModel/FlowMap.vue";
 import Layout from "../components/FlowModel/Layout.vue";
+import Table from "../components/FlowModel/Table/Table.vue";
 import { mapGetters, mapActions } from "vuex";
 import store from "../store";
 
@@ -45,6 +39,7 @@ export default {
     Branding,
     FlowMap,
     Layout,
+    Table,
   },
   data() {
     return {
@@ -93,7 +88,7 @@ export default {
 
 <style scoped>
 .card {
-  @apply relative flex flex-col justify-between flex-initial flex-grow p-4 m-2 transition duration-300 ease-in-out transform bg-blue-400 rounded-lg shadow-lg  hover:shadow-2xl;
+  @apply relative flex-grow m-2  rounded-lg shadow-lg  hover:shadow-2xl;
 }
 
 .full {
