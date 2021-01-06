@@ -1,0 +1,48 @@
+# DEV COMPOSE
+# live update and independent containers
+
+version: "3"
+
+services:
+  web:
+    build:
+      context: ./frontend
+      dockerfile: front.dockerfile
+    restart: unless-stopped
+    #ports:
+    #  - 3000:3000
+    volumes: 
+      - ./frontend:/SIDA
+    #command: npm run dev
+  api:
+    build:
+      context: ./backend
+      dockerfile: back.dockerfile
+    restart: unless-stopped
+    ports: 
+      - 8000:8000
+    volumes: 
+      - ./backend:/SIDA
+    depends_on: 
+      - redis
+  redis:
+    image: redis:6.0.9
+    ports:
+      - "6379:6379"
+  worker:
+    build:
+      context: ./backend
+      dockerfile: celery.dockerfile
+    volumes: 
+      - ./backend:/SIDA
+    depends_on: 
+       - redis
+  flower:  
+    image: mher/flower
+    environment: 
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888 
+    ports:  
+      - 8888:8888  
+    depends_on: 
+      - redis

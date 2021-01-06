@@ -1,6 +1,6 @@
 import requests
 
-BASE = 'https://lehd.ces.census.gov/data/lodes/LODES7/'
+BASE = "https://lehd.ces.census.gov/data/lodes/LODES7/"
 
 def download_lodes(state, contained=True, year=2018):
     ''' 
