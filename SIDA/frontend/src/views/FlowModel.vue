@@ -56,12 +56,6 @@ export default {
   },
   methods: {
     ...mapActions(["setLatestFlowLayer", "load"]),
-    removeLocation(i) {
-      store.commit("removeLocation", i);
-    },
-    removeFlow(i) {
-      store.commit("removeFlow", i);
-    },
   },
   watch: {
     getFlows: {

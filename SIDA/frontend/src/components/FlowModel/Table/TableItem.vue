@@ -57,7 +57,7 @@ export default {
           console.log("remove from", this.currentList, this.index);
           store.commit("setRemoveLocation", this.index);
         } else {
-          console.log("Removal of unknown item");
+          console.log("ERR: Removal of unknown item");
         }
       }
     },

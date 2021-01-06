@@ -11,7 +11,7 @@
       </li>
     </ul>
     <div class="tableWrapper">
-      <table id="" class="">
+      <table class="w-full mx-auto">
         <TableHeader :columns="columns"></TableHeader>
         <tbody class="overflow-y-scroll">
           <TableItem
@@ -106,14 +106,10 @@ li:hover {
   background-color: lightgray;
 }
 
-table {
-  /* VOID : #0E0B16
+/* VOID : #0E0B16
     - FUSCHIA : #A239CA
     - JEWEL : #4717F6
     - STARK : #E7DFDD */
-  @apply w-full;
-  @apply mx-auto;
-}
 
 table tbody {
   max-height: 200px;
