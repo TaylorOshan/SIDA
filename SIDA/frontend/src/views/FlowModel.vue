@@ -4,11 +4,10 @@
       <FlowMap class="card full">FlowMap</FlowMap>
 
       <div class="card half bg-yellow-50">
-        <div class="row" v-for="(f, index) in flows" :key="index">
+        <div class="row" v-for="(f, index) in getRemoveFlows" :key="index">
           <div class="col">
             {{ f }}
           </div>
-          <button @click="removeFlow(index)">Click</button>
         </div>
       </div>
 
@@ -48,7 +47,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getFlows", "getLocations", "getDataLoading"]),
+    ...mapGetters([
+      "getFlows",
+      "getLocations",
+      "getDataLoading",
+      "getRemoveFlows",
+    ]),
   },
   methods: {
     ...mapActions(["setLatestFlowLayer", "load"]),

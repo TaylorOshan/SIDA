@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden rounded-lg bg-yellow-50" id="root">
+  <section class="overflow-hidden rounded-lg bg-yellow-50" id="root">
     <ul class="tableSelectors">
       <li
         v-for="list in lists"
@@ -12,33 +12,35 @@
     </ul>
     <div class="tableWrapper">
       <table id="" class="">
-        <thead>
-          <th class="px-3 py-2 text-xl" v-for="col in columns" :key="col">
-            {{ col }}
-          </th>
-          <th class="px-3 py-2 text-xl"></th>
-          <tr></tr>
-        </thead>
+        <TableHeader :columns="columns"></TableHeader>
         <tbody class="overflow-y-scroll">
-          <tr class="" v-for="(row, index) in items" :key="index">
-            <td v-for="col in columns" :key="col">{{ row[col] }}</td>
-            <td class="removeItem" @click="removeItem(currentList, index)">
-              X
-            </td>
-          </tr>
+          <TableItem
+            :row="row"
+            :columns="columns"
+            v-for="(row, index) in items"
+            :key="index"
+            :currentList="currentList"
+            :index="index"
+          ></TableItem>
         </tbody>
       </table>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
-import store from "../../../store";
 import { mapGetters } from "vuex";
+import TableFunctionCell from "./TableFunctionCell.vue";
+import TableItem from "./TableItem.vue";
+import TableHeader from "./TableHeader.vue";
 
 export default {
   name: "Table",
-  components: {},
+  components: {
+    TableFunctionCell,
+    TableItem,
+    TableHeader,
+  },
   data() {
     return {
       lists: ["flows", "locations"],
@@ -64,10 +66,6 @@ export default {
     },
   },
   methods: {
-    removeItem(list, index) {
-      console.log("remove from", list, index);
-      //store.commit("removeFlow", i);
-    },
     setActiveList(list) {
       this.currentList = list;
     },
@@ -80,30 +78,17 @@ export default {
   max-height: 45vh;
   min-height: 45vh;
 }
-
-.removeItem {
-  @apply px-1;
-  @apply text-2xl font-bold;
-  @apply rounded-2xl cursor-pointer;
-}
-
 .tableSelectors {
   @apply flex flex-row items-center justify-start text-2xl font-extrabold flex-nowrap;
 }
 
 .tableWrapper {
-  @apply overflow-x-scroll;
+  @apply overflow-x-hidden;
   @apply top-0;
   @apply text-lg;
   max-height: 45vh;
   background-color: lightgray;
   min-height: 45vh;
-}
-
-.tableWrapper thead th {
-  @apply sticky;
-  @apply top-0;
-  background-color: lightgray;
 }
 
 li {
@@ -130,32 +115,10 @@ table {
   @apply mx-auto;
 }
 
-table th {
-  text-transform: capitalize;
-  @apply text-center;
-  padding: 8px;
-  min-width: 30px;
-}
-table tr {
-  @apply hover:bg-blue-300;
-}
-
 table tbody {
   max-height: 200px;
 }
-thead th {
-  @apply sticky;
-  @apply top-0;
-}
 
-table td {
-  @apply text-center;
-  padding: 8px;
-  border-right: 2px solid #7d82a815;
-}
-table td:last-child {
-  border-right: none;
-}
 table tbody tr:nth-child(2n) td {
   background: #d4d8f932;
 }

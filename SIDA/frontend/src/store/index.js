@@ -7,11 +7,11 @@ export default createStore({
         flows: [],
         dataLoading: true,
         layers: [],
-        locationAdditions: [],
-        locationRemovals: [],
-        flowRemovals: [],
-        flowAdditions: []
-
+        addLocations: [],
+        removeLocations: [],
+        addFlows: [],
+        removeFlows: [],
+        editFlows: [],
     },
     mutations: {
         setDataLoading: (state, bool) => {
@@ -58,20 +58,22 @@ export default createStore({
         //         state.flows.splice(item, 1);
         //     }
         // },
-        setNewLocation: () => {
-
+        setNewLocation: (state) => {
+            state.addLocations.push();
         },
-        setEditLocation: () => {
-
+        setRemoveLocation: (state, index) => {
+            state.removeLocation.push(index);
         },
-        setNewFlow: () => {
-            
+        setNewFlow: (state) => {
+            state.addFlows.push();
+        },
+        setRemoveFlow: (state, index) => {
+            state.removeFlows.push(index);
+            console.log(state.removeFlows);
+        },
+        setEditFlow: (state) => {
+            state.editFlows.push();
         }
-        locationAdditions: [],
-        locationRemovals: [],
-        flowRemovals: [],
-        flowAdditions: []
-
     },
     getters: {
 
@@ -79,7 +81,7 @@ export default createStore({
         getFlows: state => state.flows,
         getLocations: state => state.locations,
         getLayers: state => state.layers,
-
+        getRemoveFlows: state => state.removeFlows,
     },
     actions: {
 
