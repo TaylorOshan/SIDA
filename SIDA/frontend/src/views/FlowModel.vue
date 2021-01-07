@@ -5,9 +5,7 @@
 
       <div class="card half bg-yellow-50">
         <div class="row" v-for="(f, index) in getRemoveFlows" :key="index">
-          <div class="col">
-            {{ f }}
-          </div>
+          <div class="col">{{ f }}</div>
         </div>
       </div>
 

@@ -9,6 +9,13 @@
     - JEWEL : #4717F6
     - STARK : #E7DFDD
 
+- Start FastAPI
+    - `uvicorn app.main:app --reload`
+- Send revision to Alembic (db) - run from fastapi container
+    - `alembic revision --autogenerate -m "$MESSAGE"`
+- Upgrade DB (after revision send)
+    - `alembic upgrade head` - run from fastapi container
+
 - FLOWMAP.gl
     -[Storybook](https://teralytics.github.io/flowmap.gl/index.html?path=/story/basic--basic-as-layer)
 - DECK.gl

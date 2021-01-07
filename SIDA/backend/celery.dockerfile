@@ -12,7 +12,10 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
+
 COPY worker-start.sh /worker-start.sh
+
+# COPY ..env /app
 
 COPY ./app /app
 

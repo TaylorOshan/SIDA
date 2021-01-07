@@ -4,17 +4,20 @@
 version: "3"
 
 services:
-  # web:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: front.dockerfile
-  #   restart: unless-stopped
-  #   container_name: frontend
-  #   #ports:
-  #   #  - 3000:3000
-  #   volumes: 
-  #     - ./frontend:/SIDA
-  #   #command: npm run dev
+  web:
+    build:
+      context: ./frontend
+      dockerfile: front.dockerfile
+    restart: unless-stopped
+    container_name: frontend
+    ports:
+     - 3000:3000
+    volumes: 
+      - ./frontend:/SIDA
+    command: npm run dev
+    # note auto-reload w/ vite \
+    # doesn't work so hot through docker (config issue?)
+    # Normally, I disable this container and work locally
   api:
     build:
       context: ./backend
@@ -27,6 +30,9 @@ services:
       - ./backend:/SIDA
     depends_on: 
       - redis
+      - db
+    environment: 
+      - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
 
   redis:
     image: redis:6.0.9
@@ -42,6 +48,8 @@ services:
       - ./backend:/SIDA
     depends_on: 
        - redis
+    environment: 
+      - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
   flower:  
     image: mher/flower
     container_name: flower

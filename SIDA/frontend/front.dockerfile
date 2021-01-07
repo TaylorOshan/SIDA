@@ -17,6 +17,6 @@ COPY . .
 # RUN npm run build
 
 #DEV
-#RUN npm run dev
+# RUN npm run dev
 
-EXPOSE 3000
+# EXPOSE 3000

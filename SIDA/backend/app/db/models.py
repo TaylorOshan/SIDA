@@ -1,15 +1,32 @@
-from sqlalchemy import Column
-from sqlalchemy import Integer
-from sqlalchemy import String
+import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
+
+from .db import db
+from .db import metadata
 
 
 Base = declarative_base()
 
+#  declare table
+users = sqlalchemy.Table(
+    "users",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("first_name", sqlalchemy.String),
+    sqlalchemy.Column("last_name", sqlalchemy.String),
+    sqlalchemy.Column("age", sqlalchemy.Integer),
+)
 
-class User(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String,)
-    last_name = Column(String)
-    age = Column(Integer)
+#  then helper async classes
+class User:
+    @classmethod
+    async def get(cls, id):
+        query = users.select().where(users.c.id == id)
+        user = await db.fetch_one(query)
+        return user
+
+    @classmethod
+    async def create(cls, **user):
+        query = users.insert().values(**user)
+        user_id = await db.execute(query)
+        return user_id
