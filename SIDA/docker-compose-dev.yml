@@ -27,6 +27,7 @@ services:
       - ./backend:/SIDA
     depends_on: 
       - redis
+
   redis:
     image: redis:6.0.9
     container_name: redis

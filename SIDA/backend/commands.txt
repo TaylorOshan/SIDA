@@ -1,1 +1,7 @@
 uvicorn app.main:app --reload
+
+Send Revision
+alembic revision --autogenerate -m "MESSAGE"
+
+Commit Revision
+alembic upgrade head
