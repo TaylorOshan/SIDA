@@ -132,7 +132,7 @@ export default createStore({
                     showLocationAreas: false,
                     getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
                     getFlowOriginId: (f) => f.origin, //"LHR",
-                    getFlowDestId: (f) => f.dest, //f.properties.abbrev,
+                    getFlowDestId: (f) => f.destination, //f.properties.abbrev,
                     getLocationId: (loc) => loc.id, //f.properties.abbrev,
                     getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
                     showLocationAreas: false,

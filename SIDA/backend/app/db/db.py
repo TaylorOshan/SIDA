@@ -3,6 +3,7 @@ import os
 from databases import Database
 from dotenv import load_dotenv
 import sqlalchemy
+from sqlalchemy.orm import sessionmaker
 
 
 #  for local non docker 
