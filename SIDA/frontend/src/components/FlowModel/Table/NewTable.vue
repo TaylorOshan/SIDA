@@ -78,44 +78,4 @@ export default {
   max-height: 45vh;
   min-height: 45vh;
 }
-.tableSelectors {
-  @apply flex flex-row items-center justify-start text-2xl font-extrabold flex-nowrap;
-}
-
-.tableWrapper {
-  @apply overflow-x-hidden;
-  @apply top-0;
-  @apply text-lg;
-  max-height: 45vh;
-  background-color: lightgray;
-  min-height: 45vh;
-}
-
-li {
-  @apply py-2;
-  @apply px-8;
-  @apply cursor-pointer;
-  text-transform: capitalize;
-}
-
-li:hover {
-  background-color: lightgray;
-}
-
-.active {
-  background-color: lightgray;
-}
-
-/* VOID : #0E0B16
-    - FUSCHIA : #A239CA
-    - JEWEL : #4717F6
-    - STARK : #E7DFDD */
-
-table tbody {
-  max-height: 200px;
-}
-
-table tbody tr:nth-child(2n) td {
-  background: #d4d8f932;
-}
 </style>

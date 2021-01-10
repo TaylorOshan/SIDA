@@ -53,11 +53,16 @@ async def get_flows_from_point(dataset_name: str, point_name: str):
 
 
 @router.get("/api/v1/{dataset_name}/locations")
-async def get_locations(dataset_name: str ):
+async def get_locations(
+        dataset_name: str, start_index: Optional[int] = None, items: Optional[int] = None):
     
-    locations = await LocationModel.get(0)
+    if start_index:
+        locations = \
+            await LocationModel.get_from_index(0, start_index, limit=items)
+    else:
+        locations = await LocationModel.get(0)
 
-    return {"locations" : locations}
+    return {"locations": locations}
 
 
 

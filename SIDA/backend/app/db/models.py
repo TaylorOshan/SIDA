@@ -1,3 +1,4 @@
+from itertools import count
 from typing import Text
 
 import sqlalchemy
@@ -77,7 +78,7 @@ class Flows:
     @classmethod
     async def get_flows_from_point(cls, id, name):
         query = f"SELECT flow.origin, flow.destination, flow.count, flow.id \
-        FROM flow WHERE flow.dataset_id = {id} and flow.origin = '{name}' " # OR flow.destination = '{name}'
+        FROM flow WHERE flow.dataset_id = {id} and flow.origin = '{name}' and flow.count > 200" # OR flow.destination = '{name}'
         results = await db.fetch_all(query)
         return results
 
@@ -91,12 +92,26 @@ class Locations:
         # results = await db.fetch_all(query)
         #results = await db.fetch_one(query)
         #query = location.select(location.c.name).where(location.c.dataset == id)
-        query = f"SELECT location.name, location.inflows, location.outflows, \
-            location.lat,location.lon, location.id FROM location WHERE location.dataset = {id}"
+        query = f" \
+            SELECT name, inflows, outflows, lat, lon, id \
+            FROM location WHERE location.dataset = {id} \
+            "
         print(query)
         results = await db.fetch_all(query)
         return results
 
+    @classmethod
+    async def get_from_index(cls, id, start_index, limit=None):
+        query = f" \
+            SELECT name, inflows, outflows, lat, lon, id \
+            FROM location \
+            WHERE dataset = {id} and id > {start_index} \
+            ORDER BY id asc \
+            "
+        if limit:
+            query = query + f"LIMIT {limit}"
+        results = await db.fetch_all(query)
+        return results
 
 
 class User:

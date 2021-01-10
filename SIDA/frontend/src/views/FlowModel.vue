@@ -7,7 +7,7 @@
         <HoverInfo></HoverInfo>
       </div>
 
-      <!-- <Table class="card half"></Table>-->
+      <NewTable class="card half"></NewTable>
     </Layout>
 
     <p class="text-white" v-if="getDataLoading">Still loading..</p>
@@ -18,16 +18,6 @@
       @click="showData"
     >
       done
-    </ul>
-    <ul
-      class="text-white cursor-pointer"
-      v-if="!getDataLoading"
-      @click="setLatestFlowLayer"
-    >
-      create layer
-    </ul>
-    <ul class="text-white cursor-pointer" @click="setLocationVis">
-      show location
     </ul>
     <ul
       class="text-white cursor-pointer"
@@ -44,7 +34,7 @@ import { onMounted, ref, computed } from "vue";
 import Branding from "../components/Branding.vue";
 import FlowMap from "../components/FlowModel/FlowMap.vue";
 import Layout from "../components/FlowModel/Layout.vue";
-import Table from "../components/FlowModel/Table/Table.vue";
+import NewTable from "../components/FlowModel/Table/NewTable.vue";
 import HoverInfo from "../components/FlowModel/HoverInfo.vue";
 import { mapGetters, mapActions } from "vuex";
 import store from "../store";
@@ -56,7 +46,7 @@ export default {
     Branding,
     FlowMap,
     Layout,
-    Table,
+    NewTable,
     HoverInfo,
   },
   data() {
