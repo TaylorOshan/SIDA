@@ -1,6 +1,6 @@
 <template>
   <div id="container" class="w-full h-full overflow-hidden">
-    <DeckGL />
+    <DeckGL :layers="layers"></DeckGL>
   </div>
 </template>
 
@@ -9,7 +9,6 @@ import { computed, onMounted, ref, watch } from "vue";
 import DeckGL from "./DeckGL.vue";
 import FlowMapLayer from "@flowmap.gl/core";
 
-import store from "../../store";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -17,6 +16,40 @@ export default {
   components: {
     DeckGL,
   },
+  data() {
+    return {
+      layers: [],
+    };
+  },
+  computed: {
+    ...mapGetters(["getLocationLayer", "getFlowLayer"]),
+  },
+  watch: {
+    getLocationLayer(value) {
+      this.layers = [value, this.getFlowLayer];
+    },
+    getFlowLayer(value) {
+      this.layers = [value, this.getLocationLayer];
+    },
+  },
+  // getFlowLayer: {
+  //   handler(value) {
+  //     console.log("Layers Changed...Modifying DeckGL");
+  //     if (this.deck) {
+  //       console.log(value);
+  //       try {
+  //         this.deck.setProps({
+  //           layers: [value, this.getLocationLayer],
+  //         });
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     } else {
+  //       console.log("No DeckGL Instance");
+  //     }
+  //   },
+  //   deep: false,
+  // },
 };
 </script>
 
@@ -28,7 +61,7 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  height: 50vh;
+  height: 60vh;
 }
 #map {
   position: absolute;

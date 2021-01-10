@@ -1,27 +1,25 @@
-import FlowMapLayer from "@flowmap.gl/core";
+
 import { createStore } from 'vuex';
+import { getDatasetTile, getFlowFromPoint, getLocations } from "../api/api";
+import { getFlowLayer } from "../visualizers/flowmap";
+import { getScatterplotLayer } from "../visualizers/scatterplot";
+
 
 export default createStore({
     state: {
-        locations: [],
-        flows: [],
+        locations: new Array,
         dataLoading: true,
-        layers: [],
-        addLocations: [],
-        removeLocations: [],
-        addFlows: [],
-        removeFlows: [],
-        editFlows: [],
+        locationLayer: [],
+        flowLayer: [],
+        currentX: -80.649277,
+        currentY: 36.102376,
+        currentZ: 4,
+        dataset_name: "fake_name",
+        popupData: null,
+        locationsVisible: true,
     },
     mutations: {
-        setDataLoading: (state, bool) => {
-            if (state.flows || state.locations) {
-                state.dataLoading = bool;
-            }
-            else {
-                console.log("!Loading is Prohibited");
-            }
-        },
+
         setLocations: (state, items) => {
             state.locations = items.slice();
             console.log("Locations Set");
@@ -44,20 +42,6 @@ export default createStore({
             //state.layers.splice(0, state.layers.length, layer)
         },
 
-        // removeLocation: (state, item) => {
-        //     console.log("Removing", state.locations[item].name);
-        //     if (item > -1) {
-        //         state.locations.splice(item, 1);
-        //     }
-        //     console.log("Remaining", state.locations);
-
-        // },
-        // removeFlow: (state, item) => {
-        //     console.log("Removing Flow :", state.flows[item].origin, state.flows[item].dest);
-        //     if (item > -1) {
-        //         state.flows.splice(item, 1);
-        //     }
-        // },
         setNewLocation: (state) => {
             state.addLocations.push();
         },
@@ -73,74 +57,79 @@ export default createStore({
         },
         setEditFlow: (state) => {
             state.editFlows.push();
-        }
+        },
+
+        SET_DATA_LOADING: (state, bool) => {
+            if (state.flows || state.locations) {
+                state.dataLoading = bool;
+            }
+            else {
+                console.log("!Loading is Prohibited");
+            }
+        },
+        UPDATE_FLOW_LAYER: (state, layer) => {
+            state.flowLayer = layer;
+        },
+        UPDATE_LOCATION_LAYER: (state, layer) => {
+            state.locationLayer = layer;
+        },
+        SET_DATASET_NAME: (state, name) => state.dataset_name = name,
+        SET_CURRENT_X: (state, x) => state.currentX = x,
+        SET_CURRENT_Y: (state, y) => state.currentY = y,
+        SET_CURRENT_Z: (state, z) => state.currentZ = z,
+        SET_LOCATIONS: (state, locations) => state.locations = locations,
+        SET_POPUP_INFO: (state, data) => state.popupData = data,
+        SET_LOCATIONS_LAYER_VIS: (state, bool) => state.locationsVisible = bool,
     },
     getters: {
 
         getDataLoading: state => state.dataLoading,
         getFlows: state => state.flows,
         getLocations: state => state.locations,
-        getLayers: state => state.layers,
         getRemoveFlows: state => state.removeFlows,
+
+        getLocationLayer: state => state.locationLayer,
+        getFlowLayer: state => state.flowLayer,
+        getCurrentX: state => state.currentX,
+        getCurrentY: state => state.currentY,
+        getCurrentZ: state => state.currentZ,
+        getPopupData: state => state.popupData,
+        getLocationsVisibility: state => state.locationsVisible,
     },
     actions: {
-
-        load: async ({ commit }) => {
-            const URL = "http://127.0.0.1:8000/layer";
-
-            fetch(URL, {
-                method: "get",
-                headers: {
-                    "content-type": "application/json",
-                },
-            })
-                .then((res) => {
-                    //console.log(res);
-                    if (!res.ok) {
-                        console.log("API response not OK... throwing error");
-                        const error = new Error(res.statusText);
-                        error.json = res.json();
-                        throw error;
-                    }
-                    return res.json();
-                })
-                .then((data) => {
-                    console.log("Pushing Fetch");
-                    //console.log(data);
-                    commit("setLocations", data.locations);
-                    commit("setFlows", data.flows);
-                    commit("setDataLoading", false);
-                    console.log("done fetch");
-
-                })
-
-
-
-
+        loadTileFlows: async ({ commit, state }) => {
+            try {
+                const flows = await getDatasetTile(state.dataset_name, state.currentX, state.currentY, state.currentZ);
+                console.log(flows);
+                const layer = await getFlowLayer(flows.flows, state.locations);
+                console.log("Layer created", layer);
+                commit("UPDATE_FLOW_LAYER", layer);
+            } catch (error) {
+                console.log(error);
+            }
         },
-        setLatestFlowLayer: async ({ state, commit }) => {
-            console.log("set latest flow layer called");
-            console.log(state.dataLoading);
-            if (!state.dataLoading) {
-                console.log("passed truth loading");
-                const newLayer = new FlowMapLayer({
-                    id: new Date().getTime(),
-                    locations: state.locations,
-                    flows: state.flows,
-                    pickable: true,
-                    mixBlendMode: "multiply",
-                    showLocationAreas: false,
-                    getFlowMagnitude: (f) => f.count, //f.properties.scalerank,
-                    getFlowOriginId: (f) => f.origin, //"LHR",
-                    getFlowDestId: (f) => f.destination, //f.properties.abbrev,
-                    getLocationId: (loc) => loc.id, //f.properties.abbrev,
-                    getLocationCentroid: (loc) => [loc.lon, loc.lat], //f.geometry.coordinates,
-                    showLocationAreas: false,
-                    maxFlowThickness: 2,
-                });
-                commit("setLayer", newLayer);
-                console.log("latest flow layer set");
-                console.log(newLayer);
+        loadClickFlows: async ({ commit, state }, { name }) => {
+            try {
+                const flows = await getFlowFromPoint(state.dataset_name, name);
+                console.log(flows);
+                const layer = await getFlowLayer(flows.flows, state.locations, name);
+                console.log("Layer created", layer);
+                commit("UPDATE_FLOW_LAYER", layer);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        loadLocations: async ({ commit, state }) => {
+            try {
+                const data = await getLocations(state.dataset_name);
+                commit("SET_LOCATIONS", data.locations)
+                console.log(data);
+                const layer = await getScatterplotLayer(data.locations);
+                console.log("Location Layer created", layer);
+                commit("UPDATE_LOCATION_LAYER", layer);
+
+            } catch (error) {
+                console.log(error);
             }
 
         }

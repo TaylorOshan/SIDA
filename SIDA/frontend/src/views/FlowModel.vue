@@ -4,18 +4,37 @@
       <FlowMap class="card full">FlowMap</FlowMap>
 
       <div class="card half bg-yellow-50">
-        <div class="row" v-for="(f, index) in getRemoveFlows" :key="index">
-          <div class="col">{{ f }}</div>
-        </div>
+        <HoverInfo></HoverInfo>
       </div>
 
-      <Table class="card half"></Table>
+      <!-- <Table class="card half"></Table>-->
     </Layout>
 
     <p class="text-white" v-if="getDataLoading">Still loading..</p>
 
-    <ul class="text-white" v-if="!getDataLoading">
+    <ul
+      class="text-white cursor-pointer"
+      v-if="!getDataLoading"
+      @click="showData"
+    >
       done
+    </ul>
+    <ul
+      class="text-white cursor-pointer"
+      v-if="!getDataLoading"
+      @click="setLatestFlowLayer"
+    >
+      create layer
+    </ul>
+    <ul class="text-white cursor-pointer" @click="setLocationVis">
+      show location
+    </ul>
+    <ul
+      class="text-white cursor-pointer"
+      v-if="!getDataLoading"
+      @click="updateDeck"
+    >
+      update deck
     </ul>
   </div>
 </template>
@@ -26,6 +45,7 @@ import Branding from "../components/Branding.vue";
 import FlowMap from "../components/FlowModel/FlowMap.vue";
 import Layout from "../components/FlowModel/Layout.vue";
 import Table from "../components/FlowModel/Table/Table.vue";
+import HoverInfo from "../components/FlowModel/HoverInfo.vue";
 import { mapGetters, mapActions } from "vuex";
 import store from "../store";
 
@@ -37,6 +57,7 @@ export default {
     FlowMap,
     Layout,
     Table,
+    HoverInfo,
   },
   data() {
     return {
@@ -46,38 +67,54 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "getFlows",
-      "getLocations",
+      "getCurrentX",
+      "getCurrentY",
+      "getCurrentZ",
       "getDataLoading",
       "getRemoveFlows",
+      "getLocationsVisibility",
     ]),
   },
   methods: {
-    ...mapActions(["setLatestFlowLayer", "load"]),
+    ...mapActions(["setLatestFlowLayer", "loadTileFlows", "loadLocations"]),
+    showLocation() {
+      console.log(this.getLocations);
+    },
+    showFlow() {
+      console.log(this.getFlows);
+    },
+    setLocationVis() {
+      const vis = this.getLocationsVisibility;
+      store.commit("SET_LOCATIONS_LAYER_VIS", !vis);
+      console.log(this.getLocationsVisibility);
+    },
   },
+
   watch: {
-    getFlows: {
-      handler(value) {
-        console.log("Flows Changed");
-        this.setLatestFlowLayer();
-        this.flows = value;
-      },
-      deep: true,
-    },
-    getLocations: {
-      handler(value) {
-        console.log("Locs Changed");
-        this.setLatestFlowLayer();
-        this.locations = value;
-      },
-      deep: true,
-    },
+    // getFlows: {
+    //   handler(value) {
+    //     console.log("Flows Changed");
+    //     this.setLatestFlowLayer();
+    //     this.flows = value;
+    //   },
+    //   deep: true,
+    // },
+    // getLocations: {
+    //   handler(value) {
+    //     console.log("Locs Changed");
+    //     this.setLatestFlowLayer();
+    //     this.locations = value;
+    //   },
+    //   deep: true,
+    // },
   },
-  // created() {
-  //   this.load();
-  // },
+
   async mounted() {
-    this.load();
+    console.log("loading");
+    await this.loadLocations();
+    console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
+    store.commit("SET_DATASET_NAME", "fake_name");
+    //await this.loadTileFlows();
   },
 };
 </script>

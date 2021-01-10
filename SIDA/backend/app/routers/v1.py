@@ -7,7 +7,6 @@ from fastapi import APIRouter
 from ..db.db import db
 from ..db.models import Flows as FlowModel
 from ..db.models import Locations as LocationModel
-from ..db.models import flow
 from ..db.schema import Flow as FlowSchema
 from ..db.schema import Location as LocationSchema
 from ..worker import celery_app
@@ -16,18 +15,10 @@ from ..worker import celery_app
 router = APIRouter()
 
 
-@router.get("/celery/{word}")
-async def word(word: str):
-
-    task_name = "app.flows.flow_models.test_celery"
-
-    celery_app.send_task(task_name, args=[word])
-
-    return {"message": "Word received"}
-
-
-@router.get("/layer")
-async def get_layer():
+@router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")
+async def get_tile_flows(dataset_name: str, x: float, y: float, z: float ):
+    print(f"Getting {dataset_name} -x {x} -y {y} -z {z}")
+    
     # locations = [
     #     {"id": 1, "name": "New York", "lat": 40.713543, "lon": -74.011219},
     #     {"id": 2, "name": "London", "lat": 51.507425, "lon": -0.127738},
@@ -47,25 +38,41 @@ async def get_layer():
     #     {"origin": 1, "dest": 3, "count": 22},
     #     {"origin": 3, "dest": 2, "count": 42},
     # ]
-    start = time.time()
-    locations = await LocationModel.get(0)
     flows = await FlowModel.get(0)
-    print("took", time.time() - start)
+    return {"flows": flows}
+
+
+@router.get("/api/v1/{dataset_name}/{point_name}/flows")
+async def get_flows_from_point(dataset_name: str, point_name: str):
+
+    print(f"Getting {dataset_name} from point {point_name}")
+
+    flows = await FlowModel.get_flows_from_point(0, point_name)
+
+    return {"flows": flows}
+
+
+@router.get("/api/v1/{dataset_name}/locations")
+async def get_locations(dataset_name: str ):
     
-    return {"locations": locations, "flows": flows}
+    locations = await LocationModel.get(0)
+
+    return {"locations" : locations}
 
 
-# @router.get("/data/flows", response_model=List[FlowSchema])
-# async def get_flows():
 
-#     print("Recieved Flow Call")
-#     query = flow.select().where(flow.dataset_id == 0)
 
-#     return await db.fetch_all(query)
 
-# @router.get("/data/location")
-# async def get_location():
+# @router.get("/data/locations")
+# async def get_locations():
 #     start = time.time()
 #     location = await LocationModel.get(0)
 #     print("took", time.time() - start)
 #     return location
+
+# @router.get("/data/flows")
+# async def get_flows():
+#     start = time.time()
+#     flow = await FlowModel.get(0)
+#     print("took", time.time() - start)
+#     return { "flows": flow}
