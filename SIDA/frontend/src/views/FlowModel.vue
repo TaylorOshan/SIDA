@@ -30,54 +30,54 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from "vue";
-import Branding from "../components/Branding.vue";
-import FlowMap from "../components/FlowModel/FlowMap.vue";
-import Layout from "../components/FlowModel/Layout.vue";
-import NewTable from "../components/FlowModel/Table/NewTable.vue";
-import HoverInfo from "../components/FlowModel/HoverInfo.vue";
-import { mapGetters, mapActions } from "vuex";
-import store from "../store";
+import { onMounted, ref, computed } from 'vue'
+import Branding from '../components/Branding.vue'
+import FlowMap from '../components/FlowModel/FlowMap.vue'
+import Layout from '../components/FlowModel/Layout.vue'
+import NewTable from '../components/FlowModel/Table/NewTable.vue'
+import HoverInfo from '../components/FlowModel/HoverInfo.vue'
+import { mapGetters, mapActions } from 'vuex'
+import store from '../store'
 
 export default {
-  name: "FlowModel",
+  name: 'FlowModel',
   props: {},
   components: {
     Branding,
     FlowMap,
     Layout,
     NewTable,
-    HoverInfo,
+    HoverInfo
   },
-  data() {
+  data () {
     return {
       locations: [],
-      flows: [],
-    };
+      flows: []
+    }
   },
   computed: {
     ...mapGetters([
-      "getCurrentX",
-      "getCurrentY",
-      "getCurrentZ",
-      "getDataLoading",
-      "getRemoveFlows",
-      "getLocationsVisibility",
-    ]),
+      'getCurrentX',
+      'getCurrentY',
+      'getCurrentZ',
+      'getDataLoading',
+      'getRemoveFlows',
+      'getLocationsVisibility'
+    ])
   },
   methods: {
-    ...mapActions(["setLatestFlowLayer", "loadTileFlows", "loadLocations"]),
-    showLocation() {
-      console.log(this.getLocations);
+    ...mapActions(['setLatestFlowLayer', 'loadTileFlows', 'loadLocations']),
+    showLocation () {
+      console.log(this.getLocations)
     },
-    showFlow() {
-      console.log(this.getFlows);
+    showFlow () {
+      console.log(this.getFlows)
     },
-    setLocationVis() {
-      const vis = this.getLocationsVisibility;
-      store.commit("SET_LOCATIONS_LAYER_VIS", !vis);
-      console.log(this.getLocationsVisibility);
-    },
+    setLocationVis () {
+      const vis = this.getLocationsVisibility
+      store.commit('SET_LOCATIONS_LAYER_VIS', !vis)
+      console.log(this.getLocationsVisibility)
+    }
   },
 
   watch: {
@@ -99,14 +99,14 @@ export default {
     // },
   },
 
-  async mounted() {
-    console.log("loading");
-    await this.loadLocations();
-    console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
-    store.commit("SET_DATASET_NAME", "fake_name");
-    //await this.loadTileFlows();
-  },
-};
+  async mounted () {
+    console.log('loading')
+    await this.loadLocations()
+    console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ)
+    store.commit('SET_DATASET_NAME', 'fake_name')
+    // await this.loadTileFlows();
+  }
+}
 </script>
 
 <style scoped>

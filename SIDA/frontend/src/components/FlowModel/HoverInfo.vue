@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "HoverInfo",
+  name: 'HoverInfo',
   components: {},
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    ...mapGetters(["getPopupData"]),
+    ...mapGetters(['getPopupData'])
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style scoped>

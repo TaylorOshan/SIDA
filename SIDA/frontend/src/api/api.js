@@ -1,5 +1,4 @@
 
-
 // const CORE_URL = "http://127.0.0.1:8000"
 
 // async function getDatasetTile(dataset_name, x, y, z) {
@@ -20,79 +19,73 @@
 //     getDatasetTile
 // }
 
+async function getDatasetTile (name, x, y, z) {
+  const CORE_URL = 'http://127.0.0.1:8000'
 
-
-async function getDatasetTile(name, x, y, z) {
-
-    const CORE_URL = "http://127.0.0.1:8000"
-
-    const data = fetch(`${CORE_URL}/api/v1/${name}/${x}/${y}/${z}`, {
-        method: "get",
-        headers: {
-            "content-type": "application/json",
-            "Accept-Encoding": "gzip",
-        },
+  const data = fetch(`${CORE_URL}/api/v1/${name}/${x}/${y}/${z}`, {
+    method: 'get',
+    headers: {
+      'content-type': 'application/json',
+      'Accept-Encoding': 'gzip'
+    }
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log('API response not OK... throwing error')
+        const error = new Error(res.statusText)
+        error.json = res.json()
+        throw error
+      }
+      return res.json()
     })
-        .then((res) => {
-            if (!res.ok) {
-                console.log("API response not OK... throwing error");
-                const error = new Error(res.statusText);
-                error.json = res.json();
-                throw error;
-            }
-            return res.json();
-        })
 
-    return data
+  return data
 }
 
-async function getFlowFromPoint(datasetName, point) {
+async function getFlowFromPoint (datasetName, point) {
+  const CORE_URL = 'http://127.0.0.1:8000'
 
-    const CORE_URL = "http://127.0.0.1:8000"
-
-    const data = fetch(`${CORE_URL}/api/v1/${datasetName}/${point}/flows`, {
-        method: "get",
-        headers: {
-            "content-type": "application/json",
-            "Accept-Encoding": "gzip",
-        },
+  const data = fetch(`${CORE_URL}/api/v1/${datasetName}/${point}/flows`, {
+    method: 'get',
+    headers: {
+      'content-type': 'application/json',
+      'Accept-Encoding': 'gzip'
+    }
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log('API response not OK... throwing error')
+        const error = new Error(res.statusText)
+        error.json = res.json()
+        throw error
+      }
+      return res.json()
     })
-        .then((res) => {
-            if (!res.ok) {
-                console.log("API response not OK... throwing error");
-                const error = new Error(res.statusText);
-                error.json = res.json();
-                throw error;
-            }
-            return res.json();
-        })
 
-    return data
+  return data
 }
 
-async function getLocations(name) {
+async function getLocations (name) {
+  const CORE_URL = 'http://127.0.0.1:8000'
 
-    const CORE_URL = "http://127.0.0.1:8000"
-
-    const data = fetch(`${CORE_URL}/api/v1/${name}/locations`, {
-        method: "get",
-        headers: {
-            "content-type": "application/json",
-            "Accept-Encoding": "gzip",
-        },
+  const data = fetch(`${CORE_URL}/api/v1/${name}/locations`, {
+    method: 'get',
+    headers: {
+      'content-type': 'application/json',
+      'Accept-Encoding': 'gzip'
+    }
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log('API response not OK... throwing error')
+        const error = new Error(res.statusText)
+        error.json = res.json()
+        throw error
+      }
+      return res.json()
     })
-        .then((res) => {
-            if (!res.ok) {
-                console.log("API response not OK... throwing error");
-                const error = new Error(res.statusText);
-                error.json = res.json();
-                throw error;
-            }
-            return res.json();
-        })
 
-    return data
+  return data
 }
 
-export { getDatasetTile, getLocations, getFlowFromPoint };
-
+export { getDatasetTile, getLocations, getFlowFromPoint }

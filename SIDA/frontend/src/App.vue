@@ -1,28 +1,59 @@
 <template>
-  <div id="wrapper" class="w-screen h-screen overflow-x-hidden font-sans">
-    <Header />
-    <router-view class="w-screen h-full min-h-full" />
-    <!--<Footer />-->
-  </div>
+  <v-app>
+    <!-- <v-navigation-drawer app>
+      
+    </v-navigation-drawer> -->
+
+    <v-app-bar app absolute elevate-on-scroll dark>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>SIDA</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+
+    <v-footer app absolute padless>
+      <Footer />
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
-
 export default {
   name: "App",
+
   components: {
-    Header,
     Footer,
+  },
+
+  data() {
+    return {
+      appTitle: "SIDA",
+      sidebar: false,
+      menuItems: [
+        { title: "Home", path: "/", icon: "home" },
+        { title: "Model", path: "/signup", icon: "face" },
+      ],
+    };
   },
 };
 </script>
-
-<style scoped>
-#wrapper {
-  background-color: #0e0b16;
-  height: 100vh;
-  min-height: 100vh;
-}
-</style>

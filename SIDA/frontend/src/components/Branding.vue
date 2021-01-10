@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: "Branding",
-};
+  name: 'Branding'
+}
 </script>
-

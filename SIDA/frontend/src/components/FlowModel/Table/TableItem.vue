@@ -13,76 +13,76 @@
 </template>
 
 <script>
-import TableFunctionCell from "./TableFunctionCell.vue";
-import store from "../../../store";
+import TableFunctionCell from './TableFunctionCell.vue'
+import store from '../../../store'
 export default {
-  name: "TableItem",
+  name: 'TableItem',
   components: {
-    TableFunctionCell,
+    TableFunctionCell
   },
   props: {
     columns: {
       type: Array,
-      required: true,
+      required: true
     },
     row: {
       type: Object,
-      required: true,
+      required: true
     },
     currentList: {
       type: String,
-      required: true,
+      required: true
     },
     index: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
-      isMarked: false,
-    };
+      isMarked: false
+    }
   },
   computed: {},
   methods: {
-    mark() {
-      this.isMarked = !this.isMarked;
+    mark () {
+      this.isMarked = !this.isMarked
     },
-    removeItem() {
+    removeItem () {
       if (this.isMarked) {
-        if (this.currentList == "flows") {
-          console.log("remove from", this.currentList, this.index);
-          store.commit("setRemoveFlow", this.index);
-        } else if (this.currentList == "locations") {
-          console.log("remove from", this.currentList, this.index);
-          store.commit("setRemoveLocation", this.index);
+        if (this.currentList == 'flows') {
+          console.log('remove from', this.currentList, this.index)
+          store.commit('setRemoveFlow', this.index)
+        } else if (this.currentList == 'locations') {
+          console.log('remove from', this.currentList, this.index)
+          store.commit('setRemoveLocation', this.index)
         } else {
-          console.log("ERR: Removal of unknown item");
+          console.log('ERR: Removal of unknown item')
         }
       }
     },
-    editItem() {
-      console.log("edit from", list, index);
-      if (list == "flows") {
-        store.commit("setEditFlow");
+    editItem () {
+      console.log('edit from', list, index)
+      if (list == 'flows') {
+        store.commit('setEditFlow')
       } else {
-        console.log("Edit of unknown item");
+        console.log('Edit of unknown item')
       }
     },
-    addItem() {
-      if (list == "flows") {
-        store.commit("setNewFlow");
-      } else if (list == "locations") {
-        store.commit("setNewLocation");
+    addItem () {
+      if (list == 'flows') {
+        store.commit('setNewFlow')
+      } else if (list == 'locations') {
+        store.commit('setNewLocation')
       } else {
-        console.log("Adding unknown Object");
+        console.log('Adding unknown Object')
       }
     },
-    undoItem() {
+    undoItem () {
       // undo all modifications to item
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  name: "Footer",
-  components: {},
-};
+  name: 'Footer',
+  components: {}
+}
 </script>
 
 <style scoped>

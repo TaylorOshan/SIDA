@@ -14,34 +14,34 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import DeleteIcon from "../../DeleteIcon.vue";
-import UndoIcon from "../../UndoIcon.vue";
+import { mapGetters } from 'vuex'
+import DeleteIcon from '../../DeleteIcon.vue'
+import UndoIcon from '../../UndoIcon.vue'
 
 export default {
-  name: "TableFunctionCell",
+  name: 'TableFunctionCell',
   components: {
     DeleteIcon,
-    UndoIcon,
+    UndoIcon
   },
-  data() {
+  data () {
     return {
-      isMarked: false,
-    };
+      isMarked: false
+    }
   },
   methods: {
-    mark() {
-      this.$emit("mark");
-      this.isMarked = !this.isMarked;
+    mark () {
+      this.$emit('mark')
+      this.isMarked = !this.isMarked
     },
-    sendDelete() {
-      this.mark();
-      this.$emit("removeItem");
+    sendDelete () {
+      this.mark()
+      this.$emit('removeItem')
     },
-    sendUndo() {
-      this.mark();
-      this.$emit("undoItem");
-    },
-  },
-};
+    sendUndo () {
+      this.mark()
+      this.$emit('undoItem')
+    }
+  }
+}
 </script>

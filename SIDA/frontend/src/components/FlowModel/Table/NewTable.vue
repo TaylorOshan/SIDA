@@ -29,48 +29,48 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import TableFunctionCell from "./TableFunctionCell.vue";
-import TableItem from "./TableItem.vue";
-import TableHeader from "./TableHeader.vue";
+import { mapGetters } from 'vuex'
+import TableFunctionCell from './TableFunctionCell.vue'
+import TableItem from './TableItem.vue'
+import TableHeader from './TableHeader.vue'
 
 export default {
-  name: "Table",
+  name: 'Table',
   components: {
     TableFunctionCell,
     TableItem,
-    TableHeader,
+    TableHeader
   },
-  data() {
+  data () {
     return {
-      lists: ["flows", "locations"],
-      currentList: "flows",
-    };
+      lists: ['flows', 'locations'],
+      currentList: 'flows'
+    }
   },
   computed: {
-    ...mapGetters(["getFlows", "getLocations"]),
-    columns: function columns() {
-      if (typeof this.items != "undefined") {
+    ...mapGetters(['getFlows', 'getLocations']),
+    columns: function columns () {
+      if (typeof this.items !== 'undefined') {
         if (this.items == 0) {
-          return [];
+          return []
         }
-        return Object.keys(this.items[0]);
+        return Object.keys(this.items[0])
       }
     },
-    items() {
-      if (this.currentList == "flows") {
-        return this.getFlows;
-      } else if (this.currentList == "locations") {
-        return this.getLocations;
+    items () {
+      if (this.currentList == 'flows') {
+        return this.getFlows
+      } else if (this.currentList == 'locations') {
+        return this.getLocations
       }
-    },
+    }
   },
   methods: {
-    setActiveList(list) {
-      this.currentList = list;
-    },
-  },
-};
+    setActiveList (list) {
+      this.currentList = list
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -45,7 +45,7 @@
       </div>
     </section>
 
-    <div class="absolute inset-x-0 bottom-0 w-screen h-32 md:mt-16">
+    <div class="inset-x-0 bottom-0 w-screen h-32 md:mt-16">
       <a href="#scrollMarker" id="scrollMarker">
         <div class="flex flex-col items-center p-6 mb-5 arrow">
           <span></span>

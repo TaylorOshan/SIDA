@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "NavBranding",
-  components: {},
-};
+  name: 'NavBranding',
+  components: {}
+}
 </script>

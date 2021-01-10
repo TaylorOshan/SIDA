@@ -1,34 +1,31 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import FlowModel from "../views/FlowModel.vue";
-import Home from "../views/Home.vue";
-import NotFound from "../views/NotFound.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
     meta: { title: 'Home' }
   },
   {
-    path: "/flow/:name",
-    name: "Flow Model",
-    component: FlowModel,
+    path: '/flow/:name',
+    name: 'Flow Model',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FlowModel.vue'),
     props: true,
     meta: { title: 'Flow' }
 
   },
   {
-    path: "/:catchAll(.*)",
+    path: '/:catchAll(.*)',
     component: NotFound,
     meta: { title: '404' }
-  },
-];
-
-
+  }
+]
 
 // const routes = [
 //   {
@@ -49,7 +46,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: routes
 })
 
 export default router
