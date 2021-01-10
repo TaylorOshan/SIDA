@@ -18,9 +18,10 @@ from .routers.v1 import router
 log = logging.getLogger(__name__)
 app = FastAPI()
 
-ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:3001"  # change in docker env
+ORIGINS = [ "*"
+    
+    # "http://localhost:3000",
+    # "http://localhost:3001"  # change in docker env
 ]
 
 
