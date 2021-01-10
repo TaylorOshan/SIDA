@@ -4,12 +4,14 @@
       
     </v-navigation-drawer> -->
 
-    <v-app-bar app absolute elevate-on-scroll dark>
+    <v-app-bar absolute app elevate-on-scroll dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title>SIDA</v-toolbar-title>
+      <v-toolbar-title><h1>SIDA</h1></v-toolbar-title>
 
       <v-spacer></v-spacer>
+
+      <v-menu></v-menu>
 
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
@@ -17,10 +19,6 @@
 
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -30,9 +28,7 @@
       </v-container>
     </v-main>
 
-    <v-footer app absolute padless>
-      <Footer />
-    </v-footer>
+    <v-footer app absolute> FOOTER </v-footer>
   </v-app>
 </template>
 
@@ -57,3 +53,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#branding {
+  color: #a239ca;
+  text-shadow: 2px 3px 0px #ff0000 !important;
+}
+</style>
