@@ -9,6 +9,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     locations: new Array(),
+    countFlows: null,
     dataLoading: true,
     locationLayer: [],
     flowLayer: [],
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     currentZ: 4,
     dataset_name: 'fake_name',
     popupData: null,
-    locationsVisible: true
+    locationsVisible: true,
+    flows: [],
   },
   mutations: {
 
@@ -78,14 +80,14 @@ export default new Vuex.Store({
     SET_CURRENT_Z: (state, z) => state.currentZ = z,
     SET_LOCATIONS: (state, locations) => state.locations = locations,
     SET_POPUP_INFO: (state, data) => state.popupData = data,
-    SET_LOCATIONS_LAYER_VIS: (state, bool) => state.locationsVisible = bool
+    SET_LOCATIONS_LAYER_VIS: (state, bool) => state.locationsVisible = bool,
+    SET_COUNT_FLOWS: (state, count) => state.countFlows = count,
+    SET_FLOWS: (state, flows) => state.flows = flows,
   },
   getters: {
-
-    getDataLoading: state => state.dataLoading,
-    getFlows: state => state.flows,
     getLocations: state => state.locations,
     getRemoveFlows: state => state.removeFlows,
+
 
     getLocationLayer: state => state.locationLayer,
     getFlowLayer: state => state.flowLayer,
@@ -93,7 +95,10 @@ export default new Vuex.Store({
     getCurrentY: state => state.currentY,
     getCurrentZ: state => state.currentZ,
     getPopupData: state => state.popupData,
-    getLocationsVisibility: state => state.locationsVisible
+    getLocationsVisibility: state => state.locationsVisible,
+    getCountFlows: state => state.countFlows,
+    getFlows: state => state.flows,
+    getDataLoading: state => state.dataLoading,
   },
   actions: {
     loadTileFlows: async ({ commit, state }) => {
@@ -109,25 +114,27 @@ export default new Vuex.Store({
     },
     loadClickFlows: async ({ commit, state }, { name }) => {
       try {
-        const flows = await getFlowFromPoint(state.dataset_name, name)
-        console.log(flows)
-        const layer = await getFlowLayer(flows.flows, state.locations, name)
-        console.log('Layer created', layer)
-        commit('UPDATE_FLOW_LAYER', layer)
+        commit('SET_DATA_LOADING', true);
+        const flows = await getFlowFromPoint(state.dataset_name, name);
+        commit('SET_FLOWS', flows.flows);
+        const layer = await getFlowLayer(flows.flows, state.locations, name);
+        commit('UPDATE_FLOW_LAYER', layer);
+        commit('SET_DATA_LOADING', false);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     loadLocations: async ({ commit, state }) => {
       try {
-        const data = await getLocations(state.dataset_name)
-        commit('SET_LOCATIONS', data.locations)
-        console.log(data)
-        const layer = await getScatterplotLayer(data.locations)
-        console.log('Location Layer created', layer)
-        commit('UPDATE_LOCATION_LAYER', layer)
+        commit('SET_DATA_LOADING', true);
+        const data = await getLocations(state.dataset_name);
+        commit('SET_LOCATIONS', data.locations);
+        const layer = await getScatterplotLayer(data.locations);
+        console.log('Location Layer created', layer);
+        commit('UPDATE_LOCATION_LAYER', layer);
+        commit('SET_DATA_LOADING', false);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 

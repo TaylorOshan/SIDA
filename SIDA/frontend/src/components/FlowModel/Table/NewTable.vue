@@ -1,10 +1,38 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :items-per-page="5"
-    class="elevation-1"
-  ></v-data-table>
+  <v-card>
+    <v-card-title class="font-weight-bold">
+      <v-btn-toggle v-model="toggleLocations" mandatory>
+        <v-btn
+          class="px-4 text-h5 list-selector"
+          v-for="item in lists"
+          :key="item"
+        >
+          {{ item }}
+        </v-btn>
+      </v-btn-toggle>
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+        clearable
+        style="max-width: 300px"
+      ></v-text-field>
+    </v-card-title>
+
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :items-per-page="5"
+      :search="search"
+      class="elevation-1"
+      show-group-by
+      height="300"
+    >
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -22,8 +50,10 @@ export default {
   },
   data() {
     return {
-      lists: ["flows", "locations"],
+      search: "",
+      lists: ["locations", "flows"],
       currentList: "locations",
+      toggleLocations: 0,
     };
   },
   computed: {
@@ -33,30 +63,35 @@ export default {
         if (this.items == 0) {
           return [];
         }
-        console.log(Object.keys(this.items[0]));
-        return Object.keys(this.items[0]);
+        let array = Object.keys(this.items[0]);
+        let index = array.indexOf("id");
+        array.splice(index, 1);
+        return array;
       }
     },
     items() {
-      if (this.currentList == "flows") {
+      if (this.toggleLocations === 1) {
+        console.log(this.getFlows);
         return this.getFlows;
-      } else if (this.currentList == "locations") {
+      } else if (this.toggleLocations === 0) {
         return this.getLocations;
       }
     },
     headers() {
       let array = [];
-
       for (let item of this.columns) {
-        array.push({ text: item, value: item });
+        array.push({
+          text: item.charAt(0).toUpperCase() + item.slice(1),
+          value: item,
+        });
       }
       return array;
     },
   },
   methods: {
-    setActiveList(list) {
-      this.currentList = list;
-    },
+    // setActiveList(list) {
+    //   this.currentList = list;
+    // },
   },
 };
 </script>
@@ -65,5 +100,9 @@ export default {
 #root {
   max-height: 45vh;
   min-height: 45vh;
+}
+
+.list-selector {
+  min-width: 120px !important;
 }
 </style>

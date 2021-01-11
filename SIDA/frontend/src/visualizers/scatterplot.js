@@ -19,13 +19,13 @@ async function getScatterplotLayer(locations) {
     opacity: 0.1,
     stroked: true,
     filled: true,
-    radiusScale: 7,
-    radiusMinPixels: 2,
+    radiusScale: 20,
+    radiusMinPixels: 2.5,
     radiusMaxPixels: 30,
     lineWidthMinPixels: 1,
     visible: true,
     getPosition: d => [d.lat, d.lon],
-    getRadius: d => Math.sqrt(d.inflows + d.outflows),
+    getRadius: d => Math.sqrt(d.outflows),//Math.sqrt(d.outflows),
     getFillColor: d => [255, 140, 0],
     getLineColor: d => [0, 0, 0],
     onClick: (info, event) => {
@@ -56,3 +56,4 @@ async function getScatterplotLayer(locations) {
 }
 
 export { getScatterplotLayer }
+

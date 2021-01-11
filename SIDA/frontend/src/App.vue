@@ -7,18 +7,26 @@
     <v-app-bar absolute app elevate-on-scroll dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title><h1>SIDA</h1></v-toolbar-title>
+      <v-toolbar-title class="text-h3 font-weight-medium">SIDA</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-menu></v-menu>
 
       <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
 
       <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>mdi-globe-model</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-information-outline</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-github</v-icon>
       </v-btn>
     </v-app-bar>
 

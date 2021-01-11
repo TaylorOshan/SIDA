@@ -5,33 +5,33 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watch } from 'vue'
-import DeckGL from './DeckGL.vue'
-import FlowMapLayer from '@flowmap.gl/core'
+import { computed, onMounted, ref, watch } from "vue";
+import DeckGL from "./DeckGL.vue";
+import FlowMapLayer from "@flowmap.gl/core";
 
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: 'FlowMap',
+  name: "FlowMap",
   components: {
-    DeckGL
+    DeckGL,
   },
-  data () {
+  data() {
     return {
-      layers: []
-    }
+      layers: [],
+    };
   },
   computed: {
-    ...mapGetters(['getLocationLayer', 'getFlowLayer'])
+    ...mapGetters(["getLocationLayer", "getFlowLayer"]),
   },
   watch: {
-    getLocationLayer (value) {
-      this.layers = [value, this.getFlowLayer]
+    getLocationLayer(value) {
+      this.layers = [value, this.getFlowLayer];
     },
-    getFlowLayer (value) {
-      this.layers = [value, this.getLocationLayer]
-    }
-  }
+    getFlowLayer(value) {
+      this.layers = [this.getLocationLayer, value];
+    },
+  },
   // getFlowLayer: {
   //   handler(value) {
   //     console.log("Layers Changed...Modifying DeckGL");
@@ -50,7 +50,7 @@ export default {
   //   },
   //   deep: false,
   // },
-}
+};
 </script>
 
 <style scoped>
