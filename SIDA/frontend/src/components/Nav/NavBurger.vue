@@ -14,14 +14,14 @@
 
 <script>
 export default {
-  name: "NavBurger",
+  name: 'NavBurger',
   components: {},
   methods: {
-    orderUp() {
-      $event.classList.toggle("is-active");
-    },
-  },
-};
+    orderUp () {
+      $event.classList.toggle('is-active')
+    }
+  }
+}
 </script>
 
 <style scoped>

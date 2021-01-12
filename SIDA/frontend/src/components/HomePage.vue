@@ -21,7 +21,7 @@
 
         <router-link
           class="z-50 px-8 py-4 mx-4 mt-5 mb-2 font-bold text-white transition duration-300 ease-in-out transform rounded-full shadow-lg lg:mx-1 hover:underline focus:outline-none focus:shadow-outline hover:scale-105 motion-reduce:transition-none motion-reduce:transform-none"
-          :to="{ name: 'Flow Model', params: { name: 123 } }"
+          :to="{ name: 'Flow Dashboard', params: { name: 123 } }"
           style="background-color: #4717f6"
         >
           Run Model
@@ -45,7 +45,7 @@
       </div>
     </section>
 
-    <div class="absolute inset-x-0 bottom-0 w-screen h-32 md:mt-16">
+    <div class="inset-x-0 bottom-0 w-screen h-32 md:mt-16">
       <a href="#scrollMarker" id="scrollMarker">
         <div class="flex flex-col items-center p-6 mb-5 arrow">
           <span></span>

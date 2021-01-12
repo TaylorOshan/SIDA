@@ -31,10 +31,10 @@
 </template>
 <script>
 export default {
-  name: "DeleteIcon",
+  name: 'DeleteIcon',
   props: {
-    width: { type: [Number, String], default: "16" },
-    height: { type: [Number, String], default: "16" },
-  },
-};
+    width: { type: [Number, String], default: '16' },
+    height: { type: [Number, String], default: '16' }
+  }
+}
 </script>

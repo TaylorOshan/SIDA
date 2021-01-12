@@ -3,9 +3,38 @@
 # Please see the documentation for all configuration options:
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
+# I dunno if we can combine directory 
+# strings into one array, I assume so? But this works for now
+
+
 version: 2
 updates:
-  - package-ecosystem: "docker" # See documentation for possible values
+  - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/SIDA" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+   - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/SIDA/frontend" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+   - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/SIDA/backend" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+   - package-ecosystem: "pip" # See documentation for possible values
+    directory: "/SIDA/backend" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/SIDA/frontend" # Location of package manifests
     schedule:
       interval: "daily"

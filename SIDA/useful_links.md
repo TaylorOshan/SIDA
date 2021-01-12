@@ -13,6 +13,7 @@
     - `uvicorn app.main:app --reload`
 - Send revision to Alembic (db) - run from fastapi container
     - `alembic revision --autogenerate -m "$MESSAGE"`
+    - `docker-compose -f "docker-compose-dev.yml" run api alembic revision --autogenerate -m "$MESSAGE"
 - Upgrade DB (after revision send)
     - `alembic upgrade head` - run from fastapi container
 
