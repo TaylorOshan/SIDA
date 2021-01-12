@@ -1,8 +1,10 @@
 import FlowMapLayer from '@flowmap.gl/core';
 import * as d3scaleChromatic from 'd3-scale-chromatic';
+import store from '../store';
 import * as geostats from './geostats';
 
-async function getFlowLayer(flows, locations, name) {
+
+async function getFlowLayer(flows, locations) {
 
   // These are Green
   //let colorMapDestination = ['#045d56', '#459488', '#89cebb', '#ffffe0'];
@@ -28,7 +30,7 @@ async function getFlowLayer(flows, locations, name) {
 
     for (let i = 0; i < buckets.length; i++) {
       if (count <= buckets[i]) {
-        if (origin === name) {
+        if (origin === store.getters.getDatasetName) {
           return colorMapDestination[i];
         } else {
           return colorMapOrigin[i];
@@ -39,7 +41,7 @@ async function getFlowLayer(flows, locations, name) {
   }
 
   const layer = new FlowMapLayer({
-    id: new Date().getTime(),
+    id: store.getters.getDatasetName.toString(),
     locations: locations,
     flows: flows,
     pickable: true,
@@ -48,6 +50,7 @@ async function getFlowLayer(flows, locations, name) {
     showLocationAreas: false,
     maxLocationCircleSize: 0,
     showTotals: false,
+    visible: store.getters.getFlowVisibility,
     // showOnlyTopFlows: 10000,
     maxFlowThickness: 10,
     colors: {
@@ -75,7 +78,7 @@ async function getFlowLayer(flows, locations, name) {
     getFlowDestId: (f) => f.destination, // f.properties.abbrev,
     getLocationId: (loc) => loc.name, // f.properties.abbrev,
     getLocationCentroid: (location) => [location.lat, location.lon], // f.geometry.coordinates,
-    getFlowColor: (f) => getFlowColor(f.count, f.origin)
+    getFlowColor: (f) => getFlowColor(f.count, f.origin),
   })
   return layer
 }

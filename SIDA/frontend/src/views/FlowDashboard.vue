@@ -7,7 +7,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <v-card outlined elevation="3" class="">
           <v-card-title class="text-h4"> LODES </v-card-title>
 
@@ -25,15 +25,19 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <v-card
           outlined
           elevation="3"
-          class=""
+          class="h-full"
           v-if="getPopupData && getPopupData.show"
         >
           <v-card-title class="text-h4">
             Location: {{ getPopupData.name }}
+            <v-spacer></v-spacer>
+            <v-btn icon @click="clearCurrentFlow">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
           </v-card-title>
 
           <v-card-subtitle class="subtitle-1">
@@ -71,66 +75,43 @@
             </v-list-item-content>
           </v-list-item>
         </v-card>
+        <v-card
+          v-else
+          outlined
+          elevation="3"
+          class="h-full shake-slow shake-constant shake-constant--hover"
+        >
+          <div
+            class="flex flex-col items-center justify-center w-full h-full text-center text-h4 headline font-weight-bold"
+          >
+            Click a Location to load its flows!
+          </div>
+        </v-card>
       </v-col>
 
       <v-col cols="12">
         <v-card outlined elevation="3">
-          <NewTable></NewTable>
+          <Table></Table>
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- <Layout>
-      <FlowMap class="card full">FlowMap</FlowMap>
-
-      <div class="card half bg-yellow-50">
-        <HoverInfo></HoverInfo>
-      </div>
-
-      <NewTable class="card half"></NewTable>
-
-      <v-card shaped elevation="2">
-        <v-card-title>Locations</v-card-title>
-      </v-card>
-    </Layout> -->
-
-    <!-- <p class="text-white" v-if="getDataLoading">Still loading..</p>
-
-    <ul
-      class="text-white cursor-pointer"
-      v-if="!getDataLoading"
-      @click="showData"
-    >
-      done
-    </ul>
-    <ul
-      class="text-white cursor-pointer"
-      v-if="!getDataLoading"
-      @click="updateDeck"
-    >
-      update deck
-    </ul> -->
   </div>
 </template>
 
 <script>
 import { onMounted, ref, computed } from "vue";
-import Branding from "../components/Branding.vue";
-import FlowMap from "../components/FlowModel/FlowMap.vue";
-import Layout from "../components/FlowModel/Layout.vue";
-import NewTable from "../components/FlowModel/Table/NewTable.vue";
-import HoverInfo from "../components/FlowModel/HoverInfo.vue";
+import FlowMap from "../components/FlowDashboard/FlowMap.vue";
+import Table from "../components/FlowDashboard/Table.vue";
+import HoverInfo from "../components/FlowDashboard/HoverInfo.vue";
 import { mapGetters, mapActions } from "vuex";
 import store from "../store";
 
 export default {
-  name: "FlowModel",
+  name: "FlowDashboard",
   props: {},
   components: {
-    Branding,
     FlowMap,
-    Layout,
-    NewTable,
+    Table,
     HoverInfo,
   },
   data() {
@@ -148,10 +129,17 @@ export default {
       "getRemoveFlows",
       "getLocationsVisibility",
       "getPopupData",
+      "getFlowLayer",
+      "getFlowVisibility",
     ]),
   },
   methods: {
-    ...mapActions(["setLatestFlowLayer", "loadTileFlows", "loadLocations"]),
+    ...mapActions([
+      "setLatestFlowLayer",
+      "loadTileFlows",
+      "loadLocations",
+      "renderFlow",
+    ]),
     showLocation() {
       console.log(this.getLocations);
     },
@@ -162,6 +150,12 @@ export default {
       const vis = this.getLocationsVisibility;
       store.commit("SET_LOCATIONS_LAYER_VIS", !vis);
       console.log(this.getLocationsVisibility);
+    },
+    clearCurrentFlow() {
+      store.commit("SET_POPUP_INFO", { display: false });
+      store.commit("SET_FLOW_VISIBLE", false);
+      console.log(this.getFlowVisibility);
+      this.renderFlow();
     },
   },
 

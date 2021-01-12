@@ -23,7 +23,7 @@ async function getScatterplotLayer(locations) {
     radiusMinPixels: 2.5,
     radiusMaxPixels: 30,
     lineWidthMinPixels: 1,
-    visible: true,
+    visible: store.getters.getLocationVisibility,
     getPosition: d => [d.lat, d.lon],
     getRadius: d => Math.sqrt(d.outflows),//Math.sqrt(d.outflows),
     getFillColor: d => [255, 140, 0],

@@ -14,8 +14,8 @@ const routes = [
   },
   {
     path: '/flow/:name',
-    name: 'Flow Model',
-    component: () => import(/* webpackChunkName: "about" */ '../views/FlowModel.vue'),
+    name: 'Flow Dashboard',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FlowDashboard.vue'),
     props: true,
     meta: { title: 'Flow' }
 

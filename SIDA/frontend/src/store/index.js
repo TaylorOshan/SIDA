@@ -9,17 +9,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     locations: new Array(),
-    countFlows: null,
     dataLoading: true,
     locationLayer: [],
     flowLayer: [],
     currentX: -80.649277,
     currentY: 36.102376,
     currentZ: 4,
-    dataset_name: 'fake_name',
+    datasetName: 'fake_name',
     popupData: null,
     locationsVisible: true,
     flows: [],
+    flowVisible: false,
+    locationVisibility: true,
   },
   mutations: {
 
@@ -74,15 +75,18 @@ export default new Vuex.Store({
     UPDATE_LOCATION_LAYER: (state, layer) => {
       state.locationLayer = layer
     },
-    SET_DATASET_NAME: (state, name) => state.dataset_name = name,
+    SET_DATASET_NAME: (state, name) => state.datasetName = name,
     SET_CURRENT_X: (state, x) => state.currentX = x,
     SET_CURRENT_Y: (state, y) => state.currentY = y,
     SET_CURRENT_Z: (state, z) => state.currentZ = z,
     SET_LOCATIONS: (state, locations) => state.locations = locations,
     SET_POPUP_INFO: (state, data) => state.popupData = data,
     SET_LOCATIONS_LAYER_VIS: (state, bool) => state.locationsVisible = bool,
-    SET_COUNT_FLOWS: (state, count) => state.countFlows = count,
     SET_FLOWS: (state, flows) => state.flows = flows,
+    SET_FLOW_VISIBLE: (state, bool) => state.flowVisible = bool,
+    SET_LOCATION_VISIBLE: (state, bool) => state.locationVisibile = bool,
+    TOGGLE_FLOW_VISIBILITY: (state) => state.flowVisible = !state.flowVisible,
+    TOGGLE_LOCATION_VISIBILITY: (state) => state.locationVisibility = !state.locationVisibility,
   },
   getters: {
     getLocations: state => state.locations,
@@ -96,13 +100,16 @@ export default new Vuex.Store({
     getCurrentZ: state => state.currentZ,
     getPopupData: state => state.popupData,
     getLocationsVisibility: state => state.locationsVisible,
-    getCountFlows: state => state.countFlows,
     getFlows: state => state.flows,
     getDataLoading: state => state.dataLoading,
+    getFlowVisibility: state => state.flowVisible,
+    getLocationVisibility: state => state.locationVisibility,
+    getDatasetName: state => state.datasetName,
   },
   actions: {
     loadTileFlows: async ({ commit, state }) => {
       try {
+
         const flows = await getDatasetTile(state.dataset_name, state.currentX, state.currentY, state.currentZ)
         console.log(flows)
         const layer = await getFlowLayer(flows.flows, state.locations)
@@ -115,6 +122,8 @@ export default new Vuex.Store({
     loadClickFlows: async ({ commit, state }, { name }) => {
       try {
         commit('SET_DATA_LOADING', true);
+        commit('SET_DATASET_NAME', name);
+        commit('SET_FLOW_VISIBLE', true);
         const flows = await getFlowFromPoint(state.dataset_name, name);
         commit('SET_FLOWS', flows.flows);
         const layer = await getFlowLayer(flows.flows, state.locations, name);
@@ -136,7 +145,20 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+    renderFlow: async ({ commit, state }) => {
+
+      const flows = await getFlowLayer(state.flows, state.locations);
+      commit('UPDATE_FLOW_LAYER', flows);
+
+    },
+    renderLoc: async ({ commit, state }) => {
+
+      const loc = await getScatterplotLayer(state.locations);
+      console.log('Location Layer created', loc);
+      commit('UPDATE_LOCATION_LAYER', loc);
+
+    },
 
   }
 })

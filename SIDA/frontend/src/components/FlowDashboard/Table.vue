@@ -37,17 +37,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import TableFunctionCell from "./TableFunctionCell.vue";
-import TableItem from "./TableItem.vue";
-import TableHeader from "./TableHeader.vue";
 
 export default {
   name: "Table",
-  components: {
-    TableFunctionCell,
-    TableItem,
-    TableHeader,
-  },
+  components: {},
   data() {
     return {
       search: "",
@@ -71,7 +64,6 @@ export default {
     },
     items() {
       if (this.toggleLocations === 1) {
-        console.log(this.getFlows);
         return this.getFlows;
       } else if (this.toggleLocations === 0) {
         return this.getLocations;
