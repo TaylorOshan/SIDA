@@ -14,10 +14,8 @@ services:
   #    - 3000:3000
   #   volumes: 
   #     - ./frontend:/SIDA
-  #   command: npm run dev
-    # note auto-reload w/ vite \
-    # doesn't work so hot through docker (config issue?)
-    # Normally, I disable this container and work locally
+  #   command: npm run serve
+  # note: switched to vue CLI, 
   api:
     build:
       context: ./backend
