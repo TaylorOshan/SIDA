@@ -12,13 +12,13 @@
 
 <script>
 export default {
-  name: "TableHeader",
+  name: 'TableHeader',
   props: {
     columns: {
-      type: Array,
-    },
-  },
-};
+      type: Array
+    }
+  }
+}
 </script>
 
 <style scoped>

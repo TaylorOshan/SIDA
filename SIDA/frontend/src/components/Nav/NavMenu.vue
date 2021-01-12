@@ -20,9 +20,9 @@
 
 <script>
 export default {
-  name: "NavMenu",
-  components: {},
-};
+  name: 'NavMenu',
+  components: {}
+}
 </script>
 
 <style scoped>

@@ -6,17 +6,25 @@
 </template>
 
 <script>
+import { ScatterplotLayer } from "@deck.gl/layers";
 import { Deck } from "@deck.gl/core";
 import mapboxgl from "mapbox-gl";
 import { mapGetters, mapActions } from "vuex";
+import store from "../../store";
+import { getFlowLayer } from "../../visualizers/flowmap";
 export default {
   name: "DeckGL",
+  props: {
+    layers: {
+      required: true,
+    },
+  },
   data() {
     return {
       viewState: {
-        latitude: 28,
-        longitude: -36.5625,
-        zoom: 1,
+        latitude: 36.102376,
+        longitude: -80.649277,
+        zoom: 4,
         pitch: 0,
         bearing: 0,
       },
@@ -28,34 +36,56 @@ export default {
   },
   methods: {},
   computed: {
-    ...mapGetters(["getLayers"]),
+    ...mapGetters([
+      "getLocationLayer",
+      "getFlowLayer",
+      "getCurrentX",
+      "getCurrentY",
+      "getCurrentZ",
+      "getDataLoading",
+      "getLocationsVisibility",
+    ]),
   },
   watch: {
-    getLayers: {
+    layers(value) {
+      this.deck.setProps({ layers: value });
+    },
+    // getLocationLayer: {
+    //   handler(value) {
+    //     console.log("Layers Changed...Modifying DeckGL");
+    //     if (this.deck) {
+    //       console.log(value);
+    //       try {
+    //         this.deck.setProps({
+    //           layers: [value, this.getFlowLayer],
+    //         });
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    //     } else {
+    //       console.log("No DeckGL Instance");
+    //     }
+    //   },
+    //   deep: false,
+    // },
+
+    getLocationsVisibility: {
       handler(value) {
-        console.log("Layers Changed...Modifying DeckGL");
-        if (this.deck) {
-          this.deck.setProps({
-            layers: value,
-          });
-        } else {
-          console.log("No DeckGL Instance");
+        if (value) {
+          console.log(this.deck.props.layers);
         }
       },
-      deep: false,
-      // NS NDFNED error when true
-      // may need change when tracking multiple layers
     },
   },
   mounted() {
     this.map = new mapboxgl.Map({
       accessToken:
-        "pk.eyJ1IjoibXRyYWxrYSIsImEiOiJja2VjNm5hdWEwNjQ4MnZ0cHlycXlndnN5In0.mfQAFUPzfGZeMht0EToJBA", //this.accessToken,
+        "pk.eyJ1IjoibXRyYWxrYSIsImEiOiJja2VjNm5hdWEwNjQ4MnZ0cHlycXlndnN5In0.mfQAFUPzfGZeMht0EToJBA", // this.accessToken,
       container: this.$refs.map,
       interactive: false,
       style: this.mapStyle || "mapbox://styles/mapbox/dark-v9",
-      center: [this.viewState.longitude, this.viewState.latitude],
-      zoom: this.viewState.zoom,
+      center: [this.getCurrentX, this.getCurrentY],
+      zoom: this.getCurrentZ,
       pitch: this.viewState.pitch,
       bearing: this.viewState.bearing,
     });
@@ -63,6 +93,7 @@ export default {
       canvas: this.$refs.canvas,
       width: "100%",
       height: "100%",
+      pickingRadious: 5,
       initialViewState: this.viewState,
       controller: true,
       onViewStateChange: ({ viewState }) => {
@@ -72,12 +103,18 @@ export default {
           bearing: viewState.bearing,
           pitch: viewState.pitch,
         });
+        // console.log(viewState.longitude, viewState.latitude, viewState.zoom);
+        store.commit("SET_CURRENT_X", viewState.longitude);
+        store.commit("SET_CURRENT_Y", viewState.latitude);
+        store.commit("SET_CURRENT_Z", viewState.zoom);
         this.$emit("viewStateChange");
       },
       onClick: (event, info) => {
         console.log("clicked map", { event, info });
         this.$emit("viewClicked", { event, info });
       },
+      getTooltip: ({ object }) =>
+        object && ` Name: ${object.name} Count: ${object.count}`,
     });
   },
 };

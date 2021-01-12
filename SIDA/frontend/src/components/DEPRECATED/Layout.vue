@@ -8,9 +8,9 @@
 
 <script>
 export default {
-  name: "Layout",
-  props: {},
-};
+  name: 'Layout',
+  props: {}
+}
 </script>
 
 <style scoped>

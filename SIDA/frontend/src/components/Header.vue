@@ -13,18 +13,18 @@
 </template>
 
 <script>
-import NavBranding from "./Nav/NavBranding.vue";
-import NavBurger from "./Nav/NavBurger.vue";
-import NavMenu from "./Nav/NavMenu.vue";
+import NavBranding from './Nav/NavBranding.vue'
+import NavBurger from './Nav/NavBurger.vue'
+import NavMenu from './Nav/NavMenu.vue'
 
 export default {
-  name: "Header",
+  name: 'Header',
   components: {
     NavBranding,
     NavBurger,
-    NavMenu,
-  },
-};
+    NavMenu
+  }
+}
 </script>
 
 <style scoped>

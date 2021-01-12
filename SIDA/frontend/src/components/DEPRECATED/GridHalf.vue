@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: "GridHalf",
-  props: {},
-};
+  name: 'GridHalf',
+  props: {}
+}
 </script>
 
 <style scoped>
