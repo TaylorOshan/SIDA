@@ -16,9 +16,7 @@ npm run build
 ```
 
 ### Lints and fixes files
+#### & cross you fingers
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
