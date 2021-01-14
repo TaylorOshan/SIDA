@@ -5,10 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 
 strong {
-    color: #a239ca;
-    text-shadow: 2px 3px 0px #FF0000;
+    color: #a732fc;
+    text-shadow: 2px 3px 0px #1db980;
 }
 
 hr {
@@ -27,8 +31,8 @@ https://codepen.io/raf187/pen/BvgGRQ
 
 .arrow {
     position: absolute;
-    top: 50%;
     left: 50%;
+    top: 0;
     transform: translate(-50%, -50%);
 }
 

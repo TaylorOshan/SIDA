@@ -100,10 +100,12 @@
 
 <script>
 import { onMounted, ref, computed } from "vue";
+
 import FlowMap from "../components/FlowDashboard/FlowMap.vue";
 import Table from "../components/FlowDashboard/Table.vue";
 import HoverInfo from "../components/FlowDashboard/HoverInfo.vue";
 import { mapGetters, mapActions } from "vuex";
+
 import store from "../store";
 
 export default {
@@ -118,6 +120,8 @@ export default {
     return {
       locations: [],
       flows: [],
+      defaultOptions: { animationData: loadingAnimation },
+      animationSpeed: 1,
     };
   },
   computed: {
@@ -156,6 +160,9 @@ export default {
       store.commit("SET_FLOW_VISIBLE", false);
       console.log(this.getFlowVisibility);
       this.renderFlow();
+    },
+    handleAnimation: function (anim) {
+      this.anim = anim;
     },
   },
 

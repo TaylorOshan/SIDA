@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/flow/:name',
     name: 'Flow Dashboard',
-    component: () => import(/* webpackChunkName: "about" */ '../views/FlowDashboard.vue'),
+    component: () => import(/* webpackChunkName: "flow" */ '../views/FlowDashboard.vue'),
     props: true,
     meta: { title: 'Flow' }
 
@@ -46,7 +46,20 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: routes
+  routes: routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    else if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
+
 
 export default router
