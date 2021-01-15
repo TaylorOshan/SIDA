@@ -24,8 +24,8 @@ def modify_loc(name, flowsrows, attrs):
             flowsrows[flowsrows['dest'] == name] *= factor
     
     # Get all origin/dest attribute columns
-    o_attrs = [x if x.startswith('o_') for x in flowsrows.columns]
-    d_attrs = [x if x.startswith('d_') for x in flowsrows.columns]
+    o_attrs = [x for x in flowsrows.columns if x.startswith('o_')]
+    d_attrs = [x for x in flowsrows.columns if x.startswith('d_')]
 
     return predict(flowsrows[o_attrs], flowsrows[d_attrs], flowsrows['cost']) # prediction of the flow dataframe slice
     
