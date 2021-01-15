@@ -3,6 +3,7 @@ from typing import List
 from typing import Optional
 
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 from ..db.db import db
 from ..db.models import Flows as FlowModel
@@ -13,6 +14,26 @@ from ..worker import celery_app
 
 
 router = APIRouter()
+
+
+class EditedFlows(BaseModel):
+    location_name: str
+    o_attr: Optional[int] = None
+    d_attr: Optional[int] = None
+
+
+@router.post("/api/v1/{dataset_name}/predict/")
+async def get_predicted_flows(dataset_name: str, edits: EditedFlows):
+    edits_dict = edits.dict()
+    print(f"Getting {dataset_name} -{edits_dict}")
+    if edits.o_attr:
+        print(edits.o_attr)
+    if edits.d_attr:
+        print(edits.d_attr)
+
+    return edits_dict
+
+
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")
