@@ -13,4 +13,3 @@ def test_celery(word: str) -> str:
         sleep(1)
         current_task.update_state(state="PROGRESS", meta={"process_percent": i * 10})
     return f"test task return {word}"
-

@@ -8,86 +8,10 @@
       </v-col>
 
       <v-col cols="12" md="6">
-        <v-card outlined elevation="3" class="">
-          <v-card-title class="text-h4"> LODES </v-card-title>
-
-          <v-card-subtitle class="subtitle-1"> data set info </v-card-subtitle>
-
-          <v-card-text class="body-1">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et, fuga
-            porro. Impedit eaque cumque voluptatibus voluptatum deleniti? A quam
-            mollitia at quia laborum explicabo! Assumenda tenetur nostrum rerum
-            neque totam?Lorem ipsum dolor sit, amet consectetur adipisicing
-            elit. Et, fuga porro. Impedit eaque cumque voluptatibus voluptatum
-            deleniti? A quam mollitia at quia laborum explicabo! Assumenda
-            tenetur nostrum rerum neque totam?
-          </v-card-text>
-        </v-card>
+        <DatasetInfoCard />
       </v-col>
 
-      <v-col cols="12" md="6">
-        <v-card
-          outlined
-          elevation="3"
-          class="h-full"
-          v-if="getPopupData && getPopupData.show"
-        >
-          <v-card-title class="text-h4">
-            Location: {{ getPopupData.name }}
-            <v-spacer></v-spacer>
-            <v-btn icon @click="clearCurrentFlow">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-card-title>
-
-          <v-card-subtitle class="subtitle-1">
-            {{ getPopupData.lon }}, {{ getPopupData.lat }}
-          </v-card-subtitle>
-
-          <v-list-item class="body-1">
-            <v-list-item-content>
-              <v-list-item-title
-                >Inflows : {{ getPopupData.in }}</v-list-item-title
-              >
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item class="body-1">
-            <v-list-item-content>
-              <v-list-item-title
-                >Outflows : {{ getPopupData.out }}</v-list-item-title
-              >
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item class="body-1">
-            <v-list-item-content>
-              <v-list-item-title
-                >Population : {{ getPopupData.pop }}</v-list-item-title
-              >
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item class="body-1">
-            <v-list-item-content>
-              <v-list-item-title
-                >Flows : {{ getPopupData.pop }}</v-list-item-title
-              >
-            </v-list-item-content>
-          </v-list-item>
-        </v-card>
-        <v-card
-          v-else
-          outlined
-          elevation="3"
-          class="h-full shake-slow shake-constant shake-constant--hover"
-        >
-          <div
-            class="flex flex-col items-center justify-center w-full h-full text-center text-h4 headline font-weight-bold"
-          >
-            Click a Location to load its flows!
-          </div>
-        </v-card>
-      </v-col>
+      <v-col cols="12" md="6"><FlowInfoCard /></v-col>
 
       <v-col cols="12">
         <v-card outlined elevation="3">
@@ -104,6 +28,9 @@ import { onMounted, ref, computed } from "vue";
 import FlowMap from "../components/FlowDashboard/FlowMap.vue";
 import Table from "../components/FlowDashboard/Table.vue";
 import HoverInfo from "../components/FlowDashboard/HoverInfo.vue";
+import DatasetInfoCard from "../components/FlowDashboard/DatasetInfoCard.vue";
+import FlowInfoCard from "../components/FlowDashboard/FlowInfoCard.vue";
+
 import { mapGetters, mapActions } from "vuex";
 
 import store from "../store";
@@ -115,13 +42,13 @@ export default {
     FlowMap,
     Table,
     HoverInfo,
+    DatasetInfoCard,
+    FlowInfoCard,
   },
   data() {
     return {
       locations: [],
       flows: [],
-      defaultOptions: { animationData: loadingAnimation },
-      animationSpeed: 1,
     };
   },
   computed: {
@@ -155,42 +82,14 @@ export default {
       store.commit("SET_LOCATIONS_LAYER_VIS", !vis);
       console.log(this.getLocationsVisibility);
     },
-    clearCurrentFlow() {
-      store.commit("SET_POPUP_INFO", { display: false });
-      store.commit("SET_FLOW_VISIBLE", false);
-      console.log(this.getFlowVisibility);
-      this.renderFlow();
-    },
-    handleAnimation: function (anim) {
-      this.anim = anim;
-    },
+    
   },
-
-  watch: {
-    // getFlows: {
-    //   handler(value) {
-    //     console.log("Flows Changed");
-    //     this.setLatestFlowLayer();
-    //     this.flows = value;
-    //   },
-    //   deep: true,
-    // },
-    // getLocations: {
-    //   handler(value) {
-    //     console.log("Locs Changed");
-    //     this.setLatestFlowLayer();
-    //     this.locations = value;
-    //   },
-    //   deep: true,
-    // },
-  },
-
+  watch: {},
   async mounted() {
     console.log("loading");
     await this.loadLocations();
     console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
     store.commit("SET_DATASET_NAME", "fake_name");
-    // await this.loadTileFlows();
   },
 };
 </script>
