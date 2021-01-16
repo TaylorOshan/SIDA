@@ -27,26 +27,7 @@ export default new Vuex.Store({
   },
   mutations: {
 
-    setLocations: (state, items) => {
-      state.locations = items.slice()
-      console.log('Locations Set')
-      // state.locations.splice(0, state.locations.length, ...items)
-    },
-    setFlows: (state, items) => {
-      state.flows = items.slice()
-      console.log('Flows Set')
 
-      // state.flows.splice(0, state.flows.length, ...items)
-    },
-    setLayer: (state, newLayer) => {
-      console.log('Layer Set')
-      state.layers = newLayer
-    },
-    addLayer: (state, newLayer) => {
-      console.log('Adding New Layer')
-      state.layers.push(newLayer)
-      // state.layers.splice(0, state.layers.length, layer)
-    },
 
     setNewLocation: (state) => {
       state.addLocations.push()

@@ -18,14 +18,22 @@
         {{ getPopupData.lon }}, {{ getPopupData.lat }}
       </v-card-subtitle>
 
-      <v-card-text class="mt-6">
+      <v-card-text class="my-4">
         <v-row v-for="item in sliders" :key="item.label">
           <v-col class="pr-4" cols="12">
             <v-subheader
               class="pl-0 text-h6 font-weight-bold text-accent"
               style="z-index: 99 !important; postion: relative"
             >
-              {{ item.label }}
+              {{ item.label }}&nbsp;:&nbsp;{{ getPopupData[item.label] }}&nbsp;
+              <span
+                v-if="item.val != 100"
+                :style="{ color: getSliderColor(item.val) }"
+                class="flex flex-row items-center justify-start"
+              >
+                <v-icon x-small>mdi-multiplication</v-icon>
+                {{ item.val }}%
+              </span>
             </v-subheader>
             <v-slider
               :id="item.label"
@@ -36,11 +44,10 @@
               label="    "
               :color="getSliderColor(item.val)"
               :max="200"
-              :min="-200"
-              thumb-label="always"
-              :thumb-size="Math.abs(item.val) / 20 + 40"
+              :min="25"
+              thumb-size="50"
               append-icon="mdi-close"
-              @click:append="item.val = 0"
+              @click:append="item.val = 100"
             >
               <template v-slot:thumb-label="{ value }">
                 <span class="inline text-button font-weight-bold"
@@ -50,7 +57,14 @@
             </v-slider>
           </v-col>
         </v-row>
-        <v-btn text color="primary" @click="reveal = false" block large>
+        <v-btn
+          text
+          color="primary"
+          @click="submitFlowChanges"
+          block
+          large
+          class="mt-4"
+        >
           Submit Changes
         </v-btn>
       </v-card-text>
@@ -87,34 +101,20 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import store from "../../store";
-import FlowInfoSlider from "./FlowInfoSlider.vue";
 
 export default {
   name: "FlowInfoCard",
-  components: {
-    FlowInfoSlider,
-  },
+  components: {},
   data() {
     return {
       sliders: [
-        { label: "Attr1", val: 0, color: "grey" },
-        { label: "Attr2", val: 0, color: "grey" },
-        { label: "Attr3", val: 0, color: "grey" },
+        { label: "o_attr", val: 100, color: "grey" },
+        { label: "d_attr", val: 100, color: "grey" },
       ],
     };
   },
   computed: {
     ...mapGetters(["getPopupData"]),
-    sliderColor() {
-      console.log(this.val);
-      if (this.val < 0) {
-        return "red";
-      } else if (this.val > 0) {
-        return "green";
-      } else {
-        return "gray";
-      }
-    },
     thumbSize() {
       return;
     },
@@ -122,9 +122,9 @@ export default {
   methods: {
     ...mapActions(["renderFlow"]),
     getSliderColor(val) {
-      if (val < 0) {
+      if (val < 100) {
         return "red";
-      } else if (val > 0) {
+      } else if (val > 100) {
         return "green";
       } else {
         return "gray";
@@ -135,6 +135,15 @@ export default {
       store.commit("SET_FLOW_VISIBLE", false);
       console.log(this.getFlowVisibility);
       this.renderFlow();
+    },
+    submitFlowChanges() {
+      console.log("Submit Flow Changfes");
+      for (let item in this.sliders) {
+        console.log(this.sliders[item].val);
+      }
+      console.log(typeof this.sliders);
+      let [, val1, ,] = this.sliders[1];
+      console.log(val1);
     },
   },
 };
