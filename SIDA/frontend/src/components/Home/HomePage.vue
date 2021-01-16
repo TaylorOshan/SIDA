@@ -1,14 +1,5 @@
 <template>
   <div>
-    <!-- <section class="w-screen h-screen">
-      <h1 class="z-50 text-5xl font-extrabold text-left md:text-6xl">
-        <span class="block"><strong>S</strong>patial</span>
-        <span class="block"><strong>I</strong>nteraction</span>
-        <span class="block"><strong>D</strong>ecision</span>
-        <span class="block"><strong>A</strong>nalytics</span>
-      </h1>
-    </section> -->
-
     <section class="relative">
       <v-container
         class="flex flex-col items-center justify-center pt-20 mb-8 md:flex-row md:pt-36"
@@ -20,9 +11,9 @@
           <span class="block"><strong>A</strong>nalytics</span>
         </h1>
 
-        <div>
+        <!-- <div>
           <div id="globe"></div>
-        </div>
+        </div> -->
       </v-container>
 
       <v-container
@@ -173,10 +164,10 @@
           :cols="card.width"
           md="6"
         >
-          <DataSetCard :imgLink="card.img">
+          <DataSetCard :imgLink="card.img" :datasetID="card.datasetID">
             <template v-slot:title> {{ card.title }} </template>
             <template v-slot:subtitle> {{ card.subtitle }} </template>
-            <template v-slot:body> {{ card.body }}t </template>
+            <template v-slot:body> {{ card.body }} </template>
           </DataSetCard>
         </v-col>
       </v-row>
@@ -188,7 +179,7 @@
 import DataSetCard from "./DataSetCard.vue";
 
 export default {
-  name: "NewHomePage",
+  name: "HomePage",
   components: {
     DataSetCard,
   },
@@ -206,6 +197,7 @@ export default {
             pork belly chicken short ribs capicola landjaeger. ",
           img: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
           width: 12,
+          datasetID: "1d18fc7ee0d7935fc57f60f182ef7698",
         },
         {
           title: "Meaty Meats Meetup",
@@ -217,6 +209,7 @@ export default {
             pork belly chicken short ribs capicola landjaeger. ",
           img: "https://baconmockup.com/300/200",
           width: 6,
+          datasetID: "1d18fc7ee0d7935fc57f60f182ef7698",
         },
         {
           title: "Cute Cat",
@@ -228,6 +221,7 @@ export default {
             pork belly chicken short ribs capicola landjaeger. ",
           img: "http://placekitten.com/400/400",
           width: 6,
+          datasetID: "1d18fc7ee0d7935fc57f60f182ef7698",
         },
       ],
     };

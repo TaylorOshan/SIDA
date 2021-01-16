@@ -1,8 +1,8 @@
+from typing import Optional
 
 from pydantic import BaseModel
 
 
-#  this is for auto validation in routers
 class User(BaseModel):
     first_name: str
     last_name: str = None
@@ -37,7 +37,6 @@ class Dataset(BaseModel):
         orm_mode = True
 
 
-
 class Flow(BaseModel):
     id: int
     dataset_id: str
@@ -49,3 +48,8 @@ class Flow(BaseModel):
     class Config:
         orm_mode = True
 
+
+class EditedFlow(BaseModel):
+    location_id: str
+    o_attr: Optional[int] = None
+    d_attr: Optional[int] = None

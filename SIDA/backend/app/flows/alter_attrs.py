@@ -1,8 +1,12 @@
+from typing import Dict
+
 import numpy as np
 import pandas as pd
-from predict import predict
 
-def modify_loc(name, flowsrows, attrs):
+from .predict import predict
+
+
+def modify_loc(name: str, flowsrows, attrs: Dict):
     '''
     Predicts new flows when the given attributes of location id are changed
     by the given factors.
@@ -30,7 +34,7 @@ def modify_loc(name, flowsrows, attrs):
     return predict(flowsrows[o_attrs], flowsrows[d_attrs], flowsrows['cost']) # prediction of the flow dataframe slice
     
 
-def remove(name, flowsrows):
+def remove(name: str, flowsrows):
     '''
     Removes location name from the flow calculation by setting its attributes
     to 0 and recomputing predicted flows.

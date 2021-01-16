@@ -37,7 +37,9 @@ import store from "../store";
 
 export default {
   name: "FlowDashboard",
-  props: {},
+  props: {
+    name: String,
+  },
   components: {
     FlowMap,
     Table,
@@ -82,14 +84,13 @@ export default {
       store.commit("SET_LOCATIONS_LAYER_VIS", !vis);
       console.log(this.getLocationsVisibility);
     },
-    
   },
   watch: {},
   async mounted() {
-    console.log("loading");
+    console.log(this.name);
+    store.commit("SET_DATASET_NAME", this.name);
     await this.loadLocations();
     console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
-    store.commit("SET_DATASET_NAME", "fake_name");
   },
 };
 </script>

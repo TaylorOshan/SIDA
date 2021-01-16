@@ -15,7 +15,7 @@ export default new Vuex.Store({
     currentX: -80.649277,
     currentY: 36.102376,
     currentZ: 4,
-    datasetName: 'fake_name',
+    datasetName: null,
     popupData: null,
     locationsVisible: true,
     flows: [],
@@ -110,7 +110,7 @@ export default new Vuex.Store({
     loadTileFlows: async ({ commit, state }) => {
       try {
 
-        const flows = await getDatasetTile(state.dataset_name, state.currentX, state.currentY, state.currentZ)
+        const flows = await getDatasetTile(state.datasetName, state.currentX, state.currentY, state.currentZ)
         console.log(flows)
         const layer = await getFlowLayer(flows.flows, state.locations)
         console.log('Layer created', layer)
@@ -122,9 +122,8 @@ export default new Vuex.Store({
     loadClickFlows: async ({ commit, state }, { name }) => {
       try {
         commit('SET_DATA_LOADING', true);
-        commit('SET_DATASET_NAME', name);
         commit('SET_FLOW_VISIBLE', true);
-        const flows = await getFlowFromPoint(state.dataset_name, name);
+        const flows = await getFlowFromPoint(state.datasetName, name);
         commit('SET_FLOWS', flows.flows);
         const layer = await getFlowLayer(flows.flows, state.locations, name);
         commit('UPDATE_FLOW_LAYER', layer);
@@ -136,7 +135,7 @@ export default new Vuex.Store({
     loadLocations: async ({ commit, state }) => {
       try {
         commit('SET_DATA_LOADING', true);
-        const data = await getLocations(state.dataset_name);
+        const data = await getLocations(state.datasetName);
         commit('SET_LOCATIONS', data.locations);
         const layer = await getScatterplotLayer(data.locations);
         console.log('Location Layer created', layer);

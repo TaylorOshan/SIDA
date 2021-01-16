@@ -19,10 +19,10 @@
 //     getDatasetTile
 // }
 
-async function getDatasetTile (name, x, y, z) {
+async function getDatasetTile(datasetName, x, y, z) {
   const CORE_URL = 'http://127.0.0.1:8000'
 
-  const data = fetch(`${CORE_URL}/api/v1/${name}/${x}/${y}/${z}`, {
+  const data = fetch(`${CORE_URL}/api/v1/${datasetName}/${x}/${y}/${z}`, {
     method: 'get',
     headers: {
       'content-type': 'application/json',
@@ -42,7 +42,7 @@ async function getDatasetTile (name, x, y, z) {
   return data
 }
 
-async function getFlowFromPoint (datasetName, point) {
+async function getFlowFromPoint(datasetName, point) {
   const CORE_URL = 'http://127.0.0.1:8000'
 
   const data = fetch(`${CORE_URL}/api/v1/${datasetName}/${point}/flows`, {
@@ -65,10 +65,10 @@ async function getFlowFromPoint (datasetName, point) {
   return data
 }
 
-async function getLocations (name) {
+async function getLocations(datasetName) {
   const CORE_URL = 'http://127.0.0.1:8000'
 
-  const data = fetch(`${CORE_URL}/api/v1/${name}/locations`, {
+  const data = fetch(`${CORE_URL}/api/v1/${datasetName}/locations`, {
     method: 'get',
     headers: {
       'content-type': 'application/json',
@@ -89,3 +89,4 @@ async function getLocations (name) {
 }
 
 export { getDatasetTile, getLocations, getFlowFromPoint }
+

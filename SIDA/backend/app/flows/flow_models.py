@@ -2,8 +2,6 @@ from time import sleep
 
 from celery import current_task
 
-# from ..db.models import User as ModelUser
-# from ..db.schema import User as SchemaUser
 from ..worker import celery_app
 
 

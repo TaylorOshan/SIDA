@@ -1,13 +1,8 @@
 <template>
   <v-app>
-    <!-- <v-navigation-drawer app>
-      
-    </v-navigation-drawer> -->
-    <!--  -->
     <v-app-bar app elevate-on-scroll :collapse-on-scroll="!ifHomePage()">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <!-- <v-toolbar-title class="text-h3 font-weight-medium">SIDA</v-toolbar-title> -->
       <router-link :to="{ name: 'Home' }">
         <v-toolbar-title>
           <v-img
@@ -86,20 +81,6 @@
 <script>
 export default {
   name: "App",
-
-  components: {},
-
-  data() {
-    return {
-      homePage: false,
-      appTitle: "SIDA",
-      sidebar: false,
-      menuItems: [
-        { title: "Home", path: "/", icon: "home" },
-        { title: "Model", path: "/signup", icon: "face" },
-      ],
-    };
-  },
   computed: {
     currentRouteName() {
       return this.$route.name;
