@@ -8,19 +8,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    locations: new Array(),
-    dataLoading: true,
+    locations: [],
+    flows: [],
     locationLayer: [],
     flowLayer: [],
+    datasetName: null,
+    dataLoading: true,
+    flowVisible: false,
+    locationVisibile: true,
     currentX: -80.649277,
     currentY: 36.102376,
     currentZ: 4,
-    datasetName: null,
     popupData: null,
-    locationsVisible: true,
-    flows: [],
-    flowVisible: false,
-    locationVisibility: true,
+
+
+
+
   },
   mutations: {
 
@@ -61,32 +64,20 @@ export default new Vuex.Store({
     setEditFlow: (state) => {
       state.editFlows.push()
     },
-
-    SET_DATA_LOADING: (state, bool) => {
-      if (state.flows || state.locations) {
-        state.dataLoading = bool
-      } else {
-        console.log('!Loading is Prohibited')
-      }
-    },
-    UPDATE_FLOW_LAYER: (state, layer) => {
-      state.flowLayer = layer
-    },
-    UPDATE_LOCATION_LAYER: (state, layer) => {
-      state.locationLayer = layer
-    },
-    SET_DATASET_NAME: (state, name) => state.datasetName = name,
     SET_CURRENT_X: (state, x) => state.currentX = x,
     SET_CURRENT_Y: (state, y) => state.currentY = y,
     SET_CURRENT_Z: (state, z) => state.currentZ = z,
+    SET_DATA_LOADING: (state, bool) => state.dataLoading = bool,
+    SET_DATASET_NAME: (state, name) => state.datasetName = name,
     SET_LOCATIONS: (state, locations) => state.locations = locations,
     SET_POPUP_INFO: (state, data) => state.popupData = data,
-    SET_LOCATIONS_LAYER_VIS: (state, bool) => state.locationsVisible = bool,
     SET_FLOWS: (state, flows) => state.flows = flows,
     SET_FLOW_VISIBLE: (state, bool) => state.flowVisible = bool,
     SET_LOCATION_VISIBLE: (state, bool) => state.locationVisibile = bool,
+    UPDATE_FLOW_LAYER: (state, layer) => state.flowLayer = layer,
+    UPDATE_LOCATION_LAYER: (state, layer) => state.locationLayer = layer,
     TOGGLE_FLOW_VISIBILITY: (state) => state.flowVisible = !state.flowVisible,
-    TOGGLE_LOCATION_VISIBILITY: (state) => state.locationVisibility = !state.locationVisibility,
+    TOGGLE_LOCATION_VISIBILITY: (state) => state.locationVisibile = !state.locationVisibile,
   },
   getters: {
     getLocations: state => state.locations,
@@ -103,7 +94,7 @@ export default new Vuex.Store({
     getFlows: state => state.flows,
     getDataLoading: state => state.dataLoading,
     getFlowVisibility: state => state.flowVisible,
-    getLocationVisibility: state => state.locationVisibility,
+    getLocationVisibility: state => state.locationVisibile,
     getDatasetName: state => state.datasetName,
   },
   actions: {

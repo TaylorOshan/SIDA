@@ -32,7 +32,7 @@ async function getFlowLayer(flows, locations, locationName) {
 
     for (let i = 0; i < buckets.length; i++) {
       if (count <= buckets[i]) {
-        if (origin === locationName) {
+        if (origin === store.getters.getPopupData.name) {
           return colorMapDestination[i];
         } else {
           return colorMapOrigin[i];
