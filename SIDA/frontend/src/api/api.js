@@ -88,5 +88,32 @@ async function getLocations(datasetName) {
   return data
 }
 
-export { getDatasetTile, getLocations, getFlowFromPoint }
+async function getEditedFlows(datasetName, locationName, sliders) {
+  const CORE_URL = 'http://127.0.0.1:8000'
+  // let flowsToEdit = sliders.location_name = locationName;
+  // flowsToEdit = JSON.stringify(flowsToEdit);
+  let edits = JSON.stringify(sliders);
+  console.log(edits);
+
+  const data = fetch(`${CORE_URL}/api/v1/${datasetName}/predict/`, {
+    method: 'POST',
+    body: JSON.stringify({ "location_name": locationName, "edits": { "o_attr": 222, "d_attr": 122 } }),
+    headers: {
+      'content-type': 'application/json',
+    }
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log('API response not OK... throwing error')
+        const error = new Error(res.statusText)
+        error.json = res.json()
+        throw error
+      }
+      return res.json()
+    })
+
+  return data
+}
+
+export { getDatasetTile, getLocations, getFlowFromPoint, getEditedFlows }
 

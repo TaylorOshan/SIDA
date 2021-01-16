@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getDatasetTile, getFlowFromPoint, getLocations } from '../api/api'
+import { getDatasetTile, getEditedFlows, getFlowFromPoint, getLocations } from '../api/api'
 import { getFlowLayer } from '../visualizers/flowmap'
 import { getScatterplotLayer } from '../visualizers/scatterplot'
 
@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     locations: [],
     flows: [],
+    predictedFlows: [],
     locationLayer: [],
     flowLayer: [],
     datasetName: null,
@@ -20,9 +21,6 @@ export default new Vuex.Store({
     currentY: 36.102376,
     currentZ: 4,
     popupData: null,
-
-
-
 
   },
   mutations: {
@@ -53,6 +51,7 @@ export default new Vuex.Store({
     SET_LOCATIONS: (state, locations) => state.locations = locations,
     SET_POPUP_INFO: (state, data) => state.popupData = data,
     SET_FLOWS: (state, flows) => state.flows = flows,
+    SET_PREDICTED_FLOWS: (state, flows) => state.predictedFlows = flows,
     SET_FLOW_VISIBLE: (state, bool) => state.flowVisible = bool,
     SET_LOCATION_VISIBLE: (state, bool) => state.locationVisibile = bool,
     UPDATE_FLOW_LAYER: (state, layer) => state.flowLayer = layer,
@@ -73,6 +72,7 @@ export default new Vuex.Store({
     getPopupData: state => state.popupData,
     getLocationsVisibility: state => state.locationsVisible,
     getFlows: state => state.flows,
+    getPredictedFlows: state => state.predictedFlows,
     getDataLoading: state => state.dataLoading,
     getFlowVisibility: state => state.flowVisible,
     getLocationVisibility: state => state.locationVisibile,
@@ -121,15 +121,25 @@ export default new Vuex.Store({
 
       const flows = await getFlowLayer(state.flows, state.locations);
       commit('UPDATE_FLOW_LAYER', flows);
-
     },
     renderLoc: async ({ commit, state }) => {
 
       const loc = await getScatterplotLayer(state.locations);
       console.log('Location Layer created', loc);
       commit('UPDATE_LOCATION_LAYER', loc);
-
     },
-
+    predictEditedFlows: async ({ commit, state }, { sliders }) => {
+      try {
+        commit('SET_DATA_LOADING', true);
+        commit('SET_FLOW_VISIBLE', true);
+        const flows = await getEditedFlows(state.datasetName, state.popupData.name, sliders);
+        commit('SET_PREDICTED_FLOWS', flows.flows);
+        const layer = await getFlowLayer(flows.flows, state.locations, state.popupData.name);
+        commit('UPDATE_FLOW_LAYER', layer);
+        commit('SET_DATA_LOADING', false);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   }
 })

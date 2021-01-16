@@ -68,19 +68,6 @@
           Submit Changes
         </v-btn>
       </v-card-text>
-
-      <!-- <v-list-item class="body-1">
-        <v-list-item-content>
-          <v-list-item-title>Inflows : {{ getPopupData.in }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item class="body-1">
-        <v-list-item-content>
-          <v-list-item-title
-            >Outflows : {{ getPopupData.out }}</v-list-item-title
-          >
-        </v-list-item-content>
-      </v-list-item> -->
     </v-card>
 
     <v-card
@@ -108,8 +95,8 @@ export default {
   data() {
     return {
       sliders: [
-        { label: "o_attr", val: 100, color: "grey" },
-        { label: "d_attr", val: 100, color: "grey" },
+        { label: "o_attr", val: 100 },
+        { label: "d_attr", val: 100 },
       ],
     };
   },
@@ -120,7 +107,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["renderFlow"]),
+    ...mapActions(["renderFlow", "predictEditedFlows"]),
     getSliderColor(val) {
       if (val < 100) {
         return "red";
@@ -137,13 +124,11 @@ export default {
       this.renderFlow();
     },
     submitFlowChanges() {
-      console.log("Submit Flow Changfes");
-      for (let item in this.sliders) {
-        console.log(this.sliders[item].val);
-      }
-      console.log(typeof this.sliders);
-      let [, val1, ,] = this.sliders[1];
-      console.log(val1);
+      console.log("Submitting Flow Changes");
+
+      store.dispatch("predictEditedFlows", {
+        sliders: this.sliders,
+      });
     },
   },
 };

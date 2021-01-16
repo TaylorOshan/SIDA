@@ -1,3 +1,4 @@
+from typing import Dict
 from typing import List
 from typing import Optional
 
@@ -18,14 +19,14 @@ router = APIRouter()
 
 @router.post("/api/v1/{dataset_name}/predict/")
 async def get_predicted_flows(dataset_name: str, edits: EditedFlowModel):
-    edits_dict = edits.dict()
-    print(f"Getting {dataset_name} -{edits_dict}")
-    if edits.o_attr:
-        print(edits.o_attr)
-    if edits.d_attr:
-        print(edits.d_attr)
+    location_name = edits.location_name
+    flow_edits = edits.edits
+    
+    print(location_name, flow_edits)
+   
 
-    return edits_dict
+   
+    return flow_edits
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")
