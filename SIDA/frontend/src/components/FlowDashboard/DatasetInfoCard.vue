@@ -19,8 +19,7 @@
         @click="reveal = true"
         block
         large
-        absolute
-        bottom
+        class="left-0"
       >
         See Flow Deltas
       </v-btn>
