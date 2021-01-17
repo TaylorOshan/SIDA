@@ -15,7 +15,7 @@ app = FastAPI()
 
 ORIGINS = [
     "*",
-    ]
+]
 
 
 app.add_middleware(
@@ -46,7 +46,6 @@ async def shutdown():
 async def create_user(user: SchemaUser):
     user_id = await ModelUser.create(**user.dict())
     return {"user_id": user_id}
-
 
 
 @app.get("/user/{id}", response_model=SchemaUser)

@@ -1,4 +1,3 @@
-
 from typing import Optional
 
 from fastapi import APIRouter
@@ -20,9 +19,7 @@ router = APIRouter()
 @router.post("/api/v1/{dataset_name}/predict/")
 async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
-    flows = await \
-        FlowModel.get_flows_from_point(
-            dataset_name, edit.location_name)
+    flows = await FlowModel.get_flows_from_point(dataset_name, edit.location_name)
 
     altered_flows = modify_loc(edit.location_name, flows, edit.edits)
 
@@ -48,12 +45,13 @@ async def get_flows_from_point(dataset_name: str, point_name: str):
 
 @router.get("/api/v1/{dataset_name}/locations")
 async def get_locations(
-        dataset_name: str, start_index: Optional[int] = None, items: Optional[int] = None):
+    dataset_name: str, start_index: Optional[int] = None, items: Optional[int] = None
+):
 
     if start_index:
-        locations = \
-            await LocationModel.get_from_index(
-                dataset_name, start_index, limit=items)
+        locations = await LocationModel.get_from_index(
+            dataset_name, start_index, limit=items
+        )
     else:
         locations = await LocationModel.get(dataset_name)
 

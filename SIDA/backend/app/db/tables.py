@@ -20,7 +20,9 @@ flow = sqlalchemy.Table(
     "flow",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("dataset_id", sqlalchemy.ForeignKey('dataset.id'), nullable=False),
+    sqlalchemy.Column(
+        "dataset_id", sqlalchemy.ForeignKey("dataset.id"), nullable=False
+    ),
     sqlalchemy.Column("origin", sqlalchemy.String(), nullable=False),
     sqlalchemy.Column("destination", sqlalchemy.String(), nullable=False),
     sqlalchemy.Column("count", sqlalchemy.Integer, nullable=False),
@@ -33,7 +35,9 @@ location = sqlalchemy.Table(
     "location",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("dataset_id", sqlalchemy.ForeignKey('dataset.id'), nullable=False),
+    sqlalchemy.Column(
+        "dataset_id", sqlalchemy.ForeignKey("dataset.id"), nullable=False
+    ),
     sqlalchemy.Column("name", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("o_attr", sqlalchemy.Integer, nullable=False),
     sqlalchemy.Column("d_attr", sqlalchemy.Integer, nullable=False),

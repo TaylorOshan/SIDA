@@ -17,9 +17,7 @@ class Flows:
         FROM flow WHERE dataset_id = '{id}' and count > 50 and \
             (origin = '{name}' OR destination = '{name}') "
 
-
         return await db.fetch_all(query)
-
 
 
 class Locations:
