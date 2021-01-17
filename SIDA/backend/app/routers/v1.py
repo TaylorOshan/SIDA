@@ -1,32 +1,32 @@
-from typing import Dict
-from typing import List
+
 from typing import Optional
 
 from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi.encoders import jsonable_encoder
+import pandas as pd
 
 from ..db.classes import Flows as FlowModel
 from ..db.classes import Locations as LocationModel
 from ..db.schema import EditedFlow as EditedFlowModel
-from ..db.schema import Flow as FlowSchema
-from ..db.schema import Location as LocationSchema
-from ..flows.alter_attrs import *
-from ..worker import celery_app
+from ..flows.alter_attrs import modify_loc
+
+
+# from ..worker import celery_app
 
 
 router = APIRouter()
 
 
 @router.post("/api/v1/{dataset_name}/predict/")
-async def get_predicted_flows(dataset_name: str, edits: EditedFlowModel):
-    location_name = edits.location_name
-    flow_edits = edits.edits
-    
-    print(location_name, flow_edits)
-   
+async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
-   
-    return flow_edits
+    flows = await \
+        FlowModel.get_flows_from_point(
+            dataset_name, edit.location_name)
+
+    altered_flows = modify_loc(edit.location_name, flows, edit.edits)
+
+    return altered_flows
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")

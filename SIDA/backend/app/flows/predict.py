@@ -1,6 +1,8 @@
 import numpy as np
 
+
 PARAMS = np.array([-10.72759531, 0.85008358, 0.69287354, -0.34175847])
+
 
 def predict(o_attrs, d_attrs, cost):
     '''

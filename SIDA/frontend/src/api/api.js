@@ -90,14 +90,17 @@ async function getLocations(datasetName) {
 
 async function getEditedFlows(datasetName, locationName, sliders) {
   const CORE_URL = 'http://127.0.0.1:8000'
-  // let flowsToEdit = sliders.location_name = locationName;
-  // flowsToEdit = JSON.stringify(flowsToEdit);
-  let edits = JSON.stringify(sliders);
-  console.log(edits);
+
+  let edits = {};
+  for (let i in sliders) {
+    let key = sliders[i].label;
+    let val = sliders[i].val
+    edits[key] = val;
+  }
 
   const data = fetch(`${CORE_URL}/api/v1/${datasetName}/predict/`, {
     method: 'POST',
-    body: JSON.stringify({ "location_name": locationName, "edits": { "o_attr": 222, "d_attr": 122 } }),
+    body: JSON.stringify({ "location_name": locationName, "edits": edits }),
     headers: {
       'content-type': 'application/json',
     }
