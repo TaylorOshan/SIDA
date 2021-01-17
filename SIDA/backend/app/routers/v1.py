@@ -1,8 +1,6 @@
 from typing import Optional
 
 from fastapi import APIRouter
-from fastapi.encoders import jsonable_encoder
-import pandas as pd
 
 from ..db.classes import Flows as FlowModel
 from ..db.classes import Locations as LocationModel
