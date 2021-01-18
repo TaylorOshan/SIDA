@@ -48,6 +48,7 @@
               thumb-size="50"
               append-icon="mdi-close"
               @click:append="item.val = 100"
+              @change="sliderChanged($event)"
             >
               <template v-slot:thumb-label="{ value }">
                 <span class="inline text-button font-weight-bold"
@@ -69,7 +70,7 @@
         </v-btn>
       </v-card-text>
     </v-card>
-
+    <!-- :disabled="!sliderChangedBool" -->
     <v-card
       v-else
       outlined
@@ -98,16 +99,15 @@ export default {
         { label: "o_attr", val: 100 },
         { label: "d_attr", val: 100 },
       ],
+      sliderChangedBool: false,
     };
   },
   computed: {
     ...mapGetters(["getPopupData"]),
-    thumbSize() {
-      return;
-    },
   },
   watch: {
     getPopupData: function () {
+      this.sliderChangedBool = false;
       for (let i in this.sliders) {
         this.sliders[i].val = 100;
       }
@@ -127,21 +127,22 @@ export default {
     clearCurrentFlow() {
       store.commit("SET_POPUP_INFO", { display: false });
       store.commit("SET_FLOW_VISIBLE", false);
-      console.log(this.getFlowVisibility);
+      this.sliderChangedBool = false;
       this.renderFlow();
     },
     submitFlowChanges() {
       console.log("Submitting Flow Changes");
-
       store.dispatch("predictEditedFlows", {
         sliders: this.sliders,
       });
     },
+    sliderChanged(val) {
+      if (val != 100) {
+        this.sliderChangedBool = true;
+      } else {
+        this.sliderChangedBool = false;
+      }
+    },
   },
 };
 </script>
-
-><<style scoped>
-
-
-</style>
