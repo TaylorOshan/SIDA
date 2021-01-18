@@ -1,10 +1,19 @@
 from typing import Dict
 from typing import List
 
+import numpy as np
 import pandas as pd
 
 from .predict import predict
 
+
+def mse(observed, predicted):
+    return 
+
+
+def abs_error(obs, pred):
+    return 
+    
 
 def modify_loc(name: str, flowsrows: List, attrs: Dict):
     """
@@ -40,11 +49,19 @@ def modify_loc(name: str, flowsrows: List, attrs: Dict):
     o_attrs = [x for x in flowsrows.columns if x.startswith("o_")]
     d_attrs = [x for x in flowsrows.columns if x.startswith("d_")]
 
-    flowsrows["count"] = predict(
+    flows_predicted = predict(
         flowsrows[o_attrs].values, flowsrows[d_attrs].values, flowsrows["cost"].values
     )
- 
-    return flowsrows.to_dict(orient="records")
+
+    obs = flowsrows["count"].values
+    pred = flows_predicted
+
+    mse = ((obs - pred) ** 2).sum() / flowsrows.shape[0]
+    abs_error = np.abs(obs - pred).sum() / flowsrows.shape[0]
+
+    flowsrows["count"] = flows_predicted
+
+    return flowsrows.to_dict(orient="records"), mse, abs_error
 
 
 def remove(name: str, flowsrows):
