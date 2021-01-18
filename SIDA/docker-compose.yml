@@ -1,20 +1,35 @@
-# DEV COMPOSE
-# live update and independent containers
-
 version: "3"
 
+networks:
+  t2_proxy:
+    external:
+      name: t2_proxy
+
 services:
-  # web:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: front.dockerfile
-  #   restart: unless-stopped
-  #   container_name: frontend
-  #   ports:
-  #    - 8080:8080
-  #   volumes: 
-  #     - ./frontend:/SIDA
-  #   command: npm run serve
+  web:
+    build:
+      context: ./frontend
+      dockerfile: prod.dockerfile
+    restart: unless-stopped
+    container_name: frontend
+    volumes: 
+      - ./frontend:/SIDA
+    networks:
+      - t2_proxy
+      - default
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.personal_web-rtr.entrypoints=https"
+      - "traefik.http.routers.personal_web-rtr.rule=Host(`SIDA.$DOMAINNAME`)"
+      - "traefik.http.routers.personal_web-rtr.tls=true"
+      ## Middlewares
+      - "traefik.http.routers.personal_web-rtr.middlewares=chain-no-auth@file"
+      ## HTTP Services
+      - "traefik.http.routers.personal_web-rtr.service=personal_web-svc"
+      - "traefik.http.services.personal_web-svc.loadbalancer.server.port=80"
   api:
     build:
       context: ./backend
