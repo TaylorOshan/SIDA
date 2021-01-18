@@ -14,7 +14,7 @@ class Flows:
     @classmethod
     async def get_flows_from_point(cls, id, name):
         query = f"SELECT origin, destination, count, id, o_attr, d_attr, cost \
-        FROM flow WHERE dataset_id = '{id}' and count > 50 and \
+        FROM flow WHERE dataset_id = '{id}' and count > 10 and \
             (origin = '{name}' OR destination = '{name}') "
 
         return await db.fetch_all(query)

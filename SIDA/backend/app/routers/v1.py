@@ -21,7 +21,7 @@ async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
     altered_flows = modify_loc(edit.location_name, flows, edit.edits)
 
-    return altered_flows
+    return {"flows": altered_flows}
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")

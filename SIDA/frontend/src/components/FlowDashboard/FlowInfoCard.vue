@@ -106,6 +106,13 @@ export default {
       return;
     },
   },
+  watch: {
+    getPopupData: function () {
+      for (let i in this.sliders) {
+        this.sliders[i].val = 100;
+      }
+    },
+  },
   methods: {
     ...mapActions(["renderFlow", "predictEditedFlows"]),
     getSliderColor(val) {

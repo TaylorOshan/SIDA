@@ -31,20 +31,20 @@ def modify_loc(name: str, flowsrows: List, attrs: Dict):
     }
     flowsrows = pd.DataFrame.from_records(flowsrows).astype(types_dict)
 
-    # Modify attributes
     for attr, factor in attrs.items():
-        if attr.startswith("o_"):  # origin attribute
+        if attr.startswith("o_"):
             flowsrows.loc[flowsrows.origin == name, [attr]] *= factor / 100
-        elif attr.startswith("d_"):  # destination attribute
+        elif attr.startswith("d_"):
             flowsrows.loc[flowsrows.destination == name, [attr]] *= factor / 100
 
-    # Get all origin/dest attribute columns
     o_attrs = [x for x in flowsrows.columns if x.startswith("o_")]
     d_attrs = [x for x in flowsrows.columns if x.startswith("d_")]
 
-    return predict(
-        flowsrows[o_attrs], flowsrows[d_attrs], flowsrows["cost"]
-    )  # prediction of the flow dataframe slice
+    flowsrows["count"] = predict(
+        flowsrows[o_attrs].values, flowsrows[d_attrs].values, flowsrows["cost"].values
+    )
+ 
+    return flowsrows.to_dict(orient="records")
 
 
 def remove(name: str, flowsrows):
