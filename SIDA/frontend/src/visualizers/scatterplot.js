@@ -1,7 +1,7 @@
 /* eslint-disable */
 
-import { ScatterplotLayer } from '@deck.gl/layers'
-import store from '../store/index'
+import { ScatterplotLayer } from '@deck.gl/layers';
+import store from '../store/index';
 
 async function getScatterplotLayer(locations) {
   // function colorDecider (d) {
@@ -31,6 +31,7 @@ async function getScatterplotLayer(locations) {
     onClick: (info, event) => {
       if (info.object) {
         const { object, x, y } = info
+        store.commit('SET_PREDICTION_ERRORS', { show: false });
         store.commit('SET_POPUP_INFO', {
           loc: [x, y],
           name: object.name,
@@ -54,5 +55,5 @@ async function getScatterplotLayer(locations) {
   return layer
 }
 
-export { getScatterplotLayer }
+export { getScatterplotLayer };
 

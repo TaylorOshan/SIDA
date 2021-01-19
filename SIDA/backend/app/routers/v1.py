@@ -2,6 +2,7 @@ from typing import Optional
 
 from fastapi import APIRouter
 
+from ..db.classes import Dataset as DatasetModel
 from ..db.classes import Flows as FlowModel
 from ..db.classes import Locations as LocationModel
 from ..db.schema import EditedFlow as EditedFlowModel
@@ -12,6 +13,24 @@ from ..flows.alter_attrs import modify_loc
 
 
 router = APIRouter()
+
+
+@router.get("/api/v1/datasets")
+async def get_possible_datasets():
+
+    print("Getting all datasets")
+    info = await DatasetModel.get_all()
+
+    return {"data": info}
+
+
+@router.get("/api/v1/dataset/{dataset_id}/")
+async def get_dataset_info(dataset_id: str):
+
+    print(f"Getting {dataset_id} info")
+    info = await DatasetModel.get(dataset_id)
+
+    return {"data": info}
 
 
 @router.post("/api/v1/{dataset_name}/predict/")

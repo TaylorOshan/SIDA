@@ -19,11 +19,58 @@
 //     getDatasetTile
 // }
 
+const CORE_URL = 'http://127.0.0.1:8000'
+
+
+async function getDatasetInfo(datasetName) {
+
+  const data = fetch(`${CORE_URL}/api/v1/dataset/${datasetName}`, {
+    method: 'get',
+    headers: {
+      'content-type': 'application/json',
+      'Accept-Encoding': 'gzip'
+    }
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log('API response not OK... throwing error')
+        const error = new Error(res.statusText)
+        error.json = res.json()
+        throw error
+      }
+      return res.json()
+    })
+
+  return data
+}
+
+async function getPossibleDatasets() {
+
+  const data = fetch(`${CORE_URL}/api/v1/datasets`, {
+    method: 'get',
+    headers: {
+      'content-type': 'application/json',
+      'Accept-Encoding': 'gzip'
+    }
+  })
+    .then((res) => {
+      if (!res.ok) {
+        console.log('API response not OK... throwing error')
+        const error = new Error(res.statusText)
+        error.json = res.json()
+        throw error
+      }
+      return res.json()
+    })
+
+  return data
+}
+
 async function getDatasetTile(datasetName, x, y, z) {
-  const CORE_URL = 'http://127.0.0.1:8000'
 
   const data = fetch(`${CORE_URL}/api/v1/${datasetName}/${x}/${y}/${z}`, {
     method: 'get',
+    mode: 'cors',
     headers: {
       'content-type': 'application/json',
       'Accept-Encoding': 'gzip'
@@ -43,10 +90,11 @@ async function getDatasetTile(datasetName, x, y, z) {
 }
 
 async function getFlowFromPoint(datasetName, point) {
-  const CORE_URL = 'http://127.0.0.1:8000'
+
 
   const data = fetch(`${CORE_URL}/api/v1/${datasetName}/${point}/flows`, {
     method: 'get',
+    mode: 'cors',
     headers: {
       'content-type': 'application/json',
       'Accept-Encoding': 'gzip'
@@ -66,10 +114,10 @@ async function getFlowFromPoint(datasetName, point) {
 }
 
 async function getLocations(datasetName) {
-  const CORE_URL = 'http://127.0.0.1:8000'
 
   const data = fetch(`${CORE_URL}/api/v1/${datasetName}/locations`, {
     method: 'get',
+    mode: 'cors',
     headers: {
       'content-type': 'application/json',
       'Accept-Encoding': 'gzip'
@@ -89,7 +137,7 @@ async function getLocations(datasetName) {
 }
 
 async function getEditedFlows(datasetName, locationName, sliders) {
-  const CORE_URL = 'http://127.0.0.1:8000'
+
 
   let edits = {};
   for (let i in sliders) {
@@ -100,6 +148,7 @@ async function getEditedFlows(datasetName, locationName, sliders) {
 
   const data = fetch(`${CORE_URL}/api/v1/${datasetName}/predict/`, {
     method: 'POST',
+    mode: 'cors',
     body: JSON.stringify({ "location_name": locationName, "edits": edits }),
     headers: {
       'content-type': 'application/json',
@@ -118,5 +167,5 @@ async function getEditedFlows(datasetName, locationName, sliders) {
   return data
 }
 
-export { getDatasetTile, getLocations, getFlowFromPoint, getEditedFlows }
+export { getDatasetTile, getLocations, getFlowFromPoint, getEditedFlows, getDatasetInfo, getPossibleDatasets }
 

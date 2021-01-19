@@ -154,20 +154,28 @@
         </v-timeline-item>
       </v-timeline>
     </section>
-
     <section id="models" class="mb-12">
       <h2 class="pt-12 pb-8 text-center text-h2 font-weight-bold">Models</h2>
       <v-row dense style="max-width: 800px" class="mx-auto">
         <v-col
-          v-for="card in cards"
-          :key="card.title"
-          :cols="card.width"
+          v-for="(card, _, index) in getPossibleDatasetInfo"
+          :key="card.id"
+          :cols="12"
           md="6"
         >
-          <DataSetCard :imgLink="card.img" :datasetID="card.datasetID">
-            <template v-slot:title> {{ card.title }} </template>
-            <template v-slot:subtitle> {{ card.subtitle }} </template>
-            <template v-slot:body> {{ card.body }} </template>
+          <DataSetCard
+            :imgLink="card[index].image_url"
+            :datasetID="card[index].id"
+          >
+            <template v-slot:title>
+              {{ card[index].name }}
+            </template>
+            <template v-slot:subtitle>
+              {{ card[index].subtitle }}
+            </template>
+            <template v-slot:body>
+              {{ card[index].description }}
+            </template>
           </DataSetCard>
         </v-col>
       </v-row>
@@ -177,7 +185,8 @@
 
 <script>
 import DataSetCard from "./DataSetCard.vue";
-
+import { mapGetters, mapActions } from "vuex";
+import store from "../../store";
 export default {
   name: "HomePage",
   components: {
@@ -226,7 +235,16 @@ export default {
       ],
     };
   },
-  method: {},
+  methods: {
+    ...mapActions(["loadPossibleDatasets"]),
+  },
+  computed: {
+    ...mapGetters(["getPossibleDatasetInfo"]),
+  },
+  async mounted() {
+    store.commit("SET_DATASET_NAME", this.name);
+    await this.loadPossibleDatasets();
+  },
 };
 </script>
 

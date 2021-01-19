@@ -20,6 +20,7 @@
         block
         large
         class="left-0"
+        :disabled="!getPredictionErrors.show"
       >
         See Flow Deltas
       </v-btn>
@@ -37,22 +38,21 @@
           <v-icon x-large dark color="secondary">mdi-delta</v-icon>
         </v-card-title>
 
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr class="">
-                <th class="text-center text-h5 font-weight-bold">Original</th>
-                <th class="text-center text-h5 font-weight-bold">Computed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="body-1 font-weight-medium">Population</td>
-                <td class="body-1 font-weight-medium">Other Attr</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <v-card-text class="text-center text-h4 text-accent font-weight-bold">
+          Mean-Square <v-icon dark color="secondary">mdi-delta</v-icon>
+        </v-card-text>
+
+        <v-card-text class="text-center font-weight-light text-h5 color-red">
+          {{ getPredictionErrors.mse }}
+        </v-card-text>
+
+        <v-card-text class="text-center text-h4 text-accent font-weight-bold">
+          Absolute <v-icon dark color="secondary">mdi-delta</v-icon>
+        </v-card-text>
+
+        <v-card-text class="text-center font-weight-light text-h5">
+          {{ getPredictionErrors.abs }}
+        </v-card-text>
         <v-card-actions class="pt-0">
           <v-btn
             text
@@ -73,12 +73,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "DataSetInfoCard",
   data() {
     return {
       reveal: false,
     };
+  },
+  computed: {
+    ...mapGetters(["getPredictionErrors"]),
   },
 };
 </script>

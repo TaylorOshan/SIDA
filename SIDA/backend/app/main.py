@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 app = FastAPI()
 
 ORIGINS = [
-    "*",
+    "*"
 ]
 
 

@@ -11,6 +11,7 @@ dataset = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.String, primary_key=True),
     sqlalchemy.Column("name", sqlalchemy.String, nullable=False),
+    sqlalchemy.Column("subtitle", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("description", sqlalchemy.Text, nullable=False),
     sqlalchemy.Column("source", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("image_url", sqlalchemy.String, nullable=False),

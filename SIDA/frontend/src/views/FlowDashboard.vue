@@ -72,6 +72,7 @@ export default {
       "loadTileFlows",
       "loadLocations",
       "renderFlow",
+      "loadDatasetInfo",
     ]),
     showLocation() {
       console.log(this.getLocations);
@@ -90,6 +91,7 @@ export default {
     console.log(this.name);
     store.commit("SET_DATASET_NAME", this.name);
     await this.loadLocations();
+    await this.loadDatasetInfo();
     console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
   },
 };

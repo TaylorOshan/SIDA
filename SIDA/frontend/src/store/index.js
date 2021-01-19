@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getDatasetTile, getEditedFlows, getFlowFromPoint, getLocations } from '../api/api'
+import { getDatasetInfo, getDatasetTile, getEditedFlows, getFlowFromPoint, getLocations, getPossibleDatasets } from '../api/api'
 import { getFlowLayer } from '../visualizers/flowmap'
 import { getScatterplotLayer } from '../visualizers/scatterplot'
 
@@ -13,6 +13,9 @@ export default new Vuex.Store({
     predictedFlows: [],
     locationLayer: [],
     flowLayer: [],
+    possibleDatasetInfo: [],
+    predictionErrors: {},
+    selectedDatasetInfo: {},
     datasetName: null,
     dataLoading: true,
     flowVisible: false,
@@ -51,9 +54,12 @@ export default new Vuex.Store({
     SET_LOCATIONS: (state, locations) => state.locations = locations,
     SET_POPUP_INFO: (state, data) => state.popupData = data,
     SET_FLOWS: (state, flows) => state.flows = flows,
+    SET_PREDICTION_ERRORS: (state, data) => state.predictionErrors = data,
     SET_PREDICTED_FLOWS: (state, flows) => state.predictedFlows = flows,
     SET_FLOW_VISIBLE: (state, bool) => state.flowVisible = bool,
     SET_LOCATION_VISIBLE: (state, bool) => state.locationVisibile = bool,
+    SET_SELECTED_DATASET_INFO: (state, data) => state.selectedDatasetInfo = data,
+    SET_POSSIBLE_DATASET_INFO: (state, data) => state.possibleDatasetInfo = data,
     UPDATE_FLOW_LAYER: (state, layer) => state.flowLayer = layer,
     UPDATE_LOCATION_LAYER: (state, layer) => state.locationLayer = layer,
     TOGGLE_FLOW_VISIBILITY: (state) => state.flowVisible = !state.flowVisible,
@@ -77,8 +83,30 @@ export default new Vuex.Store({
     getFlowVisibility: state => state.flowVisible,
     getLocationVisibility: state => state.locationVisibile,
     getDatasetName: state => state.datasetName,
+    getPredictionErrors: state => state.predictionErrors,
+    getSelectedDatasetInfo: state => state.selectedDatasetInfo,
+    getPossibleDatasetInfo: state => state.possibleDatasetInfo,
   },
   actions: {
+    loadDatasetInfo: async ({ commit, state }) => {
+      try {
+        const data = await getDatasetInfo(state.datasetName);
+        let datasetInfo = data.data;
+        console.log(datasetInfo);
+        commit('SET_SELECTED_DATASET_INFO', { datasetInfo })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    loadPossibleDatasets: async ({ commit, state }) => {
+      try {
+        const data = await getPossibleDatasets();
+        let possibleDatasets = data.data;
+        commit('SET_POSSIBLE_DATASET_INFO', { possibleDatasets });
+      } catch (error) {
+        console.log(error)
+      }
+    },
     loadTileFlows: async ({ commit, state }) => {
       try {
 
@@ -133,9 +161,7 @@ export default new Vuex.Store({
         commit('SET_DATA_LOADING', true);
         commit('SET_FLOW_VISIBLE', true);
         const flows = await getEditedFlows(state.datasetName, state.popupData.name, sliders);
-        console.log(flows.flows);
-        console.log("abs", flows.absError);
-        console.log(flows.mse);
+        commit('SET_PREDICTION_ERRORS', { abs: flows.absError, mse: flows.mse, show: true });
         commit('SET_PREDICTED_FLOWS', flows.flows);
         const layer = await getFlowLayer(flows.flows, state.locations, state.popupData.name);
         commit('UPDATE_FLOW_LAYER', layer);

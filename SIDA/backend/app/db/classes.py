@@ -44,6 +44,27 @@ class Locations:
         return await db.fetch_all(query)
 
 
+class Dataset:
+    @classmethod
+    async def get(cls, id):
+
+        query = f" \
+            SELECT name, description, subtitle, source, image_url, id \
+            FROM dataset WHERE id = '{id}' \
+            "
+        return await db.fetch_all(query)
+
+    @classmethod
+    async def get_all(cls):
+        query = " \
+            SELECT name, description, subtitle, source, image_url, id \
+            FROM dataset \
+            ORDER BY name asc \
+            "
+
+        return await db.fetch_all(query)
+
+
 class User:
     @classmethod
     async def get(cls, id):
