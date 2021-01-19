@@ -19,9 +19,7 @@
         <router-link
           :to="{ name: 'Flow Dashboard', params: { name: datasetID } }"
         >
-          <v-btn @click="datsetInfoLoad" color="accent text-button" text>
-            Model Me
-          </v-btn>
+          <v-btn color="accent text-button" text> Model Me </v-btn>
         </router-link>
 
         <v-spacer></v-spacer>

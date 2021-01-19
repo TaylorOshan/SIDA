@@ -1,16 +1,15 @@
 <template>
   <v-card outlined v-ripple elevation="3" class="w-full h-full">
-    <v-card-title class="text-h4"> LODES </v-card-title>
+    <v-card-title class="text-h4 font-weight-medium">
+      {{ getSelectedDatasetInfo.name }}
+    </v-card-title>
 
-    <v-card-subtitle class="subtitle-1"> data set info </v-card-subtitle>
+    <v-card-subtitle class="subtitle-1 font-italic">
+      {{ getSelectedDatasetInfo.source }}
+    </v-card-subtitle>
 
-    <v-card-text class="body-1">
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et, fuga porro.
-      Impedit eaque cumque voluptatibus voluptatum deleniti? A quam mollitia at
-      quia laborum explicabo! Assumenda tenetur nostrum rerum neque totam?Lorem
-      ipsum dolor sit, amet consectetur adipisicing elit. Et, fuga porro.
-      Impedit eaque cumque voluptatibus voluptatum deleniti? A quam mollitia at
-      quia laborum explicabo! Assumenda tenetur nostrum rerum neque totam?
+    <v-card-text class="body-1 font-weight-light">
+      {{ getSelectedDatasetInfo.description }}
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -38,16 +37,16 @@
           <v-icon x-large dark color="secondary">mdi-delta</v-icon>
         </v-card-title>
 
-        <v-card-text class="text-center text-h4 text-accent font-weight-bold">
-          Mean-Square <v-icon dark color="secondary">mdi-delta</v-icon>
+        <v-card-text class="text-center text-h5 text-accent font-weight-bold">
+          Mean-Square Delta
         </v-card-text>
 
         <v-card-text class="text-center font-weight-light text-h5 color-red">
           {{ getPredictionErrors.mse }}
         </v-card-text>
 
-        <v-card-text class="text-center text-h4 text-accent font-weight-bold">
-          Absolute <v-icon dark color="secondary">mdi-delta</v-icon>
+        <v-card-text class="text-center text-h5 text-accent font-weight-bold">
+          Absolute Delta
         </v-card-text>
 
         <v-card-text class="text-center font-weight-light text-h5">
@@ -82,12 +81,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getPredictionErrors"]),
+    ...mapGetters(["getPredictionErrors", "getSelectedDatasetInfo"]),
   },
 };
 </script>
 
-><<style scoped>
+<<style scoped>
 
 .v-card--reveal {
   bottom: 0;

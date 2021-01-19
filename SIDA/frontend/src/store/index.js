@@ -91,9 +91,9 @@ export default new Vuex.Store({
     loadDatasetInfo: async ({ commit, state }) => {
       try {
         const data = await getDatasetInfo(state.datasetName);
-        let datasetInfo = data.data;
-        console.log(datasetInfo);
-        commit('SET_SELECTED_DATASET_INFO', { datasetInfo })
+        let datasetInfo = data.data[0];
+        console.log("dataset info", datasetInfo);
+        commit('SET_SELECTED_DATASET_INFO', datasetInfo)
       } catch (error) {
         console.log(error)
       }
