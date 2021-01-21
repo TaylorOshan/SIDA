@@ -4,7 +4,7 @@
       outlined
       elevation="3"
       class="h-full overflow-hidden"
-      v-if="getHistData && getHistData.show"
+      v-if="getHistData.length > 1"
     >
       <div id="hist" class="w-full h-full"></div>
     </v-card>
@@ -25,7 +25,7 @@ export default {
         responsive: true,
       },
       trace: {
-        x: null,
+        x: this.getHistData,
         type: "histogram",
         marker: {
           color: "#ff6859",
@@ -51,7 +51,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: "modified divided by observed",
+            text: "modified over observed",
           },
           automargin: true,
         },
@@ -59,14 +59,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getHistData", "getPopupData"]),
+    ...mapGetters(["getHistData"]),
   },
   watch: {
     getHistData: function () {
-      if (this.getHistData.data != null) {
-        this.trace.x = this.getHistData.data;
-        this.createPlotyHist();
-      }
+      console.log("trigger");
+      this.trace.x = this.getHistData;
+      this.createPlotyHist();
     },
   },
   methods: {

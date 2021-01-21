@@ -13,7 +13,7 @@
 
       <v-col cols="12" md="6"><FlowInfoCard /></v-col>
 
-      <v-col cols="12" md="12" v-if="getHistData && getHistData.show"
+      <v-col cols="12" md="12" v-if="getHistData.length > 1"
         ><HistCard
       /></v-col>
 

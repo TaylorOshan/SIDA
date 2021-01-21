@@ -127,7 +127,7 @@ export default {
     clearCurrentFlow() {
       store.commit("SET_POPUP_INFO", { display: false });
       store.commit("SET_PREDICTION_ERRORS", { show: false });
-      store.commit("SET_HIST_DATA", { show: false });
+      store.commit("SET_HIST_DATA", []);
       store.commit("SET_FLOW_VISIBLE", false);
       this.sliderChangedBool = false;
       this.renderFlow();
