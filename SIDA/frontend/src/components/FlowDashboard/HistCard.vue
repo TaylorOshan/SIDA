@@ -27,11 +27,18 @@ export default {
       trace: {
         x: null,
         type: "histogram",
+        marker: {
+          color: "#ff6859",
+        },
       },
       layout: {
         autosize: true,
+        paper_bgcolor: "#33333d",
+        plot_bgcolor: "#33333d",
         font: {
-          family: "Serif Eczar",
+          family: "Eczar",
+          size: 18,
+          color: "white",
         },
         title: {
           text: `Relative delta magnitude between modified and observed flows`,

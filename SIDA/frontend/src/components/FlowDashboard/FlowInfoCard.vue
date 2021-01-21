@@ -65,12 +65,12 @@
           block
           large
           class="mt-4"
+          :disabled="!sliderChangedBool"
         >
           Submit Changes
         </v-btn>
       </v-card-text>
     </v-card>
-    <!-- :disabled="!sliderChangedBool" -->
     <v-card
       v-else
       outlined

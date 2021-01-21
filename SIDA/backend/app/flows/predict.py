@@ -19,7 +19,7 @@ def predict(o_attrs, d_attrs, cost):
     - predicted flows in and out of the given location
     """
 
-    cost = cost.reshape(-1,1)
+    cost = cost.reshape(-1, 1)
 
     intercept, o_params, d_params, dist_param = PARAMS
 

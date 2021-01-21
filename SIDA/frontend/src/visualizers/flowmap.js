@@ -22,7 +22,7 @@ async function getFlowLayer(flows, locations, locationName) {
       counts.push(flow.count);
     }
     let gstats = new geostats(counts);
-    var buckets = gstats.getQuantile(3);
+    var buckets = gstats.getJenks(3);
     console.log(buckets);
   }
 
@@ -52,7 +52,7 @@ async function getFlowLayer(flows, locations, locationName) {
     showTotals: false,
     visible: store.getters.getFlowVisibility,
     // showOnlyTopFlows: 10000,
-    maxFlowThickness: 10,
+    maxFlowThickness: 5,
     outlineThickness: 2,
     colors: {
       flows: {

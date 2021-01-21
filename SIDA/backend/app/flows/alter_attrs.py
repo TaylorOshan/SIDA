@@ -47,7 +47,7 @@ def modify_loc(name: str, flowsrows: List, attrs: Dict):
         flowsrows[o_attrs].values, flowsrows[d_attrs].values, flowsrows["cost"].values
     )
 
-    obs = flowsrows["count"].values.reshape(-1,1)
+    obs = flowsrows["count"].values.reshape(-1, 1)
     pred = flows_predicted
 
     mse = ((obs - pred) ** 2).sum() / flowsrows.shape[0]

@@ -39,10 +39,16 @@ async def get_dataset_info(dataset_id: str):
 async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
     flows = await FlowModel.get_flows_from_point(dataset_name, edit.location_name)
+    altered_flows, mse, abs_error, mult_diffs = modify_loc(
+        edit.location_name, flows, edit.edits
+    )
 
-    altered_flows, mse, abs_error, mult_diffs = modify_loc(edit.location_name, flows, edit.edits)
-
-    return {"flows": altered_flows, "mse": mse, "absError": abs_error, "multDiffs": mult_diffs}
+    return {
+        "flows": altered_flows,
+        "mse": mse,
+        "absError": abs_error,
+        "multDiffs": mult_diffs,
+    }
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")
@@ -58,8 +64,11 @@ async def get_flows_from_point(dataset_name: str, point_name: str):
     print(f"Getting {dataset_name} from point {point_name}")
 
     flows = await FlowModel.get_flows_from_point(dataset_name, point_name)
+    altered_flows, _, _, _ = modify_loc(
+        point_name, flows, {"o_attr": 100, "d_attr": 100}
+    )
 
-    return {"flows": flows}
+    return {"flows": altered_flows}
 
 
 @router.get("/api/v1/{dataset_name}/locations")
