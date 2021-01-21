@@ -165,7 +165,6 @@ export default new Vuex.Store({
         commit('SET_FLOW_VISIBLE', true);
         const flows = await getEditedFlows(state.datasetName, state.popupData.name, sliders);
         commit('SET_PREDICTION_ERRORS', { abs: flows.absError, mse: flows.mse, show: true });
-        console.log(flows.multDiffs);
         commit('SET_HIST_DATA', { show: true, data: flows.multDiffs });
         commit('SET_PREDICTED_FLOWS', flows.flows);
         const layer = await getFlowLayer(flows.flows, state.locations, state.popupData.name);

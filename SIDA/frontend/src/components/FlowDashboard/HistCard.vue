@@ -4,7 +4,7 @@
       outlined
       elevation="3"
       class="h-full overflow-hidden"
-      :v-if="getHistData && getHistData.show"
+      v-if="getHistData && getHistData.show"
     >
       <div id="hist" class="w-full h-full"></div>
     </v-card>
@@ -34,7 +34,7 @@ export default {
           family: "Serif Eczar",
         },
         title: {
-          text: "Relative delta magnitude between modified and observed flows",
+          text: `Relative delta magnitude between modified and observed flows`,
         },
         xaxis: {
           title: {
@@ -52,13 +52,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getHistData"]),
+    ...mapGetters(["getHistData", "getPopupData"]),
   },
   watch: {
     getHistData: function () {
-      console.log(this.getHistData.show);
       if (this.getHistData.data != null) {
-        console.log("creating plotly");
         this.trace.x = this.getHistData.data;
         this.createPlotyHist();
       }
