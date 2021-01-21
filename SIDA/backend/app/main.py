@@ -13,9 +13,7 @@ from .routers.v1 import router
 log = logging.getLogger(__name__)
 app = FastAPI()
 
-ORIGINS = [
-    "*",
-]
+ORIGINS = ["*"]
 
 
 app.add_middleware(

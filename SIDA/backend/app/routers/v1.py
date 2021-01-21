@@ -1,9 +1,10 @@
+from operator import mul
+from typing import MutableMapping
 from typing import Optional
 
 from fastapi import APIRouter
-from fastapi.encoders import jsonable_encoder
-import pandas as pd
 
+from ..db.classes import Dataset as DatasetModel
 from ..db.classes import Flows as FlowModel
 from ..db.classes import Locations as LocationModel
 from ..db.schema import EditedFlow as EditedFlowModel
@@ -16,14 +17,38 @@ from ..flows.alter_attrs import modify_loc
 router = APIRouter()
 
 
+@router.get("/api/v1/datasets")
+async def get_possible_datasets():
+
+    print("Getting all datasets")
+    info = await DatasetModel.get_all()
+
+    return {"data": info}
+
+
+@router.get("/api/v1/dataset/{dataset_id}/")
+async def get_dataset_info(dataset_id: str):
+
+    print(f"Getting {dataset_id} info")
+    info = await DatasetModel.get(dataset_id)
+
+    return {"data": info}
+
+
 @router.post("/api/v1/{dataset_name}/predict/")
 async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
     flows = await FlowModel.get_flows_from_point(dataset_name, edit.location_name)
+    altered_flows, mse, abs_error, mult_diffs = modify_loc(
+        edit.location_name, flows, edit.edits
+    )
 
-    altered_flows = modify_loc(edit.location_name, flows, edit.edits)
-
-    return altered_flows
+    return {
+        "flows": altered_flows,
+        "mse": mse,
+        "absError": abs_error,
+        "multDiffs": mult_diffs,
+    }
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")
@@ -39,8 +64,11 @@ async def get_flows_from_point(dataset_name: str, point_name: str):
     print(f"Getting {dataset_name} from point {point_name}")
 
     flows = await FlowModel.get_flows_from_point(dataset_name, point_name)
+    altered_flows, _, _, _ = modify_loc(
+        point_name, flows, {"o_attr": 100, "d_attr": 100}
+    )
 
-    return {"flows": flows}
+    return {"flows": altered_flows}
 
 
 @router.get("/api/v1/{dataset_name}/locations")

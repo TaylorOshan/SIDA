@@ -1,5 +1,7 @@
+from operator import mul
 from typing import Dict
 from typing import List
+from typing import MutableMapping
 
 import numpy as np
 import pandas as pd
@@ -32,20 +34,30 @@ def modify_loc(name: str, flowsrows: List, attrs: Dict):
     }
     flowsrows = pd.DataFrame.from_records(flowsrows).astype(types_dict)
 
-    # Modify attributes
     for attr, factor in attrs.items():
-        if attr.startswith("o_"):  # origin attribute
+        if attr.startswith("o_"):
             flowsrows.loc[flowsrows.origin == name, [attr]] *= factor / 100
-        elif attr.startswith("d_"):  # destination attribute
+        elif attr.startswith("d_"):
             flowsrows.loc[flowsrows.destination == name, [attr]] *= factor / 100
 
-    # Get all origin/dest attribute columns
     o_attrs = [x for x in flowsrows.columns if x.startswith("o_")]
     d_attrs = [x for x in flowsrows.columns if x.startswith("d_")]
 
-    return predict(
-        flowsrows[o_attrs], flowsrows[d_attrs], flowsrows["cost"]
-    )  # prediction of the flow dataframe slice
+    flows_predicted = predict(
+        flowsrows[o_attrs].values, flowsrows[d_attrs].values, flowsrows["cost"].values
+    )
+
+    obs = flowsrows["count"].values.reshape(-1, 1)
+    pred = flows_predicted
+
+    mse = ((obs - pred) ** 2).sum() / flowsrows.shape[0]
+    abs_error = np.abs(obs - pred).sum() / flowsrows.shape[0]
+    mult_diffs = np.divide(pred, obs).flatten()
+    mult_diffs = mult_diffs.tolist()
+
+    flowsrows["count"] = flows_predicted
+
+    return flowsrows.to_dict(orient="records"), mse, abs_error, mult_diffs
 
 
 def remove(name: str, flowsrows):

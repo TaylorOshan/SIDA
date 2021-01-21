@@ -16,7 +16,9 @@
       </v-img>
 
       <v-card-actions>
-        <router-link :to="{ name: 'Flow Dashboard', params: { name: datasetID } }">
+        <router-link
+          :to="{ name: 'Flow Dashboard', params: { name: datasetID } }"
+        >
           <v-btn color="accent text-button" text> Model Me </v-btn>
         </router-link>
 
@@ -55,7 +57,7 @@ export default {
   }),
   props: {
     imgLink: String,
-    datasetID : String
+    datasetID: String,
   },
 };
 </script>

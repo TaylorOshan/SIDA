@@ -11,11 +11,10 @@ services:
   #   restart: unless-stopped
   #   container_name: frontend
   #   ports:
-  #    - 3000:3000
+  #    - 8080:8080
   #   volumes: 
   #     - ./frontend:/SIDA
   #   command: npm run serve
-  # note: switched to vue CLI, 
   api:
     build:
       context: ./backend

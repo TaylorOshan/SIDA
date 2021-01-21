@@ -53,14 +53,12 @@
           <v-card>
             <v-card-title class="primary darken-2">
               <v-icon dark size="42" class="mr-4"> mdi-magnify </v-icon>
-              <h2 class="display-1 white--text font-weight-light">Step 1</h2>
+              <h2 class="display-1 white--text font-weight-medium">Step 1</h2>
             </v-card-title>
             <v-container>
               <v-row>
-                <v-col cols="12" md="10">
-                  Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
-                  scaevola imperdiet nec ut, sed euismod convenire principes at.
-                  Est et nobis iisque percipit.
+                <v-col cols="12" md="10" class="text-h5 font-weight-light">
+                  Select a model from the Models section below.
                 </v-col>
                 <!-- <v-col class="text-right hidden-sm-and-down" md="2">
                   <v-icon size="64"> mdi-calendar-text </v-icon>
@@ -73,21 +71,24 @@
         <v-timeline-item color="secondary lighten-2" fill-dot left small>
           <v-card>
             <v-card-title class="justify-end secondary lighten-1">
-              <h2 class="mr-4 display-1 white--text font-weight-light">
+              <h2 class="mr-4 display-1 white--text font-weight-medium">
                 Step 2
               </h2>
               <v-icon dark size="42"> mdi-database-search </v-icon>
             </v-card-title>
             <v-container>
               <v-row>
-                <v-col cols="12" md="8">
-                  Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
-                  scaevola imperdiet nec ut, sed euismod convenire principes at.
-                  Est et nobis iisque percipit.
+                <v-col cols="12" md="12" class="text-h6 font-weight-light">
+                  On each model’s page, the central element is a map
+                  illustrating the dataset, allowing one to visualize the
+                  mobility flows by clicking on a location. Below this, there
+                  are sliders which enable the user to modify data values at a
+                  given location and resubmit these values to receive a new
+                  prediction.
                 </v-col>
-                <v-col cols="12" md="4">
+                <!-- <v-col cols="12" md="4">
                   Lorem ipsum dolor sit amet, no nam oblique veritus.
-                </v-col>
+                </v-col> -->
               </v-row>
             </v-container>
           </v-card>
@@ -97,13 +98,21 @@
           <v-card>
             <v-card-title class="primary darken-3">
               <v-icon class="mr-4" dark size="42"> mdi-home-analytics </v-icon>
-              <h2 class="display-1 white--text font-weight-light">Step 3</h2>
+              <h2 class="display-1 white--text font-weight-medium">Step 3</h2>
             </v-card-title>
             <v-container>
               <v-row>
-                <v-col v-for="n in 3" :key="n" cols="12" md="4">
-                  Lorem ipsum dolor sit amet, no nam oblique veritus no nam
-                  oblique.
+                <v-col
+                  v-for="n in 1"
+                  :key="n"
+                  cols="12"
+                  md="12"
+                  class="text-h6 font-weight-light"
+                >
+                  After modifying the data values, click on “submit” and view
+                  the new predicted flows from the selected location in the map
+                  view. On the left, the deltas pane will update with the
+                  mean-square error and the absolute error of this prediction.
                 </v-col>
               </v-row>
             </v-container>
@@ -113,7 +122,7 @@
         <v-timeline-item color="secondary lighten-1" fill-dot left small>
           <v-card>
             <v-card-title class="justify-end secondary lighten-1">
-              <h2 class="mr-4 display-1 white--text font-weight-light">
+              <h2 class="mr-4 display-1 white--text font-weight-medium">
                 Step 4
               </h2>
               <!-- <v-icon dark size="42"> mdi-account-multiple-outline </v-icon> -->
@@ -123,11 +132,9 @@
                 <v-col class="hidden-sm-and-down" md="2">
                   <v-icon size="64"> mdi-map </v-icon>
                 </v-col>
-                <v-col cols="12" md="10">
-                  Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
-                  scaevola imperdiet nec ut, sed euismod convenire principes at.
-                  Est et nobis iisque percipit, an vim zril disputando
-                  voluptatibus.
+                <v-col cols="12" md="10" class="text-h6 font-weight-light">
+                  That’s it! You’re now ready to use SIDA to imagine different
+                  futures in your human mobility dataset.
                 </v-col>
               </v-row>
             </v-container>
@@ -138,11 +145,11 @@
           <v-card>
             <v-card-title class="accent lighten-1">
               <v-icon class="mr-4" dark size="42"> mdi-check-bold </v-icon>
-              <h2 class="display-1 white--text font-weight-light">Done</h2>
+              <h2 class="display-1 white--text font-weight-medium">Done</h2>
             </v-card-title>
             <v-container>
               <v-row>
-                <v-col>
+                <v-col class="text-h6 font-weight-light">
                   Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
                   scaevola imperdiet nec ut, sed euismod convenire principes at.
                   Est et nobis iisque percipit, an vim zril disputando
@@ -154,20 +161,28 @@
         </v-timeline-item>
       </v-timeline>
     </section>
-
     <section id="models" class="mb-12">
       <h2 class="pt-12 pb-8 text-center text-h2 font-weight-bold">Models</h2>
-      <v-row dense style="max-width: 800px" class="mx-auto">
+      <v-row dense style="max-width: 800px" class="pt-10 mx-auto">
         <v-col
-          v-for="card in cards"
-          :key="card.title"
-          :cols="card.width"
+          v-for="(card, _, index) in getPossibleDatasetInfo"
+          :key="card.id"
+          :cols="12"
           md="6"
         >
-          <DataSetCard :imgLink="card.img" :datasetID="card.datasetID">
-            <template v-slot:title> {{ card.title }} </template>
-            <template v-slot:subtitle> {{ card.subtitle }} </template>
-            <template v-slot:body> {{ card.body }} </template>
+          <DataSetCard
+            :imgLink="card[index].image_url"
+            :datasetID="card[index].id"
+          >
+            <template v-slot:title>
+              {{ card[index].name }}
+            </template>
+            <template v-slot:subtitle>
+              {{ card[index].subtitle }}
+            </template>
+            <template v-slot:body>
+              {{ card[index].description }}
+            </template>
           </DataSetCard>
         </v-col>
       </v-row>
@@ -177,7 +192,8 @@
 
 <script>
 import DataSetCard from "./DataSetCard.vue";
-
+import { mapGetters, mapActions } from "vuex";
+import store from "../../store";
 export default {
   name: "HomePage",
   components: {
@@ -226,7 +242,16 @@ export default {
       ],
     };
   },
-  method: {},
+  methods: {
+    ...mapActions(["loadPossibleDatasets"]),
+  },
+  computed: {
+    ...mapGetters(["getPossibleDatasetInfo"]),
+  },
+  async mounted() {
+    store.commit("SET_DATASET_NAME", this.name);
+    await this.loadPossibleDatasets();
+  },
 };
 </script>
 

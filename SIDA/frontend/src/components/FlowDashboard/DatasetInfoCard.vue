@@ -1,16 +1,15 @@
 <template>
   <v-card outlined v-ripple elevation="3" class="w-full h-full">
-    <v-card-title class="text-h4"> LODES </v-card-title>
+    <v-card-title class="text-h4 font-weight-medium">
+      {{ getSelectedDatasetInfo.name }}
+    </v-card-title>
 
-    <v-card-subtitle class="subtitle-1"> data set info </v-card-subtitle>
+    <v-card-subtitle class="subtitle-1 font-italic">
+      {{ getSelectedDatasetInfo.source }}
+    </v-card-subtitle>
 
-    <v-card-text class="body-1">
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et, fuga porro.
-      Impedit eaque cumque voluptatibus voluptatum deleniti? A quam mollitia at
-      quia laborum explicabo! Assumenda tenetur nostrum rerum neque totam?Lorem
-      ipsum dolor sit, amet consectetur adipisicing elit. Et, fuga porro.
-      Impedit eaque cumque voluptatibus voluptatum deleniti? A quam mollitia at
-      quia laborum explicabo! Assumenda tenetur nostrum rerum neque totam?
+    <v-card-text class="body-1 font-weight-light">
+      {{ getSelectedDatasetInfo.description }}
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -20,6 +19,7 @@
         block
         large
         class="left-0"
+        :disabled="!getPredictionErrors.show"
       >
         See Flow Deltas
       </v-btn>
@@ -37,22 +37,21 @@
           <v-icon x-large dark color="secondary">mdi-delta</v-icon>
         </v-card-title>
 
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr class="">
-                <th class="text-center text-h5 font-weight-bold">Original</th>
-                <th class="text-center text-h5 font-weight-bold">Computed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="body-1 font-weight-medium">Population</td>
-                <td class="body-1 font-weight-medium">Other Attr</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <v-card-text class="text-center text-h5 text-accent font-weight-bold">
+          Mean-Square Delta
+        </v-card-text>
+
+        <v-card-text class="text-center font-weight-light text-h5 color-red">
+          {{ getPredictionErrors.mse }}
+        </v-card-text>
+
+        <v-card-text class="text-center text-h5 text-accent font-weight-bold">
+          Absolute Delta
+        </v-card-text>
+
+        <v-card-text class="text-center font-weight-light text-h5">
+          {{ getPredictionErrors.abs }}
+        </v-card-text>
         <v-card-actions class="pt-0">
           <v-btn
             text
@@ -73,6 +72,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "DataSetInfoCard",
   data() {
@@ -80,10 +80,13 @@ export default {
       reveal: false,
     };
   },
+  computed: {
+    ...mapGetters(["getPredictionErrors", "getSelectedDatasetInfo"]),
+  },
 };
 </script>
 
-><<style scoped>
+<<style scoped>
 
 .v-card--reveal {
   bottom: 0;
