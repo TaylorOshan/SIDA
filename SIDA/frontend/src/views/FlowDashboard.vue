@@ -13,6 +13,10 @@
 
       <v-col cols="12" md="6"><FlowInfoCard /></v-col>
 
+      <v-col cols="12" md="12" :v-if="getHistData && getHistData.show"
+        ><HistCard
+      /></v-col>
+
       <v-col cols="12">
         <v-card outlined elevation="3">
           <Table></Table>
@@ -30,6 +34,7 @@ import Table from "../components/FlowDashboard/Table.vue";
 import HoverInfo from "../components/FlowDashboard/HoverInfo.vue";
 import DatasetInfoCard from "../components/FlowDashboard/DatasetInfoCard.vue";
 import FlowInfoCard from "../components/FlowDashboard/FlowInfoCard.vue";
+import HistCard from "../components/FlowDashboard/HistCard.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -46,6 +51,7 @@ export default {
     HoverInfo,
     DatasetInfoCard,
     FlowInfoCard,
+    HistCard,
   },
   data() {
     return {
@@ -64,6 +70,7 @@ export default {
       "getPopupData",
       "getFlowLayer",
       "getFlowVisibility",
+      "getHistData",
     ]),
   },
   methods: {

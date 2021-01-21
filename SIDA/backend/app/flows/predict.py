@@ -19,14 +19,15 @@ def predict(o_attrs, d_attrs, cost):
     - predicted flows in and out of the given location
     """
 
-    # Split up parameter array
+    cost = cost.reshape(-1,1)
+
     intercept, o_params, d_params, dist_param = PARAMS
 
-    # Create right hand side of prediction
     rhs = (
         intercept
-        + np.dot(o_params, np.log(o_attrs))
-        + np.dot(d_params, np.log(d_attrs))
-        + dist_param * np.log(cost)
+        + np.multiply(o_params, np.log(o_attrs))
+        + np.multiply(d_params, np.log(d_attrs))
+        + np.multiply(dist_param, np.log(cost))
     )
+
     return np.exp(rhs)

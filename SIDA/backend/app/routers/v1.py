@@ -1,3 +1,5 @@
+from operator import mul
+from typing import MutableMapping
 from typing import Optional
 
 from fastapi import APIRouter
@@ -38,9 +40,9 @@ async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
     flows = await FlowModel.get_flows_from_point(dataset_name, edit.location_name)
 
-    altered_flows, mse, abs_error, multdiffs = modify_loc(edit.location_name, flows, edit.edits)
+    altered_flows, mse, abs_error, mult_diffs = modify_loc(edit.location_name, flows, edit.edits)
 
-    return {"flows": altered_flows, "mse": mse, "absError": abs_error, "multDiffs": multdiffs}
+    return {"flows": altered_flows, "mse": mse, "absError": abs_error, "multDiffs": mult_diffs}
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")

@@ -14,6 +14,7 @@ export default new Vuex.Store({
     locationLayer: [],
     flowLayer: [],
     possibleDatasetInfo: [],
+    histData: null,
     predictionErrors: {},
     selectedDatasetInfo: {},
     datasetName: null,
@@ -60,6 +61,7 @@ export default new Vuex.Store({
     SET_LOCATION_VISIBLE: (state, bool) => state.locationVisibile = bool,
     SET_SELECTED_DATASET_INFO: (state, data) => state.selectedDatasetInfo = data,
     SET_POSSIBLE_DATASET_INFO: (state, data) => state.possibleDatasetInfo = data,
+    SET_HIST_DATA: (state, data) => state.histData = data,
     UPDATE_FLOW_LAYER: (state, layer) => state.flowLayer = layer,
     UPDATE_LOCATION_LAYER: (state, layer) => state.locationLayer = layer,
     TOGGLE_FLOW_VISIBILITY: (state) => state.flowVisible = !state.flowVisible,
@@ -86,6 +88,7 @@ export default new Vuex.Store({
     getPredictionErrors: state => state.predictionErrors,
     getSelectedDatasetInfo: state => state.selectedDatasetInfo,
     getPossibleDatasetInfo: state => state.possibleDatasetInfo,
+    getHistData: state => state.histData,
   },
   actions: {
     loadDatasetInfo: async ({ commit, state }) => {
@@ -162,6 +165,8 @@ export default new Vuex.Store({
         commit('SET_FLOW_VISIBLE', true);
         const flows = await getEditedFlows(state.datasetName, state.popupData.name, sliders);
         commit('SET_PREDICTION_ERRORS', { abs: flows.absError, mse: flows.mse, show: true });
+        console.log(flows.multDiffs);
+        commit('SET_HIST_DATA', { show: true, data: flows.multDiffs });
         commit('SET_PREDICTED_FLOWS', flows.flows);
         const layer = await getFlowLayer(flows.flows, state.locations, state.popupData.name);
         commit('UPDATE_FLOW_LAYER', layer);

@@ -32,6 +32,7 @@ async function getScatterplotLayer(locations) {
       if (info.object) {
         const { object, x, y } = info
         store.commit('SET_PREDICTION_ERRORS', { show: false });
+        store.commit("SET_HIST_DATA", { show: false });
         store.commit('SET_POPUP_INFO', {
           loc: [x, y],
           name: object.name,

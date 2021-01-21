@@ -1,10 +1,13 @@
+from operator import mul
 from typing import Dict
 from typing import List
+from typing import MutableMapping
 
 import numpy as np
 import pandas as pd
 
-from .predict import predict    
+from .predict import predict
+
 
 def modify_loc(name: str, flowsrows: List, attrs: Dict):
     """
@@ -44,15 +47,17 @@ def modify_loc(name: str, flowsrows: List, attrs: Dict):
         flowsrows[o_attrs].values, flowsrows[d_attrs].values, flowsrows["cost"].values
     )
 
-    obs = flowsrows["count"].values
+    obs = flowsrows["count"].values.reshape(-1,1)
     pred = flows_predicted
 
     mse = ((obs - pred) ** 2).sum() / flowsrows.shape[0]
     abs_error = np.abs(obs - pred).sum() / flowsrows.shape[0]
+    mult_diffs = np.divide(pred, obs).flatten()
+    mult_diffs = mult_diffs.tolist()
 
     flowsrows["count"] = flows_predicted
 
-    return flowsrows.to_dict(orient="records"), mse, abs_error, pred / obs
+    return flowsrows.to_dict(orient="records"), mse, abs_error, mult_diffs
 
 
 def remove(name: str, flowsrows):
