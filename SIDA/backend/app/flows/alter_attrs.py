@@ -4,16 +4,7 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-from .predict import predict
-
-
-def mse(observed, predicted):
-    return 
-
-
-def abs_error(obs, pred):
-    return 
-    
+from .predict import predict    
 
 def modify_loc(name: str, flowsrows: List, attrs: Dict):
     """
@@ -61,7 +52,7 @@ def modify_loc(name: str, flowsrows: List, attrs: Dict):
 
     flowsrows["count"] = flows_predicted
 
-    return flowsrows.to_dict(orient="records"), mse, abs_error
+    return flowsrows.to_dict(orient="records"), mse, abs_error, pred / obs
 
 
 def remove(name: str, flowsrows):
