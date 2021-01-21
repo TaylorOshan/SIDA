@@ -24,10 +24,7 @@
         :color="locationColor"
         @click="toggleLocations"
       >
-        <v-container>
-          Locations
-          <!-- <v-icon>mdi-pencil</v-icon> -->
-        </v-container>
+        <v-container> Locations </v-container>
       </v-btn>
       <v-btn
         fab
@@ -38,10 +35,7 @@
         @click="toggleFlows"
         :disabled="flowsLoaded"
       >
-        <v-container>
-          Flows
-          <!-- <v-icon>mdi-pencil</v-icon> -->
-        </v-container>
+        <v-container> Flows </v-container>
       </v-btn>
     </v-speed-dial>
   </div>
@@ -74,6 +68,7 @@ export default {
       "getFlows",
     ]),
     locationColor() {
+      console.log(this.getLocationVisibility);
       if (this.getLocationVisibility) {
         return "primary";
       } else {
@@ -114,24 +109,6 @@ export default {
       this.renderLoc();
     },
   },
-  // getFlowLayer: {
-  //   handler(value) {
-  //     console.log("Layers Changed...Modifying DeckGL");
-  //     if (this.deck) {
-  //       console.log(value);
-  //       try {
-  //         this.deck.setProps({
-  //           layers: [value, this.getLocationLayer],
-  //         });
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     } else {
-  //       console.log("No DeckGL Instance");
-  //     }
-  //   },
-  //   deep: false,
-  // },
 };
 </script>
 

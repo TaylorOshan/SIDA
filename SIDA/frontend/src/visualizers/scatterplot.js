@@ -1,7 +1,7 @@
 /* eslint-disable */
 
-import { ScatterplotLayer } from '@deck.gl/layers'
-import store from '../store/index'
+import { ScatterplotLayer } from '@deck.gl/layers';
+import store from '../store/index';
 
 async function getScatterplotLayer(locations) {
   // function colorDecider (d) {
@@ -21,24 +21,25 @@ async function getScatterplotLayer(locations) {
     filled: true,
     radiusScale: 20,
     radiusMinPixels: 2.5,
-    radiusMaxPixels: 30,
+    radiusMaxPixels: 23,
     lineWidthMinPixels: 1,
     visible: store.getters.getLocationVisibility,
     getPosition: d => [d.lat, d.lon],
-    getRadius: d => Math.sqrt(d.outflows),//Math.sqrt(d.outflows),
+    getRadius: d => Math.sqrt(d.d_attr),
     getFillColor: d => [255, 140, 0],
     getLineColor: d => [0, 0, 0],
     onClick: (info, event) => {
       if (info.object) {
         const { object, x, y } = info
+        store.commit('SET_PREDICTION_ERRORS', { show: false });
+        store.commit("SET_HIST_DATA", []);
         store.commit('SET_POPUP_INFO', {
           loc: [x, y],
           name: object.name,
           lat: object.lat,
           lon: object.lon,
-          pop: object.population,
-          in: object.inflows,
-          out: object.outflows,
+          o_attr: object.o_attr,
+          d_attr: object.d_attr,
           show: true
         })
         store.dispatch('loadClickFlows', {
@@ -55,5 +56,5 @@ async function getScatterplotLayer(locations) {
   return layer
 }
 
-export { getScatterplotLayer }
+export { getScatterplotLayer };
 

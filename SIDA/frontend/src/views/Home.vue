@@ -1,13 +1,13 @@
 <template>
-  <NewHomePage />
+  <HomePage />
 </template>
 
 <script>
-import NewHomePage from "../components/Home/NewHomePage.vue";
+import HomePage from "../components/Home/HomePage.vue";
 export default {
   name: "Home",
   components: {
-    NewHomePage,
+    HomePage,
   },
 };
 </script>

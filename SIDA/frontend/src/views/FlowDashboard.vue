@@ -13,6 +13,10 @@
 
       <v-col cols="12" md="6"><FlowInfoCard /></v-col>
 
+      <v-col cols="12" md="12" v-if="getHistData.length > 1"
+        ><HistCard
+      /></v-col>
+
       <v-col cols="12">
         <v-card outlined elevation="3">
           <Table></Table>
@@ -30,6 +34,7 @@ import Table from "../components/FlowDashboard/Table.vue";
 import HoverInfo from "../components/FlowDashboard/HoverInfo.vue";
 import DatasetInfoCard from "../components/FlowDashboard/DatasetInfoCard.vue";
 import FlowInfoCard from "../components/FlowDashboard/FlowInfoCard.vue";
+import HistCard from "../components/FlowDashboard/HistCard.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -37,13 +42,16 @@ import store from "../store";
 
 export default {
   name: "FlowDashboard",
-  props: {},
+  props: {
+    name: String,
+  },
   components: {
     FlowMap,
     Table,
     HoverInfo,
     DatasetInfoCard,
     FlowInfoCard,
+    HistCard,
   },
   data() {
     return {
@@ -62,6 +70,7 @@ export default {
       "getPopupData",
       "getFlowLayer",
       "getFlowVisibility",
+      "getHistData",
     ]),
   },
   methods: {
@@ -70,6 +79,7 @@ export default {
       "loadTileFlows",
       "loadLocations",
       "renderFlow",
+      "loadDatasetInfo",
     ]),
     showLocation() {
       console.log(this.getLocations);
@@ -82,14 +92,14 @@ export default {
       store.commit("SET_LOCATIONS_LAYER_VIS", !vis);
       console.log(this.getLocationsVisibility);
     },
-    
   },
   watch: {},
   async mounted() {
-    console.log("loading");
+    console.log(this.name);
+    store.commit("SET_DATASET_NAME", this.name);
+    await this.loadDatasetInfo();
     await this.loadLocations();
     console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
-    store.commit("SET_DATASET_NAME", "fake_name");
   },
 };
 </script>

@@ -18,14 +18,22 @@
         {{ getPopupData.lon }}, {{ getPopupData.lat }}
       </v-card-subtitle>
 
-      <v-card-text class="mt-6">
+      <v-card-text class="my-4">
         <v-row v-for="item in sliders" :key="item.label">
           <v-col class="pr-4" cols="12">
             <v-subheader
               class="pl-0 text-h6 font-weight-bold text-accent"
               style="z-index: 99 !important; postion: relative"
             >
-              {{ item.label }}
+              {{ item.label }}&nbsp;:&nbsp;{{ getPopupData[item.label] }}&nbsp;
+              <span
+                v-if="item.val != 100"
+                :style="{ color: getSliderColor(item.val) }"
+                class="flex flex-row items-center justify-start"
+              >
+                <v-icon x-small>mdi-multiplication</v-icon>
+                {{ item.val }}%
+              </span>
             </v-subheader>
             <v-slider
               :id="item.label"
@@ -36,11 +44,11 @@
               label="    "
               :color="getSliderColor(item.val)"
               :max="200"
-              :min="-200"
-              thumb-label="always"
-              :thumb-size="Math.abs(item.val) / 20 + 40"
+              :min="25"
+              thumb-size="50"
               append-icon="mdi-close"
-              @click:append="item.val = 0"
+              @click:append="item.val = 100"
+              @change="sliderChanged($event)"
             >
               <template v-slot:thumb-label="{ value }">
                 <span class="inline text-button font-weight-bold"
@@ -50,25 +58,19 @@
             </v-slider>
           </v-col>
         </v-row>
-        <v-btn text color="primary" @click="reveal = false" block large>
+        <v-btn
+          text
+          color="primary"
+          @click="submitFlowChanges"
+          block
+          large
+          class="mt-4"
+          :disabled="!sliderChangedBool"
+        >
           Submit Changes
         </v-btn>
       </v-card-text>
-
-      <!-- <v-list-item class="body-1">
-        <v-list-item-content>
-          <v-list-item-title>Inflows : {{ getPopupData.in }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item class="body-1">
-        <v-list-item-content>
-          <v-list-item-title
-            >Outflows : {{ getPopupData.out }}</v-list-item-title
-          >
-        </v-list-item-content>
-      </v-list-item> -->
     </v-card>
-
     <v-card
       v-else
       outlined
@@ -87,44 +89,36 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import store from "../../store";
-import FlowInfoSlider from "./FlowInfoSlider.vue";
 
 export default {
   name: "FlowInfoCard",
-  components: {
-    FlowInfoSlider,
-  },
+  components: {},
   data() {
     return {
       sliders: [
-        { label: "Attr1", val: 0, color: "grey" },
-        { label: "Attr2", val: 0, color: "grey" },
-        { label: "Attr3", val: 0, color: "grey" },
+        { label: "o_attr", val: 100 },
+        { label: "d_attr", val: 100 },
       ],
+      sliderChangedBool: false,
     };
   },
   computed: {
     ...mapGetters(["getPopupData"]),
-    sliderColor() {
-      console.log(this.val);
-      if (this.val < 0) {
-        return "red";
-      } else if (this.val > 0) {
-        return "green";
-      } else {
-        return "gray";
+  },
+  watch: {
+    getPopupData: function () {
+      this.sliderChangedBool = false;
+      for (let i in this.sliders) {
+        this.sliders[i].val = 100;
       }
-    },
-    thumbSize() {
-      return;
     },
   },
   methods: {
-    ...mapActions(["renderFlow"]),
+    ...mapActions(["renderFlow", "predictEditedFlows"]),
     getSliderColor(val) {
-      if (val < 0) {
+      if (val < 100) {
         return "red";
-      } else if (val > 0) {
+      } else if (val > 100) {
         return "green";
       } else {
         return "gray";
@@ -132,15 +126,25 @@ export default {
     },
     clearCurrentFlow() {
       store.commit("SET_POPUP_INFO", { display: false });
+      store.commit("SET_PREDICTION_ERRORS", { show: false });
+      store.commit("SET_HIST_DATA", []);
       store.commit("SET_FLOW_VISIBLE", false);
-      console.log(this.getFlowVisibility);
+      this.sliderChangedBool = false;
       this.renderFlow();
+    },
+    submitFlowChanges() {
+      console.log("Submitting Flow Changes");
+      store.dispatch("predictEditedFlows", {
+        sliders: this.sliders,
+      });
+    },
+    sliderChanged(val) {
+      if (val != 100) {
+        this.sliderChangedBool = true;
+      } else {
+        this.sliderChangedBool = false;
+      }
     },
   },
 };
 </script>
-
-><<style scoped>
-
-
-</style>

@@ -4,18 +4,16 @@ import store from '../store';
 import * as geostats from './geostats';
 
 
-async function getFlowLayer(flows, locations) {
+async function getFlowLayer(flows, locations, locationName) {
 
   // These are Green
-  //let colorMapDestination = ['#045d56', '#459488', '#89cebb', '#ffffe0'];
-  //let colorMapDestination = ['#00391e', '#005f35', '#007d51', '#009c68', '#1eb980', '#00e5a8', '#37efba', '#5df7d2', '#88fee1', '#b6fff2'];
-  let colorMapDestination = ['rgba(255,0,0, 100)', 'rgba(255,0,0, 80)', 'rgba(255,0,0, 60)', 'rgba(128,128,128,0)'];
+  // Inflows
+  let colorMapDestination = ['rgba(30,185,128, 100)', 'rgba(30, 185, 128,60)', 'rgba(0,57,30, 40)', 'rgba(0,57,30, 0)'];
   colorMapDestination = colorMapDestination.reverse();
 
   // These are Red
-  //let colorMapOrigin = ['#ff6859', '#f59378', '#e9b692', '#ffcf44'];
-  //let colorMapOrigin = ['#620002', '#8c0000', '#b50000', '#df0000', '#ff0600', '#ff3522', '#ff6859', '#ff857c', '#ffb3a6', '#ffd7d0'];
-  let colorMapOrigin = ['rgba(4,93,86, 100)', 'rgba(4, 93, 86,80)', 'rgba(51,52,50, 60)', 'rgba(51,52,50, 0)'];
+  // Outflows
+  let colorMapOrigin = ['rgba(255,6,0, 100)', 'rgba(255,6,0, 60)', 'rgba(98,0,2, 40)', 'rgba(128,128,128,0)'];
   colorMapOrigin = colorMapOrigin.reverse();
 
   if (flows) {
@@ -24,8 +22,7 @@ async function getFlowLayer(flows, locations) {
       counts.push(flow.count);
     }
     let gstats = new geostats(counts);
-    var buckets = gstats.getQuantile(3);
-    //var buckets = gstats.getJenks(3);
+    var buckets = gstats.getJenks(3);
     console.log(buckets);
   }
 
@@ -33,33 +30,13 @@ async function getFlowLayer(flows, locations) {
 
     for (let i = 0; i < buckets.length; i++) {
       if (count <= buckets[i]) {
-        if (origin === store.getters.getDatasetName) {
-          return colorMapDestination[i];
-        } else {
+        if (origin == store.getters.getPopupData.name) {
           return colorMapOrigin[i];
+        } else {
+          return colorMapDestination[i];
         }
 
       }
-    }
-  }
-
-  function getTotalInOut(origin, count, boolIn) {
-    let totalIn;
-    let totalOut;
-    for (let loc in flows) {
-
-      if (origin === store.getters.getDatasetName) {
-        totalOut += count;
-      } else {
-        totalIn += count;
-      }
-
-    }
-
-    if (boolIn) {
-      return totalIn;
-    } else {
-      return totalOut;
     }
   }
 
@@ -75,39 +52,26 @@ async function getFlowLayer(flows, locations) {
     showTotals: false,
     visible: store.getters.getFlowVisibility,
     // showOnlyTopFlows: 10000,
-    maxFlowThickness: 10,
-    outlineThickness: 0,
+    maxFlowThickness: 5,
+    outlineThickness: 2,
     colors: {
       flows: {
-        scheme: d3scaleChromatic.schemeDark2 // schemeDark2,
+        scheme: d3scaleChromatic.schemeDark2
       },
       outlineColor: 'rgba(69,69,69, 70)',
-      // flows: {
-      //     scheme: [
-      //         'rgb(0, 22, 61)',
-      //         'rgb(0, 27, 62)',
-      //         'rgb(0, 36, 68)',
-      //         'rgb(0, 48, 77)',
-      //         'rgb(3, 65, 91)',
-      //         'rgb(48, 87, 109)',
-      //         'rgb(85, 115, 133)',
-      //         'rgb(129, 149, 162)',
-      //         'rgb(179, 191, 197)',
-      //         'rgb(240, 240, 240)',
-      //     ],
-      // },
 
     },
-    getFlowMagnitude: (f) => Math.sqrt(f.count),//Math.log10(f.count), // f.properties.scalerank,
-    getFlowOriginId: (f) => f.origin, // "LHR",
-    getFlowDestId: (f) => f.destination, // f.properties.abbrev,
-    getLocationId: (loc) => loc.name, // f.properties.abbrev,
-    getLocationCentroid: (location) => [location.lat, location.lon], // f.geometry.coordinates,
+    getFlowMagnitude: (f) => f.count,//Math.sqrt(f.count),
+    getFlowOriginId: (f) => f.origin,
+    getFlowDestId: (f) => f.destination,
+    getLocationId: (loc) => loc.name,
+    getLocationCentroid: (location) => [location.lat, location.lon],
     getFlowColor: (f) => getFlowColor(f.count, f.origin),
   })
-  return layer
-}
 
+  return layer
+
+}
 
 export { getFlowLayer };
 
