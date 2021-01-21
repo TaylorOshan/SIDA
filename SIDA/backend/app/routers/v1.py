@@ -19,9 +19,9 @@ async def get_predicted_flows(dataset_name: str, edit: EditedFlowModel):
 
     flows = await FlowModel.get_flows_from_point(dataset_name, edit.location_name)
 
-    altered_flows, mse, abs_error = modify_loc(edit.location_name, flows, edit.edits)
+    altered_flows, mse, abs_error, multdiffs = modify_loc(edit.location_name, flows, edit.edits)
 
-    return {"flows": altered_flows, "mse": mse, "absError": abs_error}
+    return {"flows": altered_flows, "mse": mse, "absError": abs_error, "multDiffs": multdiffs}
 
 
 @router.get("/api/v1/{dataset_name}/{x}/{y}/{z}")
