@@ -1,9 +1,5 @@
-version: "3"
 
-networks:
-  t2_proxy:
-    external:
-      name: t2_proxy
+version: "3"
 
 services:
   web:
@@ -12,24 +8,10 @@ services:
       dockerfile: prod.dockerfile
     restart: unless-stopped
     container_name: frontend
+    ports:
+     - 8080:80
     volumes: 
       - ./frontend:/SIDA
-    networks:
-      - t2_proxy
-      - default
-    security_opt:
-      - no-new-privileges:true
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.sida-rtr.entrypoints=https"
-      - "traefik.http.routers.sida-rtr.rule=Host(`sida.tralka.xyz`)"
-      - "traefik.http.routers.sida-rtr.tls=true"
-      ## Middlewares
-      - "traefik.http.routers.sida-rtr.middlewares=chain-no-auth@file"
-      ## HTTP Services
-      - "traefik.http.routers.sida-rtr.service=sida-svc"
-      - "traefik.http.services.sida-svc.loadbalancer.server.port=80"
   api:
     build:
       context: ./backend
@@ -40,47 +22,38 @@ services:
       - 8000:8000
     volumes: 
       - ./backend:/SIDA
-    networks:
-      - t2_proxy
-      - default
     depends_on: 
+      - redis
       - db
     environment: 
       - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.sida_db-rtr.entrypoints=https"
-      - "traefik.http.routers.sida_db-rtr.rule=Host(`sidadb.tralka.xyz`)"
-      - "traefik.http.routers.sida_db-rtr.tls=true"
-      ## Middlewares
-      - "traefik.http.routers.sida_db-rtr.middlewares=chain-no-auth@file"
-      ## HTTP Services
-      - "traefik.http.routers.sida_db-rtr.service=sida_db-svc"
-      - "traefik.http.services.sida_db-svc.loadbalancer.server.port=8000"
 
-  # redis:
-  #   image: redis:6.0.9
-  #   container_name: redis
-  #   ports:
-  #     - "6379:6379"
-  # worker:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: celery.dockerfile
-  #   container_name: celery_worker
-  #   volumes: 
-  #     - ./backend:/SIDA
-  #   environment: 
-  #     - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
-  # flower:  
-  #   image: mher/flower
-  #   container_name: flower
-  #   environment: 
-  #     - CELERY_BROKER_URL=redis://redis:6379/0
-  #     - FLOWER_PORT=8888 
-  #   ports:  
-  #     - 8888:8888  
+  redis:
+    image: redis:6.0.9
+    container_name: redis
+    ports:
+      - "6379:6379"
+  worker:
+    build:
+      context: ./backend
+      dockerfile: celery.dockerfile
+    container_name: celery_worker
+    volumes: 
+      - ./backend:/SIDA
+    depends_on: 
+       - redis
+    environment: 
+      - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
+  flower:  
+    image: mher/flower
+    container_name: flower
+    environment: 
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888 
+    ports:  
+      - 8888:8888  
+    depends_on: 
+      - redis
   db:
     image: postgres:11
     container_name: postgres

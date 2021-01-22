@@ -6,7 +6,7 @@ LABEL version="0.0.0"
 
 WORKDIR /SIDA
 
-COPY package*.json ./
+COPY package*.json .
 
 RUN npm install
 
