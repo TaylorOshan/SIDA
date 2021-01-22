@@ -4,9 +4,9 @@ FROM node:lts-alpine
 LABEL maintainer="Matthew Tralka"
 LABEL version="0.0.0"
 
-WORKDIR /SIDA
+COPY package*.json /SIDA/
 
-COPY package*.json .
+WORKDIR /SIDA
 
 RUN npm install
 
