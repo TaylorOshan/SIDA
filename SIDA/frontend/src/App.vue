@@ -10,7 +10,6 @@
             alt="SIDA"
             src="./assets/SIDA_LOGO_PURPLE.png"
             max-width="100"
-            v-show="!ifHomePage()"
           >
           </v-img>
         </v-toolbar-title>
@@ -41,7 +40,7 @@
         </v-tooltip>
       </router-link>
 
-      <router-link to="/#whatWeDo">
+      <router-link to="/#about">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-on="on" v-bind="attrs">

@@ -43,7 +43,7 @@
               class="ml-4 align-center"
               label="    "
               :color="getSliderColor(item.val)"
-              :max="200"
+              :max="400"
               :min="25"
               thumb-size="50"
               append-icon="mdi-close"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="relative">
+    <section class="relative h-screen">
       <v-container
         class="flex flex-col items-center justify-center pt-20 mb-8 md:flex-row md:pt-36"
       >
@@ -19,7 +19,7 @@
       <v-container
         class="flex flex-col items-center justify-around mx-auto md:flex-row md:justify-center"
       >
-        <router-link to="/#whatWeDo">
+        <router-link to="/#about">
           <v-btn class="btn" elevation="10" x-large color="primary" outlined>
             Learn More
           </v-btn>
@@ -32,9 +32,12 @@
         </router-link>
       </v-container>
 
-      <div class="relative h-32 mt-20 mb-12 md:mt-36">
-        <a href="#scrollMarker" id="scrollMarker">
-          <div class="flex flex-col items-center p-6 mb-5 arrow">
+      <div
+        class="absolute bottom-0 w-full md:relative md:pt-40"
+        style="padding-bottom: 20vh"
+      >
+        <a href="#about" id="scrollMarker">
+          <div class="flex flex-col items-center p-6 arrow">
             <span></span>
             <span></span>
             <span></span>
@@ -43,117 +46,50 @@
       </div>
     </section>
 
-    <section>
-      <h2 id="whatWeDo" class="pt-4 pb-8 text-center text-h2 font-weight-bold">
-        What we do
-      </h2>
+    <section id="about">
+      <v-lazy
+        :options="{
+          threshold: 1,
+        }"
+        min-height="200"
+        transition="fade-transition"
+      >
+        <h1 class="max-w-3xl p-4 mb-10 text-right font-weight-bold text-h3">
+          We are the next generation of spatial decision support.
+        </h1>
+      </v-lazy>
 
+      <v-row class="mt-40 mb-6" >
+        <v-col cols="6" class="flex flex-col items-center justify-center">
+          <p
+            class="max-w-sm pl-4 mt-40 mb-10 leading-relaxed text-left p-7 font-weight-medium"
+            style="font-size: 1.2rem !important"
+          >
+            Our vision is to streamline spatial interaction analysis through
+            SIDA, a lightweight, flexible platform that allows users of all
+            backgrounds to leverage predefined sets of organized results and
+            visualizations for spatial interaction modelling.
+          </p>
+        </v-col>
+        <v-col cols="6">
+          <v-img
+            lazy-src="../../assets/connected_world.svg"
+            max-height="600"
+            max-width="350"
+            src="../../assets/connected_world.svg"
+          ></v-img>
+        </v-col>
+      </v-row>
+    </section>
+
+    <section>
       <v-timeline :dense="$vuetify.breakpoint.smAndDown" class="mb-8">
-        <v-timeline-item color="primary" fill-dot right>
-          <v-card>
-            <v-card-title class="primary darken-2">
-              <v-icon dark size="42" class="mr-4"> mdi-magnify </v-icon>
-              <h2 class="display-1 white--text font-weight-medium">Step 1</h2>
-            </v-card-title>
+        <v-timeline-item fill-dot v-for="(item, i) in timelineItems" :key="i" :color="item.color" :icon="item.icon">
+          <v-card shaped>
             <v-container>
               <v-row>
                 <v-col cols="12" md="10" class="text-h5 font-weight-light">
-                  Select a model from the Models section below.
-                </v-col>
-                <!-- <v-col class="text-right hidden-sm-and-down" md="2">
-                  <v-icon size="64"> mdi-calendar-text </v-icon>
-                </v-col> -->
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-timeline-item>
-
-        <v-timeline-item color="secondary lighten-2" fill-dot left small>
-          <v-card>
-            <v-card-title class="justify-end secondary lighten-1">
-              <h2 class="mr-4 display-1 white--text font-weight-medium">
-                Step 2
-              </h2>
-              <v-icon dark size="42"> mdi-database-search </v-icon>
-            </v-card-title>
-            <v-container>
-              <v-row>
-                <v-col cols="12" md="12" class="text-h6 font-weight-light">
-                  On each model’s page, the central element is a map
-                  illustrating the dataset, allowing one to visualize the
-                  mobility flows by clicking on a location. Below this, there
-                  are sliders which enable the user to modify data values at a
-                  given location and resubmit these values to receive a new
-                  prediction.
-                </v-col>
-                <!-- <v-col cols="12" md="4">
-                  Lorem ipsum dolor sit amet, no nam oblique veritus.
-                </v-col> -->
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-timeline-item>
-
-        <v-timeline-item color="primary lighten-3" fill-dot right>
-          <v-card>
-            <v-card-title class="primary darken-3">
-              <v-icon class="mr-4" dark size="42"> mdi-home-analytics </v-icon>
-              <h2 class="display-1 white--text font-weight-medium">Step 3</h2>
-            </v-card-title>
-            <v-container>
-              <v-row>
-                <v-col
-                  v-for="n in 1"
-                  :key="n"
-                  cols="12"
-                  md="12"
-                  class="text-h6 font-weight-light"
-                >
-                  After modifying the data values, click on “submit” and view
-                  the new predicted flows from the selected location in the map
-                  view. On the left, the deltas pane will update with the
-                  mean-square error and the absolute error of this prediction.
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-timeline-item>
-
-        <v-timeline-item color="secondary lighten-1" fill-dot left small>
-          <v-card>
-            <v-card-title class="justify-end secondary lighten-1">
-              <h2 class="mr-4 display-1 white--text font-weight-medium">
-                Step 4
-              </h2>
-              <!-- <v-icon dark size="42"> mdi-account-multiple-outline </v-icon> -->
-            </v-card-title>
-            <v-container>
-              <v-row>
-                <v-col class="hidden-sm-and-down" md="2">
-                  <v-icon size="64"> mdi-map </v-icon>
-                </v-col>
-                <v-col cols="12" md="10" class="text-h6 font-weight-light">
-                  That’s it! You’re now ready to use SIDA to imagine different
-                  futures in your human mobility dataset.
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-timeline-item>
-
-        <v-timeline-item color="accent lighten-1" fill-dot right>
-          <v-card>
-            <v-card-title class="accent lighten-1">
-              <v-icon class="mr-4" dark size="42"> mdi-check-bold </v-icon>
-              <h2 class="display-1 white--text font-weight-medium">Done</h2>
-            </v-card-title>
-            <v-container>
-              <v-row>
-                <v-col class="text-h6 font-weight-light">
-                  Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
-                  scaevola imperdiet nec ut, sed euismod convenire principes at.
-                  Est et nobis iisque percipit, an vim zril disputando
-                  voluptatibus, vix an salutandi sententiae.
+                  {{item.text}}
                 </v-col>
               </v-row>
             </v-container>
@@ -161,31 +97,75 @@
         </v-timeline-item>
       </v-timeline>
     </section>
-    <section id="models" class="mb-12">
-      <h2 class="pt-12 pb-8 text-center text-h2 font-weight-bold">Models</h2>
-      <v-row dense style="max-width: 800px" class="pt-10 mx-auto">
-        <v-col
-          v-for="(card, _, index) in getPossibleDatasetInfo"
-          :key="card.id"
-          :cols="12"
-          md="6"
+
+    <v-lazy
+      :options="{
+        threshold: 1,
+      }"
+      min-height="200"
+      transition="fade-transition"
+      style="margin-top: 5rem; margin-bottom: 5rem"
+    >
+      <section>
+        <h2
+          
+          class="pt-4 pb-8 pl-2 text-left text-h3 font-weight-bold"
         >
-          <DataSetCard
-            :imgLink="card[index].image_url"
-            :datasetID="card[index].id"
+          How to Use
+        </h2>
+
+        <v-expansion-panels popout>
+          <v-expansion-panel v-for="(item, i) in howToItems" :key="i">
+            <v-expansion-panel-header
+              class="font-weight-medium text-subtitle-1"
+            >
+              {{item.title}}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content class="text-body-1">
+              {{item.text}}
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </section>
+    </v-lazy>
+    <section id="models" class="mb-12">
+      
+        <v-divider></v-divider>
+        <h2 class="pt-12 pb-5 pl-2 text-left text-h3 font-weight-bold">
+          Models
+        </h2>
+        <v-row dense style="max-width: 800px" class="pt-10 mx-auto">
+          <v-col
+            v-for="(card, _, index) in getPossibleDatasetInfo"
+            :key="card.id"
+            :cols="12"
+            md="6"
           >
-            <template v-slot:title>
-              {{ card[index].name }}
-            </template>
-            <template v-slot:subtitle>
-              {{ card[index].subtitle }}
-            </template>
-            <template v-slot:body>
-              {{ card[index].description }}
-            </template>
-          </DataSetCard>
-        </v-col>
-      </v-row>
+          <v-lazy
+        :options="{
+          threshold: 1,
+        }"
+        transition="fade-transition"
+        style="margin-bottom: 5rem"
+      >
+            <DataSetCard
+              :imgLink="card[index].image_url"
+              :datasetID="card[index].id"
+            >
+              <template v-slot:title>
+                {{ card[index].name }}
+              </template>
+              <template v-slot:subtitle>
+                {{ card[index].subtitle }}
+              </template>
+              <template v-slot:body>
+                {{ card[index].description }}
+              </template>
+            </DataSetCard>
+          </v-lazy>
+          </v-col>
+        </v-row>
+      </v-lazy>
     </section>
   </div>
 </template>
@@ -202,42 +182,51 @@ export default {
 
   data() {
     return {
-      cards: [
+      timelineItems: [
         {
-          title: "Pretty House",
-          subtitle: "this is a house",
-          body:
-            "Spicy jalapeno bacon ipsum dolor amet andouille bresaola kevin, \
-          jerky bacon chuck ribeye drumstick chicke filet mignon doner \
-            burgdoggen beef ham hock. Kevin tongue ham hock jerky, \
-            pork belly chicken short ribs capicola landjaeger. ",
-          img: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-          width: 12,
-          datasetID: "1d18fc7ee0d7935fc57f60f182ef7698",
+          color: "primary",
+          icon: "mdi-database",
+          text:
+            "Data is pre-cleaned and formatted, ready for immediate use in your spatial interaction model.",
         },
         {
-          title: "Meaty Meats Meetup",
-          subtitle: "Zuck got the meats",
-          body:
-            "Spicy jalapeno bacon ipsum dolor amet andouille bresaola kevin, \
-          jerky bacon chuck ribeye drumstick chicke filet mignon doner \
-            burgdoggen beef ham hock. Kevin tongue ham hock jerky, \
-            pork belly chicken short ribs capicola landjaeger. ",
-          img: "https://baconmockup.com/300/200",
-          width: 6,
-          datasetID: "1d18fc7ee0d7935fc57f60f182ef7698",
+          color: "secondary lighten-2",
+          icon: "mdi-code-braces-box",
+          text:
+            "Models are intelligently calibrated and available for immediate use",
         },
         {
-          title: "Cute Cat",
-          subtitle: "This is a cute cat",
-          body:
-            "Spicy jalapeno bacon ipsum dolor amet andouille bresaola kevin, \
-          jerky bacon chuck ribeye drumstick chicke filet mignon doner \
-            burgdoggen beef ham hock. Kevin tongue ham hock jerky, \
-            pork belly chicken short ribs capicola landjaeger. ",
-          img: "http://placekitten.com/400/400",
-          width: 6,
-          datasetID: "1d18fc7ee0d7935fc57f60f182ef7698",
+          color: "accent lighten-2",
+          icon: "mdi-antenna",
+          text:
+            "Our dashboard lets you instantly visualize large datasets with minimal resource requirements",
+        },
+        {
+          color: "primary darken-2",
+          icon: "mdi-cards-heart",
+          text:
+            "With built in-attribute tuning, you can predict changing parameters to your hearts content",
+        },
+      ],
+      howToItems: [
+        {
+          title: "Step 1",
+          text: "Select a model from the Models section below.",
+        },
+        {
+          title: "Step 2",
+          text:
+            "On each model’s page, the central element is a map illustrating the dataset, allowing one to visualize the mobility flows by clicking on a location. Below this, there are sliders which enable the user to modify data values at a given location and resubmit these values to receive a new prediction.",
+        },
+        {
+          title: "Step 3",
+          text:
+            "After modifying the data values, click on “submit” and view the new predicted flows from the selected location in the map view. On the left, the deltas pane will update with the mean-square error and the absolute error of this prediction.",
+        },
+        {
+          title: "Step 4",
+          text:
+            "That’s it! You’re now ready to use SIDA to imagine different futures in your human mobility dataset.",
         },
       ],
     };
