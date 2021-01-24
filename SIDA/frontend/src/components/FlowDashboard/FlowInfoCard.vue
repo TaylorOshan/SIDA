@@ -15,7 +15,7 @@
       </v-card-title>
 
       <v-card-subtitle class="subtitle-1">
-        {{ getPopupData.lon }}, {{ getPopupData.lat }}
+        {{ getPopupData.lon.toFixed(2) }}, {{ getPopupData.lat.toFixed(2) }}
       </v-card-subtitle>
 
       <v-card-text class="my-4">
@@ -43,7 +43,7 @@
               class="ml-4 align-center"
               label="    "
               :color="getSliderColor(item.val)"
-              :max="200"
+              :max="400"
               :min="25"
               thumb-size="50"
               append-icon="mdi-close"

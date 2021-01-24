@@ -4,17 +4,17 @@
 version: "3"
 
 services:
-  web:
-    build:
-      context: ./frontend
-      dockerfile: front.dockerfile
-    restart: unless-stopped
-    container_name: frontend
-    ports:
-     - 8080:8080
-    volumes: 
-      - ./frontend:/SIDA
-    command: npm run serve
+  # web:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: front.dockerfile
+  #   restart: unless-stopped
+  #   container_name: frontend
+  #   ports:
+  #    - 8080:8080
+  #   volumes: 
+  #     - ./frontend:/SIDA
+  #   command: npm run serve
   api:
     build:
       context: ./backend
