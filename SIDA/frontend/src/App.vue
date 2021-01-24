@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app elevate-on-scroll :collapse-on-scroll="!ifHomePage()">
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
       <router-link :to="{ name: 'Home' }">
         <v-toolbar-title>
@@ -53,7 +53,12 @@
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon href="http://github.com" v-on="on" v-bind="attrs">
+          <v-btn
+            icon
+            href="https://github.com/TaylorOshan/SIDSaaS"
+            v-on="on"
+            v-bind="attrs"
+          >
             <v-icon>mdi-github</v-icon>
           </v-btn>
         </template>

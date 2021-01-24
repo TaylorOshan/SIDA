@@ -60,7 +60,7 @@
       </v-lazy>
 
       <v-row class="mt-40 mb-6" >
-        <v-col cols="6" class="flex flex-col items-center justify-center">
+        <v-col cols="12" md="6" class="flex flex-col items-center justify-center">
           <p
             class="max-w-sm pl-4 mt-40 mb-10 leading-relaxed text-left p-7 font-weight-medium"
             style="font-size: 1.2rem !important"
@@ -71,7 +71,7 @@
             visualizations for spatial interaction modelling.
           </p>
         </v-col>
-        <v-col cols="6">
+        <v-col  cols="12" md="6">
           <v-img
             lazy-src="../../assets/connected_world.svg"
             max-height="600"

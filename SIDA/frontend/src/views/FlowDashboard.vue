@@ -13,9 +13,9 @@
 
       <v-col cols="12" md="6"><FlowInfoCard /></v-col>
 
-      <v-col cols="12" md="12" v-if="getHistData.length > 1"
+      <!-- <v-col cols="12" md="12" v-if="getHistData.length > 1"
         ><HistCard
-      /></v-col>
+      /></v-col> -->
 
       <v-col cols="12">
         <v-card outlined elevation="3">
@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from "vue";
-
 import FlowMap from "../components/FlowDashboard/FlowMap.vue";
 import Table from "../components/FlowDashboard/Table.vue";
 import HoverInfo from "../components/FlowDashboard/HoverInfo.vue";

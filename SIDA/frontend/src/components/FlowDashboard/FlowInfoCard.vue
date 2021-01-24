@@ -15,7 +15,7 @@
       </v-card-title>
 
       <v-card-subtitle class="subtitle-1">
-        {{ getPopupData.lon }}, {{ getPopupData.lat }}
+        {{ getPopupData.lon.toFixed(2) }}, {{ getPopupData.lat.toFixed(2) }}
       </v-card-subtitle>
 
       <v-card-text class="my-4">

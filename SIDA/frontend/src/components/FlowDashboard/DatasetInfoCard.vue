@@ -1,11 +1,13 @@
 <template>
-  <v-card outlined v-ripple elevation="3" class="w-full h-full">
+  <v-card outlined elevation="3" class="w-full h-full">
     <v-card-title class="text-h4 font-weight-medium">
       {{ getSelectedDatasetInfo.name }}
     </v-card-title>
 
-    <v-card-subtitle class="subtitle-1 font-italic">
-      {{ getSelectedDatasetInfo.source }}
+    <v-card-subtitle class="subtitle-1 font-italic font-weight-light">
+      <a :href="getSelectedDatasetInfo.source" style="color: #ff4071">
+        {{ getSelectedDatasetInfo.source }}</a
+      >
     </v-card-subtitle>
 
     <v-card-text class="body-1 font-weight-light">
@@ -15,13 +17,13 @@
       <v-btn
         text
         color="primary"
-        @click="reveal = true"
+        @click="clickToAltCard"
         block
         large
         class="left-0"
         :disabled="!getPredictionErrors.show"
       >
-        See Flow Deltas
+        Histogram Deltas
       </v-btn>
     </v-card-actions>
 
@@ -33,7 +35,22 @@
         outlined
         elevation="3"
       >
-        <v-card-title class="text-h4">
+        <HistCard :trigger="genHist" />
+
+        <v-card-actions class="pt-0">
+          <v-btn
+            text
+            color="accent"
+            @click="reveal = false"
+            medium
+            absolute
+            bottom
+          >
+            <v-icon>mdi-backburger</v-icon>
+            Back
+          </v-btn>
+        </v-card-actions>
+        <!-- <v-card-title class="text-h4">
           <v-icon x-large dark color="secondary">mdi-delta</v-icon>
         </v-card-title>
 
@@ -65,7 +82,7 @@
             <v-icon>mdi-backburger</v-icon>
             Back
           </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
       </v-card>
     </v-expand-transition>
   </v-card>
@@ -73,15 +90,25 @@
 
 <script>
 import { mapGetters } from "vuex";
+import HistCard from "./HistCard.vue";
 export default {
   name: "DataSetInfoCard",
+  components: {
+    HistCard,
+  },
   data() {
     return {
       reveal: false,
+      genHist: 1,
     };
   },
   computed: {
     ...mapGetters(["getPredictionErrors", "getSelectedDatasetInfo"]),
+  },
+  methods: {
+    clickToAltCard() {
+      this.reveal = true;
+    },
   },
 };
 </script>

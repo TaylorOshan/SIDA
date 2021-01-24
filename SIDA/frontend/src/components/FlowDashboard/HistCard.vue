@@ -1,28 +1,22 @@
 <template>
   <div class="w-full h-full">
-    <v-card
-      outlined
-      elevation="3"
-      class="h-full overflow-hidden"
-      v-if="getHistData.length > 1"
-    >
-      <div id="hist" class="w-full h-full"></div>
+    <v-card class="h-full overflow-hidden" v-if="getHistData.length > 1">
+      <div id="hist" ref="histChart" class="w-full h-full"></div>
     </v-card>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import store from "../../store";
 import Plotly from "plotly.js";
 
 export default {
   name: "FlowInfoCard",
-  components: {},
   data() {
     return {
       config: {
         responsive: true,
+        displayModeBar: false,
       },
       trace: {
         x: this.getHistData,
@@ -35,13 +29,14 @@ export default {
         autosize: true,
         paper_bgcolor: "#33333d",
         plot_bgcolor: "#33333d",
+        showlegend: false,
         font: {
           family: "Eczar",
-          size: 18,
+          size: 12,
           color: "white",
         },
         title: {
-          text: `Relative delta magnitude between modified and observed flows`,
+          text: `Relative delta modified | observed flows`,
         },
         xaxis: {
           title: {
@@ -61,17 +56,9 @@ export default {
   computed: {
     ...mapGetters(["getHistData"]),
   },
-  watch: {
-    getHistData: function () {
-      console.log("trigger");
-      this.trace.x = this.getHistData;
-      this.createPlotyHist();
-    },
-  },
-  methods: {
-    createPlotyHist() {
-      Plotly.newPlot("hist", [this.trace], this.layout, this.config);
-    },
+  mounted() {
+    this.trace.x = this.getHistData;
+    Plotly.newPlot("hist", [this.trace], this.layout, this.config);
   },
 };
 </script>
