@@ -18,7 +18,7 @@
     "mapbox-gl": "^2.0.1",
     "plotly.js": "^1.58.4",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
+    "vue-router": "^3.5.0",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
   },
