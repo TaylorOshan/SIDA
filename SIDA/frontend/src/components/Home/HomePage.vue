@@ -59,10 +59,10 @@
         </h1>
       </v-lazy>
 
-      <v-row class="mt-40 mb-6" >
+      <v-row class="mt-40 mb-20" >
         <v-col cols="12" md="6" class="flex flex-col items-center justify-center">
           <p
-            class="max-w-sm pl-4 mt-40 mb-10 leading-relaxed text-left p-7 font-weight-medium"
+            class="max-w-sm pl-4 leading-relaxed text-left p-7 font-weight-medium"
             style="font-size: 1.2rem !important"
           >
             Our vision is to streamline spatial interaction analysis through
@@ -71,11 +71,12 @@
             visualizations for spatial interaction modelling.
           </p>
         </v-col>
-        <v-col  cols="12" md="6">
+        <v-col  cols="12" md="6" class="flex flex-col items-center justify-center">
           <v-img
             lazy-src="../../assets/connected_world.svg"
             max-height="600"
             max-width="350"
+            contain
             src="../../assets/connected_world.svg"
           ></v-img>
         </v-col>
@@ -192,8 +193,7 @@ export default {
         {
           color: "secondary lighten-2",
           icon: "mdi-code-braces-box",
-          text:
-            "Models are intelligently calibrated and available for immediate use",
+          text: "Models are intelligently calibrated and easy to use",
         },
         {
           color: "accent lighten-2",

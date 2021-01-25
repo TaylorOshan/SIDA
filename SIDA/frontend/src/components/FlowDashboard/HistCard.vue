@@ -53,12 +53,22 @@ export default {
       },
     };
   },
+  watch: {
+    getHistData: function () {
+      this.createHist();
+    },
+  },
+  methods: {
+    createHist() {
+      this.trace.x = this.getHistData;
+      Plotly.newPlot("hist", [this.trace], this.layout, this.config);
+    },
+  },
   computed: {
     ...mapGetters(["getHistData"]),
   },
   mounted() {
-    this.trace.x = this.getHistData;
-    Plotly.newPlot("hist", [this.trace], this.layout, this.config);
+    this.createHist();
   },
 };
 </script>

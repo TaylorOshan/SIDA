@@ -15,6 +15,12 @@ services:
   #   volumes: 
   #     - ./frontend:/SIDA
   #   command: npm run serve
+  web:
+    image: mtralka/sida:latest
+    restart: unless-stopped
+    container_name: frontend
+    ports:
+     - 8080:80
   api:
     build:
       context: ./backend
