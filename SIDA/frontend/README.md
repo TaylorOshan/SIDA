@@ -1,4 +1,4 @@
-# frontend
+# SIDA Frontend
 
 ## Project setup
 ```

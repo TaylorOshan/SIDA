@@ -1,21 +1,12 @@
-# Useful Links for Dev
+# Useful Links for Development
 
-- [Frontend](http://localhost:3000)
-- [Backend_Docs](http://localhost:8000/docs)
-
-- Color
-    - VOID : #0E0B16
-    - FUSCHIA : #A239CA
-    - JEWEL : #4717F6
-    - STARK : #E7DFDD
 
 - Start FastAPI
     - `uvicorn app.main:app --reload`
-- Send revision to Alembic (db) - run from fastapi container
+- Send DB table revision to Alembic
     - `alembic revision --autogenerate -m "$MESSAGE"`
-    - `docker-compose -f "docker-compose-dev.yml" run api alembic revision --autogenerate -m "$MESSAGE"
 - Upgrade DB (after revision send)
-    - `alembic upgrade head` - run from fastapi container
+    - `alembic upgrade head`
 
 - FLOWMAP.gl
     -[Storybook](https://teralytics.github.io/flowmap.gl/index.html?path=/story/basic--basic-as-layer)

@@ -1,19 +1,32 @@
-# Workflows
+# Spatial Interaction Decision Analytics
 
-## Dev
+Our vision is to streamline spatial interaction analysis through SIDA, a lightweight, flexible platform that allows users of all backgrounds to leverage predefined sets of organized results and visualizations for spatial interaction modelling. 
 
-- clone repo
-- build docker-compose-dev
-- run docker-compose-dev
 
-### launch
 
-- [Frontend](http://localhost:3000)
-- [Backend_Docs](http://localhost:8000/docs)
+## Dependencies
 
-## Prod
+- Docker
+- Docker-compose
 
-- *wip,see SIDA/Dockerfile*
-- Essentially the same, but we run a staged Dockerfile that builds src and copies to a nginx instance
-- CORS in frontend/app/main needs to be modified accordingly
-- ^^ optimally, this should be done with the DOCKER .env tag
+## Development Usage
+
+- Clone repo locally
+- Navigate to `SIDA/frontend`
+  - `cd SIDA/frontend`
+- adjust `docker-compose-dev.yml` env variables as needed
+- Run `docker-compose -f "docker-compose-dev.yml" up -d --build`
+- That's it!
+  - Frontend - `http://localhost:8080`
+  - Backend API documentation - `http://localhost:8000/docs`
+
+## Production Usage (alpha)
+
+- Clone repo locally
+- Navigate to `SIDA/frontend`
+  - `cd SIDA/frontend`
+- adjust `docker-compose.yml` env variables as needed
+- Run `docker-compose up -d --build`
+- That's it!
+  - Frontend - `http://localhost:8080`
+  - Backend API documentation - `http://localhost:8000/docs`

@@ -1,5 +1,3 @@
-from operator import mul
-from typing import MutableMapping
 from typing import Optional
 
 from fastapi import APIRouter
