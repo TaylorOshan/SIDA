@@ -55,7 +55,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             icon
-            href="https://github.com/TaylorOshan/SIDSaaS"
+            href="https://github.com/TaylorOshan/SIDA"
             v-on="on"
             v-bind="attrs"
           >
