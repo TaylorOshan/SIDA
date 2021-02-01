@@ -2,8 +2,6 @@
 
 Our vision is to streamline spatial interaction analysis through SIDA, a lightweight, flexible platform that allows users of all backgrounds to leverage predefined sets of organized results and visualizations for spatial interaction modelling. 
 
-
-
 ## Dependencies
 
 - Docker
