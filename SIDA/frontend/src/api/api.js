@@ -18,8 +18,8 @@
 // export default {
 //     getDatasetTile
 // }
-
-const CORE_URL = 'http://127.0.0.1:8000'
+console.log(process.env.VUE_APP_BASE_URL);
+const CORE_URL = process.env.VUE_APP_BASE_URL
 
 
 async function getDatasetInfo(datasetName) {
@@ -167,5 +167,5 @@ async function getEditedFlows(datasetName, locationName, sliders) {
   return data
 }
 
-export { getDatasetTile, getLocations, getFlowFromPoint, getEditedFlows, getDatasetInfo, getPossibleDatasets }
+export { getDatasetTile, getLocations, getFlowFromPoint, getEditedFlows, getDatasetInfo, getPossibleDatasets };
 

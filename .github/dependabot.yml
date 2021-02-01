@@ -3,20 +3,20 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   - package-ecosystem: "npm"
     directory: "/SIDA/frontend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   - package-ecosystem: "pip"
     directory: "/SIDA/backend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   - package-ecosystem: "docker"
     directory: "/SIDA/backend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   - package-ecosystem: "docker"
     directory: "/SIDA/frontend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
