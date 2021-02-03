@@ -5,7 +5,7 @@ version: "3"
 
 services:
   web:
-    image: mtralka/sida:latest-frontend
+    image: mtralka/sida:0.1.0-aws
     restart: unless-stopped
     container_name: frontend
     ports:

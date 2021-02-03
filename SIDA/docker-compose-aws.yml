@@ -3,26 +3,12 @@
 version: "3"
 
 services:
-  web:
-    image: mtralka/sida:latest-aws
-    restart: unless-stopped
-    container_name: frontend
-    ports:
-     - 8080:80
   api:
     image: mtralka/sida:latest-api
-    # build:
-    #   context: ./backend
-    #   dockerfile: back.prod.dockerfile
     restart: unless-stopped
     container_name: fastapi
     ports: 
       - 8000:8000
     environment: 
       - ORIGIN=*
-      - RDS_USERNAME=postgres
-      - RDS_PASSWORD=admin
-      - RDS_HOSTNAME=postgres
-      - RDS_PORT=5432
-      - RDS_DB_NAME=postgres
     
