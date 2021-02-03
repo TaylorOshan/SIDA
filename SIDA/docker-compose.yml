@@ -5,29 +5,37 @@ version: "3"
 
 services:
   web:
-    build:
-      context: ./frontend
-      dockerfile: prod.dockerfile
+    image: mtralka/sida:latest-frontend
     restart: unless-stopped
     container_name: frontend
     ports:
      - 8080:80
-    volumes: 
-      - ./frontend:/SIDA
   # ************
   # Uncomment / comment the below / above service to load 
-  # SIDA from the latest Dockerhub release
+  # SIDA from local repo
   # ************
+
   # web:
-  #   image: mtralka/sida:latest
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: prod.dockerfile
   #   restart: unless-stopped
   #   container_name: frontend
   #   ports:
   #    - 8080:80
+  #   volumes: 
+  #     - ./frontend:/SIDA
+  #   environment: 
+  #     - VUE_APP_BASE_URL=http://127.0.0.1:8000
   api:
-    build:
-      context: ./backend
-      dockerfile: back.dockerfile
+    image: mtralka/sida:latest-api
+    # ************
+    # Uncomment / comment the below / above service to load 
+    # SIDA from local repo
+    # ************
+    # build:
+    #   context: ./backend
+    #   dockerfile: back.dockerfile
     restart: unless-stopped
     container_name: fastapi
     ports: 
@@ -35,37 +43,40 @@ services:
     volumes: 
       - ./backend:/SIDA
     depends_on: 
-      - redis
+      # - redis
       - db
     environment: 
       - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
-
-  redis:
-    image: redis:6.0.9
-    container_name: redis
-    ports:
-      - "6379:6379"
-  worker:
-    build:
-      context: ./backend
-      dockerfile: celery.dockerfile
-    container_name: celery_worker
-    volumes: 
-      - ./backend:/SIDA
-    depends_on: 
-       - redis
-    environment: 
-      - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
-  flower:  
-    image: mher/flower
-    container_name: flower
-    environment: 
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - FLOWER_PORT=8888 
-    ports:  
-      - 8888:8888  
-    depends_on: 
-      - redis
+      - ORIGIN=*
+      # if CELERY then use celery
+      # celery is currently not in use
+      - CELERY=True
+  # redis:
+  #   image: redis:6.0.9
+  #   container_name: redis
+  #   ports:
+  #     - "6379:6379"
+  # worker:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: celery.dockerfile
+  #   container_name: celery_worker
+  #   volumes: 
+  #     - ./backend:/SIDA
+  #   depends_on: 
+  #      - redis
+  #   environment: 
+  #     - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
+  # flower:  
+  #   image: mher/flower
+  #   container_name: flower
+  #   environment: 
+  #     - CELERY_BROKER_URL=redis://redis:6379/0
+  #     - FLOWER_PORT=8888 
+  #   ports:  
+  #     - 8888:8888  
+  #   depends_on: 
+  #     - redis
   db:
     image: postgres:11
     container_name: postgres

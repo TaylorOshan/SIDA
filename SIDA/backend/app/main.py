@@ -1,4 +1,5 @@
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +14,7 @@ from .routers.v1 import router
 log = logging.getLogger(__name__)
 app = FastAPI()
 
-ORIGINS = ["*"]
+ORIGINS = os.environ["ORIGIN"]
 
 
 app.add_middleware(

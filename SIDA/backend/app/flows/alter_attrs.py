@@ -1,7 +1,5 @@
-from operator import mul
 from typing import Dict
 from typing import List
-from typing import MutableMapping
 
 import numpy as np
 import pandas as pd
