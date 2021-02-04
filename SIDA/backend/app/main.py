@@ -4,19 +4,18 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
+from .db.classes import User as ModelUser
 from .db.db import db
+from .db.schema import User as SchemaUser
 from .routers.v1 import router
 
 
 log = logging.getLogger(__name__)
 app = FastAPI()
 
-if "ORIGIN" not in os.environ:
-    ORIGINS = ["*"]
-else:
-    ORIGINS = os.environ["ORIGIN"]
+ORIGINS = os.environ["ORIGIN"]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,9 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-if "PRODUCTION" in os.environ:
-    app.add_middleware(HTTPSRedirectMiddleware)
 
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
@@ -42,3 +38,16 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await db.disconnect()
+
+
+#  just used for testing and examples
+@app.post("/user/")
+async def create_user(user: SchemaUser):
+    user_id = await ModelUser.create(**user.dict())
+    return {"user_id": user_id}
+
+
+@app.get("/user/{id}", response_model=SchemaUser)
+async def get_user(id: int):
+    user = await ModelUser.get(id)
+    return SchemaUser(**user).dict()
