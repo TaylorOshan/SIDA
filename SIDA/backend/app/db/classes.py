@@ -1,5 +1,4 @@
 from .db import db
-from .tables import users
 
 
 class Flows:
