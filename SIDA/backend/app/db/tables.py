@@ -45,12 +45,3 @@ location = sqlalchemy.Table(
     sqlalchemy.Column("lat", sqlalchemy.Float, nullable=False),
     sqlalchemy.Column("lon", sqlalchemy.Float, nullable=False),
 )
-
-users = sqlalchemy.Table(
-    "users",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("first_name", sqlalchemy.String),
-    sqlalchemy.Column("last_name", sqlalchemy.String),
-    sqlalchemy.Column("age", sqlalchemy.Integer),
-)

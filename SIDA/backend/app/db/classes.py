@@ -63,17 +63,3 @@ class Dataset:
             "
 
         return await db.fetch_all(query)
-
-
-class User:
-    @classmethod
-    async def get(cls, id):
-        query = users.select().where(users.c.id == id)
-        user = await db.fetch_one(query)
-        return user
-
-    @classmethod
-    async def create(cls, **user):
-        query = users.insert().values(**user)
-        user_id = await db.execute(query)
-        return user_id
