@@ -48,7 +48,6 @@ services:
     environment: 
       - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
       - ORIGIN=*
-      - PRODUCTION=1
       # if CELERY then use celery
       # celery is currently not in use
      #  - CELERY=True

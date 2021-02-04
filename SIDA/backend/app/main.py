@@ -12,8 +12,10 @@ from .routers.v1 import router
 log = logging.getLogger(__name__)
 app = FastAPI()
 
-ORIGINS = os.environ["ORIGIN"]
-
+if "ORIGIN" not in os.environ:
+    ORIGINS = ["*"]
+else:
+    ORIGINS = os.environ["ORIGIN"]
 
 app.add_middleware(
     CORSMiddleware,
