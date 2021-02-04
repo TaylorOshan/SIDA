@@ -5,7 +5,7 @@ version: "3"
 
 services:
   web:
-    image: mtralka/sida:0.1.0-aws
+    image: mtralka/sida:0.1.0-frontend
     restart: unless-stopped
     container_name: frontend
     ports:
@@ -50,7 +50,7 @@ services:
       - ORIGIN=*
       # if CELERY then use celery
       # celery is currently not in use
-      - CELERY=True
+     #  - CELERY=True
   # redis:
   #   image: redis:6.0.9
   #   container_name: redis
