@@ -23,7 +23,7 @@ const CORE_URL = process.env.VUE_APP_BASE_URL
 
 async function getDatasetInfo(datasetName) {
 
-  const data = fetch(`${CORE_URL}/api/v1/dataset/${datasetName}`, {
+  const data = fetch(`${CORE_URL}/api/v1/dataset/${datasetName}/`, {
     method: 'get',
     headers: {
       'content-type': 'application/json',

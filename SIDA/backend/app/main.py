@@ -11,11 +11,13 @@ from .routers.v1 import router
 
 log = logging.getLogger(__name__)
 app = FastAPI()
+app.router.redirect_slashes = False
 
 if "ORIGIN" not in os.environ:
     ORIGINS = ["*"]
 else:
-    ORIGINS = os.environ["ORIGIN"]
+    BASE = os.environ["ORIGIN"]
+    ORIGINS = [f"http://{BASE}", f"https://{BASE}"]
 
 app.add_middleware(
     CORSMiddleware,

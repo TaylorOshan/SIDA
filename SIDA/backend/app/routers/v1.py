@@ -12,7 +12,7 @@ from ..flows.alter_attrs import modify_loc
 # from ..worker import celery_app
 
 
-router = APIRouter()
+router = APIRouter(redirect_slashes=False)
 
 
 @router.get("/api/v1/datasets")

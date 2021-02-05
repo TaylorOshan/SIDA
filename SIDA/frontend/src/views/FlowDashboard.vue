@@ -69,6 +69,7 @@ export default {
       "getFlowLayer",
       "getFlowVisibility",
       "getHistData",
+      "getSelectedDatasetInfo",
     ]),
   },
   methods: {
@@ -92,10 +93,14 @@ export default {
     },
   },
   watch: {},
-  async mounted() {
+  created() {
     console.log(this.name);
     store.commit("SET_DATASET_NAME", this.name);
-    await this.loadDatasetInfo();
+    if (this.getSelectedDatasetInfo === null) {
+      this.loadDatasetInfo();
+    }
+  },
+  async mounted() {
     await this.loadLocations();
     console.log(this.getCurrentX, this.getCurrentY, this.getCurrentZ);
   },
