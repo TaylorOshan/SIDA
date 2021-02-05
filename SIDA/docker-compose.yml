@@ -5,7 +5,7 @@ version: "3"
 
 services:
   web:
-    image: mtralka/sida:0.1.0-frontend
+    image: mtralka/sida:latest-frontend
     restart: unless-stopped
     container_name: frontend
     ports:
@@ -47,7 +47,6 @@ services:
       - db
     environment: 
       - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
-      - ORIGIN=*
       # if CELERY then use celery
       # celery is currently not in use
      #  - CELERY=True

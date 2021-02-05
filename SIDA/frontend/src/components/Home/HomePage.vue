@@ -152,6 +152,7 @@
             <DataSetCard
               :imgLink="card[index].image_url"
               :datasetID="card[index].id"
+              :card ="card[index]"
             >
               <template v-slot:title>
                 {{ card[index].name }}

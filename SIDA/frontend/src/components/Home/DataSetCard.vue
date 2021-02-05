@@ -19,7 +19,9 @@
         <router-link
           :to="{ name: 'Flow Dashboard', params: { name: datasetID } }"
         >
-          <v-btn color="accent text-button" text> Model Me </v-btn>
+          <v-btn color="accent text-button" text @click="setDatasetInfo">
+            Model Me
+          </v-btn>
         </router-link>
 
         <v-spacer></v-spacer>
@@ -50,6 +52,8 @@
 </template>
 
 <script>
+import store from "../../store";
+
 export default {
   name: "DataSetCard",
   data: () => ({
@@ -58,6 +62,12 @@ export default {
   props: {
     imgLink: String,
     datasetID: String,
+    card: Array,
+  },
+  methods: {
+    setDatasetInfo() {
+      store.commit("SET_SELECTED_DATASET_INFO", this.card);
+    },
   },
 };
 </script>

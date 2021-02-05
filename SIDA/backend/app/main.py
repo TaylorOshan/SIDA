@@ -5,17 +5,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
-from .db.classes import User as ModelUser
 from .db.db import db
-from .db.schema import User as SchemaUser
 from .routers.v1 import router
 
 
 log = logging.getLogger(__name__)
 app = FastAPI()
+app.router.redirect_slashes = False
 
-ORIGINS = os.environ["ORIGIN"]
-
+if "ORIGIN" not in os.environ:
+    ORIGINS = ["*"]
+else:
+    BASE = os.environ["ORIGIN"]
+    ORIGINS = [f"http://{BASE}", f"https://{BASE}"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -38,16 +40,3 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await db.disconnect()
-
-
-#  just used for testing and examples
-@app.post("/user/")
-async def create_user(user: SchemaUser):
-    user_id = await ModelUser.create(**user.dict())
-    return {"user_id": user_id}
-
-
-@app.get("/user/{id}", response_model=SchemaUser)
-async def get_user(id: int):
-    user = await ModelUser.get(id)
-    return SchemaUser(**user).dict()

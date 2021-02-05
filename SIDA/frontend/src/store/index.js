@@ -16,7 +16,7 @@ export default new Vuex.Store({
     histData: [],
     possibleDatasetInfo: [],
     predictionErrors: {},
-    selectedDatasetInfo: {},
+    selectedDatasetInfo: null,
     datasetName: null,
     dataLoading: true,
     flowVisible: false,

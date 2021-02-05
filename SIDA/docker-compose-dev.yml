@@ -31,7 +31,6 @@ services:
       - db
     environment: 
       - DATABASE_URL=postgresql://postgres:admin@postgres:5432/postgres
-      - ORIGIN=*
   redis:
     image: redis:6.0.9
     container_name: redis
