@@ -1,7 +1,7 @@
 ﻿alembic==1.4.3
 amqp==2.6.1
 appdirs==1.4.4
-asyncpg==0.21.0
+asyncpg==0.22.0
 billiard==3.6.3.0
 black==20.8b1
 celery==4.4.7
