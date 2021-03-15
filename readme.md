@@ -2,6 +2,8 @@
 
 Our vision is to streamline spatial interaction analysis through SIDA, a lightweight, flexible platform that allows users of all backgrounds to leverage predefined sets of organized results and visualizations for spatial interaction modelling. 
 
+A prototype web deployment can be found at [www.sida-board.app](www.sida-board.app) and instructions for local deployment are below.
+
 ## Dependencies
 
 - Docker
