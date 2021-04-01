@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.8.6",
-    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@tailwindcss/postcss7-compat": "^2.0.4",
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "@vue/cli-plugin-babel": "~4.5.11",
