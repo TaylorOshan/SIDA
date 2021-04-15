@@ -1,5 +1,5 @@
 ﻿alembic==1.4.3
-amqp==2.6.1
+amqp==5.0.6
 appdirs==1.4.4
 asyncpg==0.21.0
 billiard==3.6.3.0
