@@ -37,7 +37,8 @@ const router = new VueRouter({
     }
     else if (to.hash) {
       return {
-        selector: to.hash
+        selector: to.hash,
+        offset: { x: 0, y: 140 }
       }
     } else {
       return { x: 0, y: 0 }
