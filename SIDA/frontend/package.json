@@ -13,7 +13,7 @@
     "@deck.gl/layers": "^8.3.14",
     "@flowmap.gl/core": "^7.3.3",
     "@material/top-app-bar": "^9.0.0",
-    "core-js": "^3.8.3",
+    "core-js": "^3.13.1",
     "d3-scale-chromatic": "^2.0.0",
     "mapbox-gl": "^2.0.1",
     "plotly.js": "^1.58.4",
