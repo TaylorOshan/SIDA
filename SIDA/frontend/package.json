@@ -15,7 +15,7 @@
     "@material/top-app-bar": "^9.0.0",
     "core-js": "^3.8.3",
     "d3-scale-chromatic": "^2.0.0",
-    "mapbox-gl": "^2.0.1",
+    "mapbox-gl": "^2.3.0",
     "plotly.js": "^1.58.4",
     "vue": "^2.6.11",
     "vue-router": "^3.5.0",
