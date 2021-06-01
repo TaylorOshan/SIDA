@@ -9,7 +9,7 @@ click==7.1.2
 click-didyoumean==0.0.3
 click-plugins==1.1.1
 click-repl==0.1.6
-databases==0.4.1
+databases==0.4.3
 fastapi==0.63.0
 flake8==3.8.4
 flower==0.9.7
