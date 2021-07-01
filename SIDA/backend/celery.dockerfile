@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.9.6
 
 LABEL maintainer="Matthew Tralka"
 LABEL version="0.0.0"
